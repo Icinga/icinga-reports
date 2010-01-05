@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-    <Resource name="jdbc/icinga" auth="Container" type="javax.sql.DataSource"
-    maxActive="100" maxIdle="30" maxWait="10000"
-    username="icinga" password="icinga" driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://0.0.0.0:3306/icinga"/>
+	<!--
+		<Resource name="jdbc/icinga" auth="Container"
+		type="javax.sql.DataSource" maxActive="100" maxIdle="30"
+		maxWait="10000" username="icinga" password="icinga"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://0.0.0.0:3306/icinga"/>
+	-->
 </Context>

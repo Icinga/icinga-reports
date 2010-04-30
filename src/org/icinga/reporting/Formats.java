@@ -3,7 +3,7 @@ package org.icinga.reporting;
 /**
  * this class represents the possible output formats
  * 
- * @author Bernd Erk
+ * @author Icinga-Development Team 2010 - Bernd Erk
  * @version 0.9
  */
 public class Formats {

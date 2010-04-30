@@ -13,7 +13,7 @@ import javax.sql.DataSource;
  * this class is responsible for database connections 
  * configured in the servlet- or application context
  * 
- * @author Bernd Erk
+ * @author Icinga-Development Team 2010 - Bernd Erk
  * @version 0.9
  */
 public class ConnectionManager {

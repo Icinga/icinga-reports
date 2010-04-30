@@ -32,7 +32,7 @@ import org.icinga.reporting.template.Reader;
  * this servlet takes the request parameters a executes the necessary
  * subclasses to generate given report in the requested format 
  *  
- * @author Bernd Erk
+ * @author Icinga-Development Team 2010 - Bernd Erk
  * @version 0.9
  */
 public class Generator extends HttpServlet {

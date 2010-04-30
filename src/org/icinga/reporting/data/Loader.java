@@ -17,7 +17,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
  * the loader class reads data from the given
  * database connection and fills up the report
  * 
- * @author Bernd Erk
+ * @author Icinga-Development Team 2010 - Bernd Erk
  * @version 0.9 
  */
 public class Loader {

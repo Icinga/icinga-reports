@@ -7,7 +7,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 /**
  * this class is responsible for template reading
  * 
- * @author Bernd Erk
+ * @author Icinga-Development Team 2010 - Bernd Erk
  * @version 0.9
  */
 public class Reader {

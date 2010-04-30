@@ -10,7 +10,7 @@
   <context-param>
     <description>Icinga Report Folder</description>
     <param-name>IcingaReportFolder</param-name>
-    <param-value>/Users/berk/Desktop/</param-value>
+    <param-value>/usr/local/icinga/reporting/templates/</param-value>
   </context-param>
   <servlet>
     <description>Report Generator Servlet for Icinga</description>

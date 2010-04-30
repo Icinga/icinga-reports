@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.host.overview" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20">
+	<subDataset name="graph_notifications">
+		<parameter name="p_object_id" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
+  state,
+  count(*)
+from icinga_notifications
+where object_id = $P{p_object_id}
+group by month(start_time), state]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="count(*)" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1,
+  address,
+  current_state
+from icinga_objects,
+  icinga_hosts,
+  icinga_hoststatus
+where icinga_objects.object_id = icinga_hosts.host_object_id
+and icinga_hosts.host_object_id = icinga_hoststatus.host_object_id
+and object_id                  = $P{p_host_object_id}]]>
+	</queryString>
+	<field name="name1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="current_state" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="285">
+			<rectangle radius="2">
+				<reportElement x="6" y="107" width="160" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="11" y="112" width="150" height="111"/>
+				<textElement markup="none">
+					<font isItalic="false"/>
+				</textElement>
+				<text><![CDATA[This graph displays the notifications for given host
+
+    0 = Up
+    1 = Down
+    2 = Unreachable]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="8" y="5" width="160" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="5" width="132" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Hostname:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="178" y="5" width="243" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="2">
+				<reportElement x="8" y="35" width="160" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="35" width="132" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Address:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="178" y="35" width="243" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="2">
+				<reportElement x="8" y="65" width="160" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="65" width="132" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Current State:]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="178" y="65" width="38" height="20" backcolor="#66FF66">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="178" y="65" width="38" height="20" backcolor="#FF3333">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 1 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="178" y="65" width="38" height="20" backcolor="#FF9933">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 3 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<areaChart>
+				<chart theme="aegean">
+					<reportElement mode="Transparent" x="176" y="107" width="380" height="175"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="None">
+						<datasetRun subDataset="graph_notifications">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.7"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</areaPlot>
+			</areaChart>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.services.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.hostgroups.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.servicegroups.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.contactgroups.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="51">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.contacts.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="50" width="100" height="1"/>
+			</break>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

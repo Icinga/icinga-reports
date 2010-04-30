@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.host.activity" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20">
+	<subDataset name="graph_notifications">
+		<parameter name="p_object_id" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
+  state,
+  count(*)
+from icinga_notifications
+where object_id = $P{p_object_id}
+and start_time between $P{p_date_start} and $P{p_date_end}
+group by month(start_time), state]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="count(*)" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="graph_statehistory">
+		<parameter name="p_object_id" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select DATE_FORMAT(state_time, '%b %Y')date,
+  state,
+  count(*)
+from icinga_statehistory
+where object_id = $P{p_object_id}
+and state_time between $P{p_date_start} and $P{p_date_end}
+group by month(state_time), state]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="count(*)" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="graph_acknowledgements">
+		<parameter name="p_object_id" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select DATE_FORMAT(entry_time, '%b %Y') date,
+  state,
+  count(*)
+from icinga_acknowledgements
+where object_id = $P{p_object_id}
+and entry_time between $P{p_date_start} and $P{p_date_end}
+group by month(entry_time), state]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="count(*)" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.lang.String">
+		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_host_name" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{p_host_name}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1,
+  address
+from icinga_objects,
+  icinga_hosts
+where icinga_objects.object_id = icinga_hosts.host_object_id
+and object_id                  = $P{p_host_object_id}]]>
+	</queryString>
+	<field name="name1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="600" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="5" y="65" width="160" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<areaChart>
+				<chart theme="aegean">
+					<reportElement mode="Transparent" x="175" y="65" width="380" height="175"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="None">
+						<datasetRun subDataset="graph_statehistory">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.7"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</areaPlot>
+			</areaChart>
+			<staticText>
+				<reportElement x="10" y="70" width="150" height="111"/>
+				<textElement markup="none"/>
+				<text><![CDATA[This graph displays the statehistory for given host]]></text>
+			</staticText>
+			<areaChart>
+				<chart theme="aegean">
+					<reportElement mode="Transparent" x="175" y="245" width="380" height="175"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="None">
+						<datasetRun subDataset="graph_notifications">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.7"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</areaPlot>
+			</areaChart>
+			<rectangle radius="2">
+				<reportElement x="5" y="245" width="160" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="250" width="150" height="111"/>
+				<textElement markup="none"/>
+				<text><![CDATA[This graph displays the notifications for given host]]></text>
+			</staticText>
+			<areaChart>
+				<chart theme="aegean">
+					<reportElement mode="Transparent" x="175" y="425" width="380" height="175"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="None">
+						<datasetRun subDataset="graph_acknowledgements">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.7"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</areaPlot>
+			</areaChart>
+			<rectangle radius="2">
+				<reportElement x="5" y="425" width="160" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="430" width="150" height="111"/>
+				<textElement markup="none"/>
+				<text><![CDATA[This graph displays the acknowledgements for given host]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="5" y="5" width="400" height="30" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="5" width="130" height="30"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Activityreport for host:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="5" width="265" height="30"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.object.statechanges.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.object.notifications.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.object.acknowledgements.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

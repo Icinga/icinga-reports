@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.hostgroup.availability" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<subDataset name="graph_notifications">
-		<parameter name="p_object_id" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
-		</parameter>
-		<queryString>
-			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
-  state,
-  count(*)
-from icinga_notifications
-where object_id = $P{p_object_id}
-group by month(start_time), state]]>
-		</queryString>
-		<field name="date" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="state" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="count(*)" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-	</subDataset>
+	<template><![CDATA["IcingaStyleBase.jrtx"]]></template>
 	<parameter name="p_hostgroup_object_id" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -62,13 +41,13 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				<imageExpression class="java.lang.String"><![CDATA["images/icinga_background.png"]]></imageExpression>
 			</image>
 			<rectangle radius="2">
-				<reportElement x="110" y="277" width="132" height="20" backcolor="#DCDCDC"/>
+				<reportElement x="110" y="347" width="132" height="20" backcolor="#DCDCDC"/>
 				<graphicElement>
 					<pen lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="250" y="277" width="243" height="20"/>
+				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{alias}]]></textFieldExpression>
 			</textField>
@@ -91,24 +70,24 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="2">
-				<reportElement x="110" y="212" width="400" height="52" backcolor="#F1F1F1"/>
+				<reportElement x="110" y="282" width="400" height="52" backcolor="#F1F1F1"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="115" y="214" width="400" height="50"/>
+				<reportElement style="Cover" x="115" y="284" width="400" height="50"/>
 				<textElement/>
 				<text><![CDATA[Availability Report for given hostgroup and dependant hosts]]></text>
 			</staticText>
 			<rectangle radius="2">
-				<reportElement x="110" y="190" width="132" height="20" backcolor="#DCDCDC"/>
+				<reportElement x="110" y="260" width="132" height="20" backcolor="#DCDCDC"/>
 				<graphicElement>
 					<pen lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="115" y="190" width="132" height="20"/>
+				<reportElement style="Cover" x="115" y="260" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Description]]></text>
 			</staticText>
@@ -117,52 +96,65 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				<imageExpression class="java.lang.String"><![CDATA["images/icinga_logo_big.png"]]></imageExpression>
 			</image>
 			<rectangle radius="2">
-				<reportElement x="110" y="353" width="132" height="20" backcolor="#DCDCDC"/>
+				<reportElement x="110" y="423" width="132" height="20" backcolor="#DCDCDC"/>
 				<graphicElement>
 					<pen lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="115" y="352" width="132" height="20"/>
+				<reportElement style="Cover" x="115" y="422" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Creation:]]></text>
 			</staticText>
-			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
-				<reportElement x="250" y="352" width="213" height="20"/>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement style="Cover" x="250" y="422" width="213" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="115" y="277" width="132" height="20"/>
+				<reportElement style="Cover" x="115" y="347" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Hostgroupname:]]></text>
 			</staticText>
 			<rectangle radius="2">
-				<reportElement x="110" y="333" width="132" height="20" backcolor="#DCDCDC"/>
+				<reportElement x="110" y="403" width="132" height="20" backcolor="#DCDCDC"/>
 				<graphicElement>
 					<pen lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="115" y="332" width="132" height="20"/>
+				<reportElement style="Cover" x="115" y="402" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Period:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="343" y="333" width="80" height="20"/>
+				<reportElement style="Cover" x="343" y="403" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="333" width="80" height="20"/>
+				<reportElement style="Cover" x="250" y="403" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="328" y="333" width="15" height="20"/>
+				<reportElement style="Cover" x="328" y="403" width="15" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["-"]]></textFieldExpression>
 			</textField>
+			<rectangle radius="2">
+				<reportElement x="110" y="190" width="330" height="25" backcolor="#EA9F1B"/>
+				<graphicElement>
+					<pen lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="Headline" x="115" y="190" width="330" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Hostgroup Availability]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -178,14 +170,14 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="3" width="60" height="15"/>
+				<reportElement style="Header" x="5" y="3" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Hostgroup:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="65" y="3" width="185" height="15"/>
+				<reportElement style="Header" x="65" y="3" width="185" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -198,28 +190,28 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="18" width="60" height="15"/>
+				<reportElement style="Header" x="5" y="18" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Period:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="65" y="18" width="60" height="15"/>
+				<reportElement style="Header" x="65" y="18" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="140" y="18" width="60" height="15"/>
+				<reportElement style="Header" x="140" y="18" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="125" y="18" width="15" height="15"/>
+				<reportElement style="Header" x="125" y="18" width="15" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -256,27 +248,27 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 	</columnFooter>
 	<pageFooter>
 		<band height="32" splitType="Stretch">
-			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
-				<reportElement x="0" y="2" width="213" height="15" forecolor="#CCCCCC"/>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement style="Footer" x="0" y="2" width="213" height="15" forecolor="#CCCCCC"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="17" width="318" height="15" forecolor="#CCCCCC"/>
+				<reportElement style="Footer" x="0" y="17" width="318" height="15" forecolor="#CCCCCC"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Icinga Reports - Version 0.9 © Icinga Development Team (www.icinga.org)]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="435" y="2" width="80" height="30"/>
+				<reportElement style="Footer" x="435" y="2" width="80" height="30"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="515" y="2" width="40" height="30"/>
+				<reportElement style="Footer" x="515" y="2" width="40" height="30"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

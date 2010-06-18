@@ -300,11 +300,11 @@ and object_id                      = $P{p_host_object_id}]]>
 				<subreportParameter name="p_date_start">
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_service_object_id">
-					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_host_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_service_object_id">
+					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.service.availability.jasper"]]></subreportExpression>

@@ -19,7 +19,7 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
 and state                        = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by object_id, state
+group by name2
 order by events desc limit 0,10]]>
 		</queryString>
 		<field name="object_id" class="java.lang.Integer">
@@ -57,7 +57,7 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
 and state                        = 2
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by object_id, state
+group by name2
 order by events desc limit 0,10]]>
 		</queryString>
 		<field name="object_id" class="java.lang.Integer">
@@ -95,7 +95,7 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
 and state                        = 3
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by object_id, state
+group by name2
 order by events desc limit 0,10]]>
 		</queryString>
 		<field name="object_id" class="java.lang.Integer">
@@ -114,7 +114,6 @@ order by events desc limit 0,10]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
@@ -124,21 +123,10 @@ order by events desc limit 0,10]]>
 	<parameter name="p_date_end" class="java.lang.String">
 		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_name" class="java.lang.String">
-		<defaultValueExpression><![CDATA[$P{p_host_name}]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select name1,
-  address
-from icinga_objects,
-  icinga_hosts
-where icinga_objects.object_id = icinga_hosts.host_object_id
-and object_id                  = $P{p_host_object_id}]]>
+		<![CDATA[select 1 from dual]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="address" class="java.lang.String">
+	<field name="1" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -161,13 +149,8 @@ and object_id                  = $P{p_host_object_id}]]>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<staticText>
-				<reportElement x="10" y="5" width="282" height="30"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Top 10 Report]]></text>
-			</staticText>
 			<bar3DChart>
-				<chart isShowLegend="false">
+				<chart isShowLegend="false" theme="generic">
 					<reportElement mode="Transparent" x="5" y="65" width="550" height="175"/>
 					<chartTitle>
 						<font isBold="true"/>
@@ -190,13 +173,13 @@ and object_id                  = $P{p_host_object_id}]]>
 					</dataset>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{name2} + "(" + $F{name1} + ")"]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{events}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
 					<plot orientation="Horizontal" labelRotation="0.0">
-						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="0" color="#FF3333"/>
 					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
 					<categoryAxisFormat labelRotation="0.0">
@@ -230,7 +213,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<bar3DChart>
-				<chart isShowLegend="false">
+				<chart isShowLegend="false" theme="generic">
 					<reportElement mode="Transparent" x="5" y="245" width="550" height="175"/>
 					<chartTitle>
 						<font isBold="true"/>
@@ -253,13 +236,13 @@ and object_id                  = $P{p_host_object_id}]]>
 					</dataset>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{name2} + "(" + $F{name1} + ")"]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{events}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
 					<plot orientation="Horizontal" labelRotation="0.0">
-						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="0" color="#FFFF33"/>
 					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
 					<categoryAxisFormat labelRotation="0.0">
@@ -287,7 +270,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<bar3DChart>
-				<chart isShowLegend="false">
+				<chart isShowLegend="false" theme="generic">
 					<reportElement mode="Transparent" x="5" y="425" width="550" height="175"/>
 					<chartTitle>
 						<font isBold="true"/>
@@ -310,13 +293,13 @@ and object_id                  = $P{p_host_object_id}]]>
 					</dataset>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{name2} + "(" + $F{name1} + ")"]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{events}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
 					<plot orientation="Horizontal" labelRotation="0.0">
-						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="0" color="#FF9933"/>
 					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
 					<categoryAxisFormat labelRotation="0.0">
@@ -337,6 +320,11 @@ and object_id                  = $P{p_host_object_id}]]>
 					</valueAxisFormat>
 				</bar3DPlot>
 			</bar3DChart>
+			<staticText>
+				<reportElement x="10" y="5" width="282" height="30"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Top 10 Service Report]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

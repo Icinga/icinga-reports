@@ -193,7 +193,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.services.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.host.services.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -206,7 +206,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.hostgroups.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.host.hostgroups.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -219,7 +219,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.servicegroups.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.host.servicegroups.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -232,7 +232,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.contactgroups.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.host.contactgroups.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="51">
@@ -245,7 +245,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.host.contacts.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.host.contacts.jrxml"]]></subreportExpression>
 			</subreport>
 			<break>
 				<reportElement x="0" y="50" width="100" height="1"/>

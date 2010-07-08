@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.hostservice.top10" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<template><![CDATA["IcingaStyleBase.jrtx"]]></template>
+	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<subDataset name="graph_notifications">
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
@@ -110,7 +110,7 @@ group by month(entry_time), state]]>
 		<band height="660">
 			<image>
 				<reportElement x="0" y="0" width="555" height="202"/>
-				<imageExpression class="java.lang.String"><![CDATA["images/icinga_background.png"]]></imageExpression>
+				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_background.png"]]></imageExpression>
 			</image>
 			<rectangle radius="5">
 				<reportElement x="81" y="162" width="3" height="400" forecolor="#000000" backcolor="#666666"/>
@@ -154,7 +154,7 @@ group by month(entry_time), state]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="45" width="250" height="91"/>
-				<imageExpression class="java.lang.String"><![CDATA["images/icinga_logo_big.png"]]></imageExpression>
+				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_logo_big.png"]]></imageExpression>
 			</image>
 			<rectangle radius="2">
 				<reportElement x="110" y="348" width="132" height="20" backcolor="#DCDCDC"/>
@@ -217,7 +217,7 @@ group by month(entry_time), state]]>
 		<band height="37" splitType="Stretch">
 			<image>
 				<reportElement x="461" y="0" width="94" height="35"/>
-				<imageExpression class="java.lang.String"><![CDATA["images/icinga_logo_small.png"]]></imageExpression>
+				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_logo_small.png"]]></imageExpression>
 			</image>
 			<rectangle radius="3">
 				<reportElement x="0" y="0" width="300" height="35" backcolor="#FAFADC"/>
@@ -278,7 +278,7 @@ group by month(entry_time), state]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "icinga.report.sub.hostservice.top10.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.hostservice.top10.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

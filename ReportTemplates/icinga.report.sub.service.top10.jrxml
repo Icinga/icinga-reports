@@ -117,11 +117,11 @@ order by events desc limit 0,10]]>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select 1 from dual]]>

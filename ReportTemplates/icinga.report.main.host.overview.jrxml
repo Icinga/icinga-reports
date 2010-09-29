@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.overview" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
-	<subDataset name="graph_notifications">
-		<parameter name="p_object_id" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
-		</parameter>
-		<queryString>
-			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
-  state,
-  count(*)
-from icinga_notifications
-where object_id = $P{p_object_id}
-group by month(start_time), state]]>
-		</queryString>
-		<field name="date" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="state" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="count(*)" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-	</subDataset>
 	<parameter name="p_host_object_id" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -211,7 +189,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.host.overview.jrxml"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.host.overview.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -232,7 +210,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Icinga Reports - Version 0.9 © Icinga Development Team (www.icinga.org)]]></text>
+				<text><![CDATA[Icinga Reports - Version 1.2 © Icinga Development Team (www.icinga.org)]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Footer" x="435" y="2" width="80" height="30"/>

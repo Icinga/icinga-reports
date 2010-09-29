@@ -4,10 +4,10 @@
 		<parameter name="p_host_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_host_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -81,11 +81,11 @@ group by state]]>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_host_name" class="java.lang.String">
 		<defaultValueExpression><![CDATA[$P{p_host_name}]]></defaultValueExpression>
@@ -307,7 +307,7 @@ and object_id                      = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.service.availability.jrxml"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.service.availability.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

@@ -2,11 +2,11 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.object.acknowledgements" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<parameter name="p_object_id" class="java.lang.String"/>
 	<parameter name="p_object_name" class="java.lang.String"/>
-	<parameter name="p_date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select name1,

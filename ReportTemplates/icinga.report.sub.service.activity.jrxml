@@ -4,11 +4,11 @@
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
@@ -33,11 +33,11 @@ group by month(start_time), state]]>
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select DATE_FORMAT(state_time, '%b %Y')date,
@@ -62,11 +62,11 @@ group by month(state_time), state]]>
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select DATE_FORMAT(entry_time, '%b %Y') date,
@@ -91,11 +91,11 @@ group by month(entry_time), state]]>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select name1,
@@ -323,7 +323,7 @@ and object_id                  = $P{p_service_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.object.statechanges.jrxml"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.object.statechanges.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -342,7 +342,7 @@ and object_id                  = $P{p_service_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.object.notifications.jrxml"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.object.notifications.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -361,7 +361,7 @@ and object_id                  = $P{p_service_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.object.acknowledgements.jrxml"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.object.acknowledgements.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

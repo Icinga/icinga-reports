@@ -5,11 +5,11 @@
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
@@ -34,11 +34,11 @@ group by month(start_time), state]]>
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select DATE_FORMAT(state_time, '%b %Y')date,
@@ -63,11 +63,11 @@ group by month(state_time), state]]>
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select DATE_FORMAT(entry_time, '%b %Y') date,
@@ -91,11 +91,11 @@ group by month(entry_time), state]]>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select 1 from dual]]>
@@ -278,7 +278,7 @@ group by month(entry_time), state]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[ "repo:/Icinga/templates/icinga.report.sub.hostservice.top10.jrxml"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.hostservice.top10.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -299,7 +299,7 @@ group by month(entry_time), state]]>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Icinga Reports - Version 0.9 © Icinga Development Team (www.icinga.org)]]></text>
+				<text><![CDATA[Icinga Reports - Version 1.2 © Icinga Development Team (www.icinga.org)]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Footer" x="435" y="2" width="80" height="30"/>

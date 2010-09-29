@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.hostservice.top10" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20">
 	<subDataset name="graph_warnings">
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select icinga_objects.object_id,
@@ -39,11 +39,11 @@ order by events desc limit 0,10]]>
 		</field>
 	</subDataset>
 	<subDataset name="graph_critical">
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select icinga_objects.object_id,
@@ -77,11 +77,11 @@ order by events desc limit 0,10]]>
 		</field>
 	</subDataset>
 	<subDataset name="graph_unknown">
-		<parameter name="p_date_start" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select icinga_objects.object_id,
@@ -117,11 +117,11 @@ order by events desc limit 0,10]]>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA["0000-00-00"]]></defaultValueExpression>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA["now()"]]></defaultValueExpression>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select 1 from dual]]>

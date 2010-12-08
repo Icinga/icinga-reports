@@ -12,68 +12,75 @@
 		</parameter>
 		<queryString>
 			<![CDATA[select sum(state_duration),
-  state
-from (
-  (select timestampdiff(second, if (state2.state_time < $P{p_date_start}, $P{p_date_start}, state2.state_time), if (state1.state_time > $P{p_date_end}
-  and state2.state_time                               > $P{p_date_start}, $P{p_date_end}, state1.state_time)) as state_duration,
-    state2.state,
-    state2.output
-  from icinga_statehistory as state1,
-    icinga_statehistory    as state2
-  where state2.statehistory_id =
-    (select statehistory_id
-    from icinga_statehistory as sstart
-    where sstart.statehistory_id < state1.statehistory_id
-    and sstart.state_type        = 1
-    and sstart.instance_id       = 1
-    and sstart.object_id         = $P{p_service_object_id}
-    order by sstart.state_time desc limit 0,1
+  state_one as state,
+  state_two
+FROM
+  (SELECT timestampdiff(second, IF (sstart.state_time > $P{p_date_start}
+  AND @a                                             IS NULL
+  OR sstart.state_time                               IS NULL, $P{p_date_start}, sstart.state_time), IF (send.state_time > $P{p_date_end}
+  OR send.state_time                                 IS NULL, $P{p_date_end}, send.state_time)) AS state_duration,
+    sstart.state                                                                              AS state_one,
+    send.state                                                                                as state_two,
+    @a:=sstart.statehistory_id                                                                as counter,
+    @b:=send.state_time                                                                       as last_time,
+    @c:=send.state                                                                            as last_state
+  FROM icinga_statehistory                                                                    AS sstart
+  INNER JOIN icinga_statehistory                                                              AS send
+  ON send.statehistory_id =
+    (SELECT MIN(statehistory_id)
+    FROM icinga_statehistory
+    WHERE statehistory_id > sstart.statehistory_id
+    AND instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = $P{p_service_object_id}
+    AND state_time        > $P{p_date_start}
     )
-  and state1.statehistory_id IN
-    (select statehistory_id
-    from (
-      (select ida.statehistory_id
-      from icinga_statehistory as ida
-      where ida.state_type = 1
-      and ida.instance_id  = 1
-      and ida.object_id    = $P{p_service_object_id}
-      and ida.state_time between $P{p_date_start} AND $P{p_date_end}
-      )
-
-    union
-      (select idb.statehistory_id
-      from icinga_statehistory as idb
-      where idb.state_type = 1
-      and idb.instance_id  = 1
-      and idb.object_id    = $P{p_service_object_id}
-      and idb.state_time   > $P{p_date_end} limit 0,1
-      )) as ids
-    )
-  )
-union all
-  (select if(
-    (select idc.statehistory_id
-    from icinga_statehistory as idc
-    where idc.state_type = 1
-    and idc.instance_id  = 1
-    and idc.object_id    = $P{p_service_object_id}
-    and idc.state_time   > $P{p_date_end} limit 0,1
-    )                   is null, timestampdiff(second, state3.state_time, $P{p_date_end}), 0) as state_duration,
-    state3.state,
-    state3.output
-  from icinga_statehistory as state3
-  where state3.state_type = 1
-  and state3.instance_id  = 1
-  and state3.object_id    = $P{p_service_object_id}
-  and state3.state_time between $P{p_date_start} AND $P{p_date_end}
-  order by state3.statehistory_id desc limit 0,1
-  )) as send
-group by state]]>
+  WHERE sstart.instance_id = 1
+  AND sstart.state_type    = 1
+  AND sstart.object_id     = $P{p_service_object_id}
+  and sstart.state_time between $P{p_date_start} and $P{p_date_end}
+  union
+  SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second, @b,$P{p_date_end}), 0) AS state_duration,
+    @c           AS state_one,
+    0            AS state_two,
+    @a           as counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  SELECT IF(@a IS NULL, timestampdiff(second, $P{p_date_start},$P{p_date_end}), 0) AS state_duration,
+    ifnull(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = $P{p_service_object_id}
+    AND state_time    < $P{p_date_start}
+    ORDER BY state_time DESC limit 1
+    ), 0)        AS state_one,
+    0            AS state_two,
+    @a           AS counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  SELECT ifnull(@a:=NULL,0) AS state_duration,
+    0                       AS state_one ,
+    0                       as state_two,
+    0                       as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM dual
+  ) as state
+GROUP BY state_one]]>
 		</queryString>
-		<field name="sum(state_duration)" class="java.math.BigDecimal">
+		<field name="sum(state_duration)" class="java.lang.Double">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="state" class="java.lang.Integer">
+		<field name="state" class="java.lang.Object">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state_two" class="java.lang.Long">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
@@ -87,9 +94,7 @@ group by state]]>
 	<parameter name="p_date_end" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_name" class="java.lang.String">
-		<defaultValueExpression><![CDATA[$P{p_host_name}]]></defaultValueExpression>
-	</parameter>
+	<parameter name="p_host_name" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select name2,
   timestampdiff(second, $P{p_date_start}, $P{p_date_end}) as period
@@ -208,7 +213,7 @@ and icinga_objects.object_id    = $P{p_service_object_id}]]>
 			<textField>
 				<reportElement x="10" y="200" width="150" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{period}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{period} / 60).intValue()]]></textFieldExpression>
 			</textField>
 			<rectangle radius="2">
 				<reportElement x="5" y="350" width="550" height="125" backcolor="#F1F1F1"/>

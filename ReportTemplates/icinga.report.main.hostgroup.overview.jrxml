@@ -190,7 +190,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Footer" x="0" y="17" width="318" height="15" forecolor="#CCCCCC"/>
+				<reportElement style="Footer" x="0" y="17" width="435" height="15" forecolor="#CCCCCC"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>

@@ -228,11 +228,11 @@ and object_id                  = $P{p_service_object_id}]]>
 				<subreportParameter name="p_date_start">
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_host_name">
-					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_service_object_id">
 					<subreportParameterExpression><![CDATA[$P{p_service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.service.availability.jrxml"]]></subreportExpression>
@@ -252,7 +252,7 @@ and object_id                  = $P{p_service_object_id}]]>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Footer" x="0" y="17" width="318" height="15" forecolor="#CCCCCC"/>
+				<reportElement style="Footer" x="0" y="17" width="435" height="15" forecolor="#CCCCCC"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>

@@ -41,7 +41,15 @@ FROM
   and sstart.state_time between $P{p_date_start} and $P{p_date_end}
   union
   SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second, @b,$P{p_date_end}), 0) AS state_duration,
-    @c           AS state_one,
+    ifnull(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = $P{p_service_object_id}
+    AND state_time    < $P{p_date_end}
+    ORDER BY state_time DESC limit 1
+    ), 0)        AS state_one,
     0            AS state_two,
     @a           as counter,
     0            as last_time,
@@ -77,7 +85,7 @@ GROUP BY state_one]]>
 		<field name="sum(state_duration)" class="java.lang.Double">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="state" class="java.lang.Object">
+		<field name="state" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="state_two" class="java.lang.Long">

@@ -15,7 +15,19 @@
   state_one as state,
   state_two
 FROM
-  (SELECT timestampdiff(second, IF (sstart.state_time > $P{p_date_start}
+  (SELECT 0                 AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    @a:=statehistory_id     as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM icinga_statehistory
+   WHERE instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = $P{p_host_object_id}
+    AND state_time        between $P{p_date_start} and $P{p_date_start}
+  UNION
+  SELECT timestampdiff(second, IF (sstart.state_time > $P{p_date_start}
   AND @a                                             IS NULL
   OR sstart.state_time                               IS NULL, $P{p_date_start}, sstart.state_time), IF (send.state_time > $P{p_date_end}
   OR send.state_time                                 IS NULL, $P{p_date_end}, send.state_time)) AS state_duration,
@@ -40,22 +52,15 @@ FROM
   AND sstart.object_id     = $P{p_host_object_id}
   and sstart.state_time between $P{p_date_start} and $P{p_date_end}
   union
-  SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second, @b,$P{p_date_end}), 0) AS state_duration,
-    ifnull(
-    (SELECT state
-    FROM icinga_statehistory
-    WHERE instance_id = 1
-    AND state_type    = 1
-    AND object_id     = $P{p_host_object_id}
-    AND state_time    < $P{p_date_end}
-    ORDER BY state_time DESC limit 1
-    ), 0)        AS state_one,
+  SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second,$P{p_date_end}, @b), 0) AS state_duration,
+    @c           AS state_one,
     0            AS state_two,
     @a           as counter,
     0            as last_time,
     0            as last_state
   FROM dual
   UNION
+  -- no entry found in database, simulate an entry for given period
   SELECT IF(@a IS NULL, timestampdiff(second, $P{p_date_start},$P{p_date_end}), 0) AS state_duration,
     ifnull(
     (SELECT state
@@ -72,23 +77,24 @@ FROM
     0            as last_state
   FROM dual
   UNION
+  -- delete variable for next run
   SELECT ifnull(@a:=NULL,0) AS state_duration,
-    0                       AS state_one ,
+    0                       AS state_one,
     0                       as state_two,
     0                       as counter,
     0                       as last_time,
     0                       as last_state
   FROM dual
-  ) as state
+  ) as state where state_duration > 0
 GROUP BY state_one]]>
 		</queryString>
-		<field name="sum(state_duration)" class="java.lang.Double">
+		<field name="sum(state_duration)" class="java.math.BigDecimal">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="state" class="java.lang.String">
+		<field name="state" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="state_two" class="java.lang.Long">
+		<field name="state_two" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
@@ -315,11 +321,11 @@ and object_id                      = $P{p_host_object_id}]]>
 				<subreportParameter name="p_date_start">
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_host_name">
-					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_service_object_id">
 					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.service.availability.jrxml"]]></subreportExpression>

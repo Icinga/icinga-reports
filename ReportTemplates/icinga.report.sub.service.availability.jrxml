@@ -10,7 +10,9 @@
 		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_period" class="java.math.BigDecimal"/>
+		<parameter name="p_period" class="java.math.BigDecimal">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[select sum(state_duration),
   state_one as state,
@@ -186,14 +188,17 @@ and icinga_objects.object_id    = $P{p_service_object_id}]]>
 							<datasetParameter name="p_date_end">
 								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
 							</datasetParameter>
+							<datasetParameter name="p_period">
+								<datasetParameterExpression><![CDATA[$F{period}]]></datasetParameterExpression>
+							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
 					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></keyExpression>
-					<valueExpression><![CDATA[$F{sum(state_duration)}]]></valueExpression>
-					<labelExpression><![CDATA[($F{sum(state_duration)} / 60).toString() + " " + "Minutes"]]></labelExpression>
+					<valueExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
+					<labelExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP).toString() + "%"]]></labelExpression>
 				</pieDataset>
-				<pie3DPlot isCircular="false" labelFormat="" legendLabelFormat="{0} ({2})">
+				<pie3DPlot isCircular="false" labelFormat="" legendLabelFormat="{0} ({1} %)">
 					<plot/>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF">
 						<font size="8"/>

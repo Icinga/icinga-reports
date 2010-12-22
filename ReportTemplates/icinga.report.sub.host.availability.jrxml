@@ -187,14 +187,17 @@ and object_id                      = $P{p_host_object_id}]]>
 							<datasetParameter name="p_date_end">
 								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
 							</datasetParameter>
+							<datasetParameter name="p_period">
+								<datasetParameterExpression><![CDATA[$F{period}]]></datasetParameterExpression>
+							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
 					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></keyExpression>
-					<valueExpression><![CDATA[$F{sum(state_duration)}]]></valueExpression>
-					<labelExpression><![CDATA[($F{sum(state_duration)} / 60).intValue() + " " + "Minutes"]]></labelExpression>
+					<valueExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
+					<labelExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP).toString() + "%"]]></labelExpression>
 				</pieDataset>
-				<pie3DPlot isCircular="false" labelFormat="" legendLabelFormat="{0} ({2})">
+				<pie3DPlot isCircular="false" labelFormat="" legendLabelFormat="{0} ({1} %)">
 					<plot/>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF">
 						<font size="8"/>
@@ -325,11 +328,11 @@ and object_id                      = $P{p_host_object_id}]]>
 				<subreportParameter name="p_date_start">
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_host_name">
-					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_service_object_id">
 					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["repo:/Icinga/templates/icinga.report.sub.service.availability.jrxml"]]></subreportExpression>

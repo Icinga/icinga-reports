@@ -32,7 +32,7 @@ public class DateHelper {
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setMinimalDaysInFirstWeek(1);
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR);
+		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR+2);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
@@ -47,7 +47,7 @@ public class DateHelper {
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setMinimalDaysInFirstWeek(1);
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR);
+		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR+2);
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);

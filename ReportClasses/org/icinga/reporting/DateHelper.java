@@ -10,17 +10,33 @@ import java.util.Date;
  * - last month 
  * - last year
  * 
- * @version 0.2
+ * @version 1.3
  * @author berk
  * 
  */
 public class DateHelper {
+	
+	public static void main(String[] args) {
+		/* main class for demo-output to check calender on various systems */
+		System.out.println("Last-Week Start: " + getLastWeekStart());
+		System.out.println("Last-Week End: " + getLastWeekEnd());
+		System.out.println("Last-Month Start: " + getLastMonthStart());
+		System.out.println("Last-Month End: " + getLastMonthEnd());
+		System.out.println("Last-Year Start: " + getLastYearStart());
+		System.out.println("Last-Year End: " + getLastYearEnd());
+	}
 
 	static public Timestamp getLastWeekStart() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.set(Calendar.DAY_OF_WEEK , Calendar.MONDAY);
-		cal.add(Calendar.DAY_OF_YEAR, -7);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		cal.setMinimalDaysInFirstWeek(1);
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		Timestamp ts = new Timestamp(cal.getTime().getTime());
 		return ts;
 	}
@@ -28,8 +44,14 @@ public class DateHelper {
 	static public Timestamp getLastWeekEnd() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.set(Calendar.DAY_OF_WEEK , Calendar.SUNDAY);
-		cal.add(Calendar.DAY_OF_YEAR, -7);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		cal.setMinimalDaysInFirstWeek(1);
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 0);
 		Timestamp ts = new Timestamp(cal.getTime().getTime());
 		return ts;
 	}
@@ -39,6 +61,10 @@ public class DateHelper {
 		cal.setTime(new Date());
 		cal.add(Calendar.MONTH, -1);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		Timestamp ts = new Timestamp(cal.getTime().getTime());
 		return ts;
 	}
@@ -48,6 +74,10 @@ public class DateHelper {
 		cal.setTime(new Date());
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		cal.add(Calendar.DAY_OF_MONTH, -1);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 0);
 		Timestamp ts = new Timestamp(cal.getTime().getTime());
 		return ts;
 	}
@@ -56,7 +86,11 @@ public class DateHelper {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.YEAR, -1);
-		cal.set(Calendar.WEEK_OF_YEAR, 1);
+		cal.set(Calendar.DAY_OF_YEAR, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		Timestamp ts = new Timestamp(cal.getTime().getTime());
 		return ts;
 	}
@@ -66,6 +100,10 @@ public class DateHelper {
 		cal.setTime(new Date());
 		cal.set(Calendar.DAY_OF_YEAR, 1);
 		cal.add(Calendar.DAY_OF_MONTH, -1);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 0);
 		Timestamp ts = new Timestamp(cal.getTime().getTime());
 		return ts;
 	}

@@ -17,7 +17,7 @@ import java.util.Date;
 public class DateHelper {
 	
 	public static void main(String[] args) {
-		/* main class for demo-output to check calender on various systems */
+		/* main class for demo-output to check calendar on various systems */
 		System.out.println("Last-Week Start: " + getLastWeekStart());
 		System.out.println("Last-Week End: " + getLastWeekEnd());
 		System.out.println("Last-Month Start: " + getLastMonthStart());
@@ -29,10 +29,10 @@ public class DateHelper {
 	static public Timestamp getLastWeekStart() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
+		cal.add(Calendar.WEEK_OF_YEAR, -1);
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setMinimalDaysInFirstWeek(1);
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR+2);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
@@ -44,10 +44,10 @@ public class DateHelper {
 	static public Timestamp getLastWeekEnd() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
+		cal.add(Calendar.WEEK_OF_YEAR, -1);
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setMinimalDaysInFirstWeek(1);
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		cal.set(Calendar.WEEK_OF_YEAR , Calendar.WEEK_OF_YEAR+2);
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);

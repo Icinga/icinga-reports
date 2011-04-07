@@ -30,17 +30,28 @@ FROM
     AND object_id         = $P{p_service_object_id}
     AND state_time        between $P{p_date_start} and $P{p_date_start}
   UNION
-  SELECT timestampdiff(second, IF (sstart.state_time > $P{p_date_start}
-  AND @a                                             IS NULL
+  --
+  -- select all statehistory entries from database and diff them with upcoming entry
+  --
+  SELECT TIMESTAMPDIFF(SECOND, IF (sstart.state_time > $P{p_date_start}
+  AND @A                                             IS NULL
   OR sstart.state_time                               IS NULL, $P{p_date_start}, sstart.state_time), IF (send.state_time > $P{p_date_end}
   OR send.state_time                                 IS NULL, $P{p_date_end}, send.state_time)) AS state_duration,
-    sstart.state                                                                              AS state_one,
-    send.state                                                                                as state_two,
-    @a:=sstart.statehistory_id                                                                as counter,
-    @b:=send.state_time                                                                       as last_time,
-    @c:=send.state                                                                            as last_state
-  FROM icinga_statehistory                                                                    AS sstart
-  INNER JOIN icinga_statehistory                                                              AS send
+    IF(@A IS NULL,   IFNULL(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = $P{p_service_object_id}
+    AND state_time    < $P{p_date_start}
+    ORDER BY state_time DESC LIMIT 1
+    ), 0) , sstart.state)                            AS state_one,
+    send.state                                       AS state_two,
+    @A:=sstart.statehistory_id                       AS counter,
+    @B:=send.state_time                              AS last_time,
+    @C:=send.state                                   AS last_state
+  FROM icinga_statehistory                           AS sstart
+  INNER JOIN icinga_statehistory                     AS send
   ON send.statehistory_id =
     (SELECT MIN(statehistory_id)
     FROM icinga_statehistory
@@ -53,41 +64,48 @@ FROM
   WHERE sstart.instance_id = 1
   AND sstart.state_type    = 1
   AND sstart.object_id     = $P{p_service_object_id}
-  and sstart.state_time between $P{p_date_start} and $P{p_date_end}
-  union
-  SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second,@b,$P{p_date_end}), 0) AS state_duration,
-    @c           AS state_one,
-    0            AS state_two,
-    @a           as counter,
-    0            as last_time,
-    0            as last_state
-  FROM dual
+  AND sstart.state_time BETWEEN $P{p_date_start} AND $P{p_date_end}
   UNION
+  --
+  -- if last existing database entry is smaller then given enddate we have to add the timediff with last state
+  --
+  SELECT IF(@B < $P{p_date_end} AND @A IS NOT NULL, TIMESTAMPDIFF(SECOND,@B,$P{p_date_end}), 0) AS state_duration,
+    @C           AS state_one,
+    0            AS state_two,
+    @A           AS counter,
+    0            AS last_time,
+    0            AS last_state
+  FROM DUAL
+  UNION
+  --
   -- no entry found in database, simulate an entry for given period
-  SELECT IF(@a IS NULL, timestampdiff(second, $P{p_date_start},$P{p_date_end}), 0) AS state_duration,
-    ifnull(
+  --
+  SELECT IF(@A IS NULL, TIMESTAMPDIFF(SECOND, $P{p_date_start},$P{p_date_end}), 0) AS state_duration,
+    IFNULL(
     (SELECT state
     FROM icinga_statehistory
     WHERE instance_id = 1
     AND state_type    = 1
     AND object_id     = $P{p_service_object_id}
     AND state_time    < $P{p_date_start}
-    ORDER BY state_time DESC limit 1
+    ORDER BY state_time DESC LIMIT 1
     ), 0)        AS state_one,
     0            AS state_two,
-    @a           AS counter,
-    0            as last_time,
-    0            as last_state
-  FROM dual
+    @A           AS counter,
+    0            AS last_time,
+    0            AS last_state
+  FROM DUAL
   UNION
-  -- delete variable for next run
-  SELECT ifnull(@a:=NULL,0) AS state_duration,
+  --
+  -- delete variable for next run to prevent errors regarding identical database connection
+  --
+  SELECT IFNULL(@A:=NULL,0) AS state_duration,
     0                       AS state_one,
-    0                       as state_two,
-    0                       as counter,
-    0                       as last_time,
-    0                       as last_state
-  FROM dual
+    0                       AS state_two,
+    0                       AS counter,
+    0                       AS last_time,
+    0                       AS last_state
+  FROM DUAL
   ) as state where state_duration > 0
 GROUP BY state_one]]>
 		</queryString>

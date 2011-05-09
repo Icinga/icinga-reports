@@ -212,7 +212,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Icinga Reports - Version 1.3 © Icinga Development Team (www.icinga.org)]]></text>
+				<text><![CDATA[Icinga Reports - Version 1.4 © Icinga Development Team (www.icinga.org)]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Footer" x="435" y="2" width="80" height="30"/>

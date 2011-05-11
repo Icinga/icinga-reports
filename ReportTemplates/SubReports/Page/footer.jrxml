@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Icinga-Report page footer" language="groovy" pageWidth="435" pageHeight="842" columnWidth="435" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.5937424601000023"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<template><![CDATA["/home/mluebben/iReport/ReportTemplates/Styles/IcingaStyleBase.jrtx"]]></template>
+	<queryString>
+		<![CDATA[SELECT conninfo_id FROM icinga_conninfo LIMIT 0,1]]>
+	</queryString>
+	<field name="conninfo_id" class="java.lang.Integer"/>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement style="Footer" x="0" y="0" width="213" height="15" forecolor="#CCCCCC"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Footer" x="0" y="15" width="435" height="15" forecolor="#CCCCCC"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Icinga Reports - Version 1.4 © Icinga Development Team (www.icinga.org)]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

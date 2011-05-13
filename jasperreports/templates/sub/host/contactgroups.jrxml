@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.host.contactgroups" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="10" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<parameter name="p_object_name" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select c.alias,
+  a.name1,
+  b.alias,
+  b.email_address
+from icinga_objects a,
+  icinga_contacts b,
+  icinga_contactgroups c,
+  icinga_contactgroup_members d,
+  icinga_host_contactgroups e
+where a.object_id            = b.contact_object_id
+and b.contact_object_id      = d.contact_object_id
+and d.contactgroup_id        = c.contactgroup_id
+and c.contactgroup_object_id = e.contactgroup_object_id
+and e.host_id                = $P{p_host_object_id}]]>
+	</queryString>
+	<field name="alias" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="120" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Contactgroups for host:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="125" y="5" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_object_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#999999">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="0" width="110" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Groupname]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="0" width="120" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Groupalias]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="0" width="215" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#F1F1F1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="115" y="0" width="120" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{alias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="0" width="110" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="235" y="0" width="294" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{email_address}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

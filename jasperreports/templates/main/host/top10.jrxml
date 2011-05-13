@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.activity" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.3310000000000004"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.top10" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="705"/>
+	<property name="ireport.y" value="429"/>
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -15,17 +14,9 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select name1,
-  address
-from icinga_objects,
-  icinga_hosts
-where icinga_objects.object_id = icinga_hosts.host_object_id
-and object_id                  = $P{p_host_object_id}]]>
+		<![CDATA[select 1 from dual]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="address" class="java.lang.String">
+	<field name="1" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -37,33 +28,6 @@ and object_id                  = $P{p_host_object_id}]]>
 				<reportElement x="0" y="0" width="555" height="202"/>
 				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_background.png"]]></imageExpression>
 			</image>
-			<rectangle radius="2">
-				<reportElement x="110" y="367" width="132" height="20" backcolor="#DCDCDC"/>
-				<graphicElement>
-					<pen lineColor="#666666"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="110" y="347" width="132" height="20" backcolor="#DCDCDC"/>
-				<graphicElement>
-					<pen lineColor="#666666"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement style="Cover" x="115" y="367" width="132" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Hostaddress:]]></text>
-			</staticText>
-			<textField>
-				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Cover" x="250" y="367" width="243" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>
-			</textField>
 			<rectangle radius="5">
 				<reportElement x="81" y="162" width="3" height="400" forecolor="#000000" backcolor="#666666"/>
 				<graphicElement>
@@ -91,7 +55,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="284" width="400" height="50"/>
 				<textElement/>
-				<text><![CDATA[This reports shows up all activities for given host]]></text>
+				<text><![CDATA[Report for Top 10 Hosts in a state other than OK]]></text>
 			</staticText>
 			<rectangle radius="2">
 				<reportElement x="110" y="260" width="132" height="20" backcolor="#DCDCDC"/>
@@ -109,52 +73,47 @@ and object_id                  = $P{p_host_object_id}]]>
 				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_logo_big.png"]]></imageExpression>
 			</image>
 			<rectangle radius="2">
-				<reportElement x="110" y="403" width="132" height="20" backcolor="#DCDCDC"/>
+				<reportElement x="110" y="348" width="132" height="20" backcolor="#DCDCDC"/>
 				<graphicElement>
 					<pen lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="Cover" x="115" y="402" width="132" height="20"/>
+				<reportElement style="Cover" x="115" y="347" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Period:]]></text>
 			</staticText>
 			<rectangle radius="2">
-				<reportElement x="110" y="423" width="132" height="20" backcolor="#DCDCDC"/>
+				<reportElement x="110" y="368" width="132" height="20" backcolor="#DCDCDC"/>
 				<graphicElement>
 					<pen lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="Cover" x="115" y="422" width="132" height="20"/>
+				<reportElement style="Cover" x="115" y="367" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Creation:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement style="Cover" x="250" y="422" width="213" height="20"/>
+				<reportElement style="Cover" x="250" y="367" width="213" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Cover" x="250" y="403" width="80" height="20"/>
+				<reportElement style="Cover" x="250" y="348" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Cover" x="343" y="402" width="80" height="20"/>
+				<reportElement style="Cover" x="343" y="347" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Cover" x="328" y="403" width="15" height="20"/>
+				<reportElement style="Cover" x="328" y="348" width="15" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["-"]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement style="Cover" x="115" y="347" width="132" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Hostname:]]></text>
-			</staticText>
 			<rectangle radius="2">
 				<reportElement x="110" y="190" width="330" height="25" backcolor="#EA9F1B"/>
 				<graphicElement>
@@ -166,7 +125,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[Host Activity Report]]></text>
+				<text><![CDATA[TOP 10 Hosts]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -183,26 +142,12 @@ and object_id                  = $P{p_host_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="Header" x="5" y="18" width="60" height="15"/>
+				<reportElement style="Header" x="5" y="3" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Period:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="Header" x="5" y="3" width="60" height="15"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Hostname:]]></text>
-			</staticText>
-			<textField>
-				<reportElement style="Header" x="65" y="3" width="185" height="15"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
-			</textField>
 			<rectangle radius="0">
 				<reportElement x="0" y="35" width="555" height="2" forecolor="#000000" backcolor="#666666"/>
 				<graphicElement>
@@ -210,21 +155,21 @@ and object_id                  = $P{p_host_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement style="Header" x="65" y="18" width="60" height="15"/>
+				<reportElement style="Header" x="65" y="3" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Header" x="140" y="18" width="60" height="15"/>
+				<reportElement style="Header" x="140" y="3" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Header" x="125" y="18" width="15" height="15"/>
+				<reportElement style="Header" x="125" y="3" width="15" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -242,20 +187,14 @@ and object_id                  = $P{p_host_object_id}]]>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_host_object_id">
-					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_date_end">
 					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_date_start">
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_host_name">
-					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
-				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/activity"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/top10"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

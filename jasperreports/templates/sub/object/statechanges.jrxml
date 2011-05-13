@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.object.statechanges" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+	<parameter name="p_object_id" class="java.lang.String"/>
+	<parameter name="p_object_name" class="java.lang.String"/>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1,
+  objecttype_id,
+  state_time,
+  state,
+  output,
+  current_check_attempt,
+  max_check_attempts
+from icinga_objects,
+  icinga_statehistory
+where icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.object_id   = $P{p_object_id}
+and state_time between $P{p_date_start} and $P{p_date_end}
+order by state_time]]>
+	</queryString>
+	<field name="name1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="objecttype_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state_time" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="output" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="current_check_attempt" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="max_check_attempts" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="120" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Statehistory for Object:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="125" y="5" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_object_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#999999">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="130" y="0" width="85" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Check Attempts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="25" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[State]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="250" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Output]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="0" width="80" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Max Attempts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="0" width="95" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Statetime]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#F1F1F1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="100" y="0" width="25" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{state}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="250" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{output}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="0" width="85" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{current_check_attempt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{max_check_attempts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="0" width="95" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{state_time}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement x="445" y="10" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="10" width="150" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Statechanges for this Object:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="290" y="30" width="255" height="1"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

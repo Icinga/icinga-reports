@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.service.top10" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20">
+	<subDataset name="graph_warnings">
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select icinga_objects.object_id,
+  name1,
+  name2,
+  state,
+  count(state) events
+from icinga_objects,
+  icinga_statehistory
+where icinga_objects.object_id   = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 2
+and state                        = 1
+and state_time between $P{p_date_start} and $P{p_date_end}
+group by name2
+order by events desc limit 0,10]]>
+		</queryString>
+		<field name="object_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name1" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name2" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="events" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="graph_critical">
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select icinga_objects.object_id,
+  name1,
+  name2,
+  state,
+  count(state) events
+from icinga_objects,
+  icinga_statehistory
+where icinga_objects.object_id   = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 2
+and state                        = 2
+and state_time between $P{p_date_start} and $P{p_date_end}
+group by name2
+order by events desc limit 0,10]]>
+		</queryString>
+		<field name="object_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name1" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name2" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="events" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="graph_unknown">
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select icinga_objects.object_id,
+  name1,
+  name2,
+  state,
+  count(state) events
+from icinga_objects,
+  icinga_statehistory
+where icinga_objects.object_id   = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 2
+and state                        = 3
+and state_time between $P{p_date_start} and $P{p_date_end}
+group by name2
+order by events desc limit 0,10]]>
+		</queryString>
+		<field name="object_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name1" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name2" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="events" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 1 from dual]]>
+	</queryString>
+	<field name="1" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="600" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="5" y="65" width="550" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<bar3DChart>
+				<chart isShowLegend="false" theme="generic">
+					<reportElement mode="Transparent" x="5" y="65" width="550" height="175"/>
+					<chartTitle>
+						<font isBold="true"/>
+						<titleExpression><![CDATA["Top 10 services with state critical"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graph_critical">
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{events}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
+					<plot orientation="Horizontal" labelRotation="0.0">
+						<seriesColor seriesOrder="0" color="#FF3333"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont/>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false">
+							<labelFont/>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<rectangle radius="2">
+				<reportElement x="5" y="5" width="400" height="30" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="5" y="245" width="550" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<bar3DChart>
+				<chart isShowLegend="false" theme="generic">
+					<reportElement mode="Transparent" x="5" y="245" width="550" height="175"/>
+					<chartTitle>
+						<font isBold="true"/>
+						<titleExpression><![CDATA["Top 10 services with state warning"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graph_warnings">
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{events}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
+					<plot orientation="Horizontal" labelRotation="0.0">
+						<seriesColor seriesOrder="0" color="#FFFF33"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont/>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false">
+							<labelFont/>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<rectangle radius="2">
+				<reportElement x="5" y="425" width="550" height="175" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<bar3DChart>
+				<chart isShowLegend="false" theme="generic">
+					<reportElement mode="Transparent" x="5" y="425" width="550" height="175"/>
+					<chartTitle>
+						<font isBold="true"/>
+						<titleExpression><![CDATA["Top 10 services with state unknown"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graph_unknown">
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{events}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
+					<plot orientation="Horizontal" labelRotation="0.0">
+						<seriesColor seriesOrder="0" color="#FF9933"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont/>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false">
+							<labelFont/>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<staticText>
+				<reportElement x="10" y="5" width="282" height="30"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Top 10 Service Report]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

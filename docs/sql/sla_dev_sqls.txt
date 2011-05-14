@@ -1,0 +1,348 @@
+
+--------------------------------------------------------------------------------------------------------------------------
+long version for debug
+--------------------------------------------------------------------------------------------------------------------------
+
+select sum(state_duration),
+  state_history_id_one,
+  state_time_one,
+  state_one,
+  state_history_id_two,
+  state_time_two,
+  state_two
+FROM
+  (SELECT 0                 AS state_duration,
+    @a:=statehistory_id     AS state_history_id_one,
+    0                       AS state_time_one,
+    0                       AS state_one ,
+    0                       AS state_history_id_two,
+    0                       AS state_time_two ,
+    0                       as state_two,
+    0                       as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM icinga_statehistory
+   WHERE instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = 402361
+    AND state_time        between '2010-12-06 18:51:00' and '2010-12-06 18:51:00'
+  UNION
+  SELECT timestampdiff(second, IF (sstart.state_time > '2010-12-06 18:51:00'
+  AND @a                                             IS NULL
+  OR sstart.state_time                               IS NULL, '2010-12-06 18:51:00', sstart.state_time), IF (send.state_time > '2010-12-12 18:51:00'
+  OR send.state_time                                 IS NULL, '2010-12-12 18:51:00', send.state_time)) AS state_duration,
+    sstart.statehistory_id                                                                    AS state_history_id_one,
+    sstart.state_time                                                                         AS state_time_one,
+    sstart.state                                                                              AS state_one,
+    send.statehistory_id                                                                      AS state_history_id_two,
+    send.state_time                                                                           AS state_time_two,
+    send.state                                                                                as state_two,
+    @a:=sstart.statehistory_id                                                                as counter,
+    @b:=send.state_time                                                                       as last_time,
+    @c:=send.state                                                                            as last_state
+  FROM icinga_statehistory                                                                    AS sstart
+  INNER JOIN icinga_statehistory                                                              AS send
+  ON send.statehistory_id =
+    (SELECT MIN(statehistory_id)
+    FROM icinga_statehistory
+    WHERE statehistory_id > sstart.statehistory_id
+    AND instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = 402361
+    AND state_time        > '2010-12-06 18:51:00'
+    )
+  WHERE sstart.instance_id = 1
+  AND sstart.state_type    = 1
+  AND sstart.object_id     = 402361
+  and sstart.state_time between '2010-12-06 18:51:00' and '2010-12-12 18:51:00'
+  union
+  SELECT IF(@b < '2010-12-12 18:51:00' and @a is not null, timestampdiff(second, @b, '2010-12-12 18:51:00'), 0) AS state_duration,
+    1                                                                        as state_history_id_one,
+    @b                                                             AS state_time_one ,
+    @c           AS state_one,
+    2            AS state_history_id_two,
+    '2010-12-12 18:51:00' AS state_time_two,
+    0            AS state_two,
+    @a           as counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- no entry found in database, simulate an entry for given period
+  SELECT IF(@a IS NULL, timestampdiff(second, '2010-12-06 18:51:00','2010-12-12 18:51:00'), 0) AS state_duration,
+    3                                                                        AS state_history_id_one,
+    '2010-12-06 18:51:00'                                                             AS state_time_one ,
+    ifnull(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = 402361
+    AND state_time    < '2010-12-06 18:51:00'
+    ORDER BY state_time DESC limit 1
+    ), 0)        AS state_one,
+    4            AS state_history_id_two,
+    '2010-12-12 18:51:00' AS state_time_two,
+    0            AS state_two,
+    @a           AS counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- delete variable for next run
+  SELECT ifnull(@a:=NULL,0) AS state_duration,
+    0                       AS state_history_id_one,
+    0                       AS state_time_one,
+    0                       AS state_one ,
+    0                       AS state_history_id_two,
+    0                       AS state_time_two ,
+    0                       as state_two,
+    0                       as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM dual
+  ) as state where state_duration > 0
+GROUP BY state_one
+
+--------------------------------------------------------------------------------------------------------------------------
+short version 
+--------------------------------------------------------------------------------------------------------------------------
+
+select sum(state_duration),
+  state_one as state,
+  state_two
+FROM
+  (SELECT 0                 AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    @a:=statehistory_id     as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM icinga_statehistory
+   WHERE instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = 402361
+    AND state_time        between '2010-12-06 18:51:00' and '2010-12-06 18:51:00'
+  UNION
+  SELECT timestampdiff(second, IF (sstart.state_time > '2010-12-06 18:51:00'
+  AND @a                                             IS NULL
+  OR sstart.state_time                               IS NULL, '2010-12-06 18:51:00', sstart.state_time), IF (send.state_time > '2010-12-12 18:51:00'
+  OR send.state_time                                 IS NULL, '2010-12-12 18:51:00', send.state_time)) AS state_duration,
+    sstart.state                                                                              AS state_one,
+    send.state                                                                                as state_two,
+    @a:=sstart.statehistory_id                                                                as counter,
+    @b:=send.state_time                                                                       as last_time,
+    @c:=send.state                                                                            as last_state
+  FROM icinga_statehistory                                                                    AS sstart
+  INNER JOIN icinga_statehistory                                                              AS send
+  ON send.statehistory_id =
+    (SELECT MIN(statehistory_id)
+    FROM icinga_statehistory
+    WHERE statehistory_id > sstart.statehistory_id
+    AND instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = 402361
+    AND state_time        > '2010-12-06 18:51:00'
+    )
+  WHERE sstart.instance_id = 1
+  AND sstart.state_type    = 1
+  AND sstart.object_id     = 402361
+  and sstart.state_time between '2010-12-06 18:51:00' and '2010-12-12 18:51:00'
+  union
+  SELECT IF(@b < '2010-12-12 18:51:00' and @a is not null, timestampdiff(second, @b, '2010-12-12 18:51:00'), 0) AS state_duration,
+    @c           AS state_one,
+    0            AS state_two,
+    @a           as counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- no entry found in database, simulate an entry for given period
+  SELECT IF(@a IS NULL, timestampdiff(second, '2010-12-06 18:51:00','2010-12-12 18:51:00'), 0) AS state_duration,
+    ifnull(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = 402361
+    AND state_time    < '2010-12-06 18:51:00'
+    ORDER BY state_time DESC limit 1
+    ), 0)        AS state_one,
+    0            AS state_two,
+    @a           AS counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- delete variable for next run
+  SELECT ifnull(@a:=NULL,0) AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    0                       as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM dual
+  ) as state where state_duration > 0
+GROUP BY state_one
+
+--------------------------------------------------------------------------------------------------------------------------
+version for host in jasper
+--------------------------------------------------------------------------------------------------------------------------
+
+select sum(state_duration),
+  state_one as state,
+  state_two
+FROM
+  (SELECT 0                 AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    @a:=statehistory_id     as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM icinga_statehistory
+   WHERE instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = $P{p_host_object_id}
+    AND state_time        between $P{p_date_start} and $P{p_date_start}
+  UNION
+  SELECT timestampdiff(second, IF (sstart.state_time > $P{p_date_start}
+  AND @a                                             IS NULL
+  OR sstart.state_time                               IS NULL, $P{p_date_start}, sstart.state_time), IF (send.state_time > $P{p_date_end}
+  OR send.state_time                                 IS NULL, $P{p_date_end}, send.state_time)) AS state_duration,
+    sstart.state                                                                              AS state_one,
+    send.state                                                                                as state_two,
+    @a:=sstart.statehistory_id                                                                as counter,
+    @b:=send.state_time                                                                       as last_time,
+    @c:=send.state                                                                            as last_state
+  FROM icinga_statehistory                                                                    AS sstart
+  INNER JOIN icinga_statehistory                                                              AS send
+  ON send.statehistory_id =
+    (SELECT MIN(statehistory_id)
+    FROM icinga_statehistory
+    WHERE statehistory_id > sstart.statehistory_id
+    AND instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = $P{p_host_object_id}
+    AND state_time        > $P{p_date_start}
+    )
+  WHERE sstart.instance_id = 1
+  AND sstart.state_type    = 1
+  AND sstart.object_id     = $P{p_host_object_id}
+  and sstart.state_time between $P{p_date_start} and $P{p_date_end}
+  union
+  SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second,@b,$P{p_date_end}), 0) AS state_duration,
+    @c           AS state_one,
+    0            AS state_two,
+    @a           as counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- no entry found in database, simulate an entry for given period
+  SELECT IF(@a IS NULL, timestampdiff(second, $P{p_date_start},$P{p_date_end}), 0) AS state_duration,
+    ifnull(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = $P{p_host_object_id}
+    AND state_time    < $P{p_date_start}
+    ORDER BY state_time DESC limit 1
+    ), 0)        AS state_one,
+    0            AS state_two,
+    @a           AS counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- delete variable for next run
+  SELECT ifnull(@a:=NULL,0) AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    0                       as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM dual
+  ) as state where state_duration > 0
+GROUP BY state_one
+
+--------------------------------------------------------------------------------------------------------------------------
+version for service in jasper
+--------------------------------------------------------------------------------------------------------------------------
+
+select sum(state_duration),
+  state_one as state,
+  state_two
+FROM
+  (SELECT 0                 AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    @a:=statehistory_id     as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM icinga_statehistory
+   WHERE instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = $P{p_service_object_id}
+    AND state_time        between $P{p_date_start} and $P{p_date_start}
+  UNION
+  SELECT timestampdiff(second, IF (sstart.state_time > $P{p_date_start}
+  AND @a                                             IS NULL
+  OR sstart.state_time                               IS NULL, $P{p_date_start}, sstart.state_time), IF (send.state_time > $P{p_date_end}
+  OR send.state_time                                 IS NULL, $P{p_date_end}, send.state_time)) AS state_duration,
+    sstart.state                                                                              AS state_one,
+    send.state                                                                                as state_two,
+    @a:=sstart.statehistory_id                                                                as counter,
+    @b:=send.state_time                                                                       as last_time,
+    @c:=send.state                                                                            as last_state
+  FROM icinga_statehistory                                                                    AS sstart
+  INNER JOIN icinga_statehistory                                                              AS send
+  ON send.statehistory_id =
+    (SELECT MIN(statehistory_id)
+    FROM icinga_statehistory
+    WHERE statehistory_id > sstart.statehistory_id
+    AND instance_id       = 1
+    AND state_type        = 1
+    AND object_id         = $P{p_service_object_id}
+    AND state_time        > $P{p_date_start}
+    )
+  WHERE sstart.instance_id = 1
+  AND sstart.state_type    = 1
+  AND sstart.object_id     = $P{p_service_object_id}
+  and sstart.state_time between $P{p_date_start} and $P{p_date_end}
+  union
+  SELECT IF(@b < $P{p_date_end} and @a is not null, timestampdiff(second,@b,$P{p_date_end}), 0) AS state_duration,
+    @c           AS state_one,
+    0            AS state_two,
+    @a           as counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- no entry found in database, simulate an entry for given period
+  SELECT IF(@a IS NULL, timestampdiff(second, $P{p_date_start},$P{p_date_end}), 0) AS state_duration,
+    ifnull(
+    (SELECT state
+    FROM icinga_statehistory
+    WHERE instance_id = 1
+    AND state_type    = 1
+    AND object_id     = $P{p_service_object_id}
+    AND state_time    < $P{p_date_start}
+    ORDER BY state_time DESC limit 1
+    ), 0)        AS state_one,
+    0            AS state_two,
+    @a           AS counter,
+    0            as last_time,
+    0            as last_state
+  FROM dual
+  UNION
+  -- delete variable for next run
+  SELECT ifnull(@a:=NULL,0) AS state_duration,
+    0                       AS state_one,
+    0                       as state_two,
+    0                       as counter,
+    0                       as last_time,
+    0                       as last_state
+  FROM dual
+  ) as state where state_duration > 0
+GROUP BY state_one

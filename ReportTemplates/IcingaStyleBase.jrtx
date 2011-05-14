@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperTemplate PUBLIC "-//JasperReports//DTD Template//EN" "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
-
-<jasperTemplate>
-	<style name="Headline" isDefault="false" markup="none" fontSize="16" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Cover" isDefault="false" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Header" isDefault="false" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Footer" isDefault="false" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-</jasperTemplate>

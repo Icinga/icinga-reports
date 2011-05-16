@@ -1,1 +1,4 @@
-* under development, see dev.icinga.org
+* Add downtime reports for service, hostgroup and servicegroup
+* Add alert reports for service, hostgroups and servicegroup
+* Add new database for basic report information
+* Add charts for CPU etc.

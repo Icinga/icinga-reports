@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HanRe scheduled host downtimes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.3310000000000026"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_host_object_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+	author_name,
+	comment_data,
+	entry_time,
+	scheduled_start_time,
+	scheduled_end_time,
+	duration
+FROM icinga_scheduleddowntime AS isd
+INNER JOIN icinga_objects AS io
+ON isd.object_id = io.object_id
+WHERE io.object_id = $P{p_host_object_id}]]>
+	</queryString>
+	<field name="author_name" class="java.lang.String"/>
+	<field name="comment_data" class="java.lang.String"/>
+	<field name="entry_time" class="java.sql.Timestamp"/>
+	<field name="scheduled_start_time" class="java.sql.Timestamp"/>
+	<field name="scheduled_end_time" class="java.sql.Timestamp"/>
+	<field name="duration" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="40">
+			<rectangle radius="2">
+				<reportElement x="0" y="5" width="418" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="155" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Downtimes for Hosts :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="595" height="20" backcolor="#999999">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="78" y="0" width="65" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Author]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="476" y="0" width="65" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Endtime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="546" y="0" width="48" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Duration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="406" y="0" width="65" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Starttime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="148" y="0" width="253" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Comment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="0" width="68" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Entry Time]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="595" height="40" backcolor="#F1F1F1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="148" y="0" width="253" height="40"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{comment_data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="0" width="65" height="40"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{scheduled_start_time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="0" width="65" height="40"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{author_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="476" y="0" width="65" height="40"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{scheduled_end_time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="0" width="68" height="40"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{entry_time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="0" width="48" height="40"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{duration} / 60).setScale(2,BigDecimal.ROUND_HALF_UP) + "h"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

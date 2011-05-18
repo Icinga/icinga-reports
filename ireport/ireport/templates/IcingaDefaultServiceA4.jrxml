@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Default Service" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.7715610000000013"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1076"/>
+	<property name="ireport.y" value="1092"/>
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
@@ -46,7 +46,7 @@ and object_id                  = $P{p_service_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="367" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Service-Displayname:]]></text>
+				<text><![CDATA[Servicename:]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
@@ -151,14 +151,14 @@ and object_id                  = $P{p_service_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="Header" x="5" y="3" width="88" height="15"/>
+				<reportElement style="Header" x="5" y="3" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Service-Diplayname:]]></text>
+				<text><![CDATA[Servicename:]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Header" x="95" y="3" width="185" height="15"/>
+				<reportElement style="Header" x="65" y="3" width="185" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>

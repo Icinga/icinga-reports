@@ -6,12 +6,13 @@
 	<parameter name="p_service_object_id" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[SELECT
-	author_name,
-	comment_data,
-	entry_time,
-	scheduled_start_time,
-	scheduled_end_time,
-	duration
+	isd.author_name,
+	isd.comment_data,
+	isd.entry_time,
+	isd.scheduled_start_time,
+	isd.scheduled_end_time,
+	isd.duration,
+	io.name2 AS servicename
 FROM icinga_scheduleddowntime AS isd
 INNER JOIN icinga_objects AS io
 ON isd.object_id = io.object_id
@@ -23,6 +24,7 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 	<field name="scheduled_start_time" class="java.sql.Timestamp"/>
 	<field name="scheduled_end_time" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
+	<field name="servicename" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -34,13 +36,13 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<staticText>
-				<reportElement x="5" y="5" width="155" height="20"/>
+			<textField>
+				<reportElement x="5" y="5" width="340" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Downtimes for Service :]]></text>
-			</staticText>
+				<textFieldExpression class="java.lang.String"><![CDATA["Downtimes for Service " + $F{servicename} + ":"]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>

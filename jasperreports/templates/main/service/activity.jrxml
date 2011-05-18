@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.service.activity" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="428"/>
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="45"/>
+	<property name="ireport.y" value="957"/>
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
@@ -52,7 +52,7 @@ and object_id                  = $P{p_service_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="367" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Displayname:]]></text>
+				<text><![CDATA[Servicename]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
@@ -153,7 +153,7 @@ and object_id                  = $P{p_service_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="347" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Servicename:]]></text>
+				<text><![CDATA[Hostname:]]></text>
 			</staticText>
 			<rectangle radius="2">
 				<reportElement x="110" y="190" width="330" height="25" backcolor="#EA9F1B"/>
@@ -194,10 +194,10 @@ and object_id                  = $P{p_service_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Servicename:]]></text>
+				<text><![CDATA[Hostname:]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Header" x="65" y="3" width="185" height="15"/>
+				<reportElement style="Header" x="65" y="3" width="215" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>

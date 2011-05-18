@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.activity" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.3310000000000004"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="34"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.service.downtimes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.948717100000002"/>
+	<property name="ireport.x" value="210"/>
+	<property name="ireport.y" value="1192"/>
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_object_id" class="java.lang.Integer"/>
+	<parameter name="p_service_object_id" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select name1,
-  address
+  display_name
 from icinga_objects,
-  icinga_hosts
-where icinga_objects.object_id = icinga_hosts.host_object_id
-and object_id                  = $P{p_host_object_id}]]>
+  icinga_services
+where icinga_objects.object_id = icinga_services.service_object_id
+and object_id                  = $P{p_service_object_id}]]>
 	</queryString>
 	<field name="name1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="address" class="java.lang.String">
+	<field name="display_name" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -46,7 +46,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="367" width="132" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Hostaddress:]]></text>
+				<text><![CDATA[Service-Displayname:]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
@@ -56,7 +56,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			<textField>
 				<reportElement style="Cover" x="250" y="367" width="243" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{display_name}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="5">
 				<reportElement x="81" y="162" width="3" height="400" forecolor="#000000" backcolor="#666666"/>
@@ -85,7 +85,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="284" width="400" height="50"/>
 				<textElement/>
-				<text><![CDATA[This reports shows all downtimes for a given host]]></text>
+				<text><![CDATA[This reports shows all downtimes for a given service]]></text>
 			</staticText>
 			<rectangle radius="2">
 				<reportElement x="110" y="260" width="132" height="20" backcolor="#DCDCDC"/>
@@ -134,7 +134,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[Host Downtime Report]]></text>
+				<text><![CDATA[Service Downtime Report]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -151,18 +151,18 @@ and object_id                  = $P{p_host_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="Header" x="6" y="3" width="60" height="15"/>
+				<reportElement style="Header" x="5" y="3" width="88" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Hostname:]]></text>
+				<text><![CDATA[Service-Displayname:]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Header" x="65" y="3" width="185" height="15"/>
+				<reportElement style="Header" x="95" y="3" width="185" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{display_name}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
 				<reportElement x="0" y="35" width="555" height="2" forecolor="#000000" backcolor="#666666"/>
@@ -182,11 +182,11 @@ and object_id                  = $P{p_host_object_id}]]>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_host_object_id">
-					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				<subreportParameter name="p_service_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_service_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/downtimes"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "service/downtimes"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

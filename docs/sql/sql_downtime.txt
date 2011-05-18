@@ -1,15 +1,31 @@
-Downtime for a host or service
+Downtime for a host
 ------------------------------------
 SELECT
-	author_name,
-	comment_data,
-	entry_time,
-	scheduled_start_time,
-	scheduled_end_time
+	isd.author_name,
+	isd.comment_data,
+	isd.entry_time,
+	isd.scheduled_start_time,
+	isd.scheduled_end_time,
+	io.name1 AS hostname
 FROM icinga_scheduleddowntime AS isd
 INNER JOIN icinga_objects AS io
 ON isd.object_id = io.object_id
 WHERE io.object_id = $P{p_host_object_id}
+
+
+Downtime for a service
+------------------------------------
+SELECT
+	isd.author_name,
+	isd.comment_data,
+	isd.entry_time,
+	isd.scheduled_start_time,
+	isd.scheduled_end_time,
+	io.name2 AS servicename
+FROM icinga_scheduleddowntime AS isd
+INNER JOIN icinga_objects AS io
+ON isd.object_id = io.object_id
+WHERE io.object_id = $P{p_service_object_id}
 
 
 Downtime for a hostgroup

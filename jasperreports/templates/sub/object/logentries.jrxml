@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.object.notifications" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_weekday_start" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_weekday_end" class="java.lang.String"/>
+	<parameter name="p_time_start" class="java.lang.String"/>
+	<parameter name="p_time_end" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	logentry_data,
+	entry_time
+FROM `icinga_logentries`
+WHERE date_format(entry_time,'%W') BETWEEN $P{p_weekday_start} AND $P{p_weekday_end}
+AND date_format(entry_time,'%T') BETWEEN $P{p_time_start} AND $P{p_time_end}
+ORDER BY entry_time]]>
+	</queryString>
+	<field name="logentry_data" class="java.lang.String"/>
+	<field name="entry_time" class="java.sql.Timestamp"/>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="120" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Log Entries:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#999999">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="105" y="0" width="443" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Log Entry]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="0" width="95" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Log Entry Time]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#F1F1F1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="5" y="0" width="95" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{entry_time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="0" width="443" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{logentry_data}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

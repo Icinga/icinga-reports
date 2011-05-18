@@ -1,0 +1,14 @@
+Log entries
+-------------------------
+Select all log entries between two weekdays and a time range.
+For more information date_format, have a look a the mysql website:
+
+	http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html
+
+SELECT
+	logentry_data,
+	entry_time
+FROM `icinga_logentries`
+WHERE date_format(entry_time,'%W') BETWEEN $P{p_weekday_start} AND $P{p_weekday_end}
+AND date_format(entry_time,'%T') BETWEEN $P{p_time_start} AND $P{p_time_end}
+ORDER BY entry_time

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Notifications for hosts" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Notifications for services" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.3310000000000026"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -8,6 +8,7 @@
 	<queryString>
 		<![CDATA[SELECT
 	iobj1.name1 AS hostname,
+	iobj1.name2 AS service,
 	iobj2.name1 AS notification_command_name,
 	inot.notification_type,
 	inot.notification_reason,
@@ -23,10 +24,11 @@ INNER JOIN icinga_contactnotificationmethods AS icnm
 ON icn.contactnotification_id = icnm.contactnotification_id
 INNER JOIN icinga_objects AS iobj2
 ON icnm.command_object_id = iobj2.object_id
-WHERE inot.notification_type = "0"
+WHERE inot.notification_type = "1"
 AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 	</queryString>
 	<field name="hostname" class="java.lang.String"/>
+	<field name="service" class="java.lang.String"/>
 	<field name="notification_command_name" class="java.lang.String"/>
 	<field name="notification_type" class="java.lang.Integer"/>
 	<field name="notification_reason" class="java.lang.Integer"/>
@@ -46,7 +48,7 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Notifications for Hosts :]]></text>
+				<text><![CDATA[Notifications for Services :]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -83,7 +85,7 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 			<staticText>
 				<reportElement x="5" y="0" width="73" height="20"/>
 				<textElement verticalAlignment="Middle" rotation="None"/>
-				<text><![CDATA[Hostname]]></text>
+				<text><![CDATA[Host / Service]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="151" y="0" width="60" height="20"/>
@@ -103,7 +105,7 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="5" y="0" width="73" height="20"/>
+				<reportElement x="5" y="0" width="73" height="10"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -206,7 +208,7 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="2">
-				<reportElement x="318" y="0" width="38" height="20" backcolor="#FF3333">
+				<reportElement x="318" y="0" width="38" height="20" backcolor="#FF9933">
 					<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 1 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
@@ -214,19 +216,34 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="2">
-				<reportElement x="318" y="0" width="38" height="20" backcolor="#BF47B2">
+				<reportElement x="318" y="0" width="38" height="20" backcolor="#FF3333">
 					<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 2 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<rectangle radius="2">
+				<reportElement x="318" y="0" width="38" height="20" backcolor="#BF44B2">
+					<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 3 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement x="358" y="0" width="198" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{output}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="10" width="73" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{service}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="216" y="0" width="100" height="20"/>

@@ -39,7 +39,7 @@ WHERE io.object_id = $P{p_host_object_id}]]>
 			<textField>
 				<reportElement x="5" y="5" width="340" height="20"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Downtimes for Host " + $F{hostname} +":"]]></textFieldExpression>
 			</textField>

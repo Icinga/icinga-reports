@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.host.activity" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host activity summary report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="399"/>
+	<property name="ireport.y" value="359"/>
 	<subDataset name="graph_notifications">
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
@@ -315,13 +315,10 @@ and object_id                  = $P{p_host_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
+				<reportElement x="0" y="0" width="595" height="50"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="p_object_name">
-					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_object_id">
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -332,14 +329,14 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "object/statechanges"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "object/statehistoryInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
-				<subreportParameter name="p_object_name">
-					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
+				<reportElement x="0" y="0" width="595" height="50"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_object_id">
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
@@ -351,12 +348,12 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "object/notifications"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "object/notificationsInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
+				<reportElement x="0" y="0" width="595" height="50"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -370,7 +367,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "object/acknowledgements"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "object/acknowledgementsInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

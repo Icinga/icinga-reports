@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.object.statechanges" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Acknowledgements for Object in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="p_object_id" class="java.lang.String"/>
-	<parameter name="p_object_name" class="java.lang.String"/>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -10,38 +12,34 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select name1,
-  objecttype_id,
-  state_time,
+  entry_time,
   state,
-  output,
-  current_check_attempt,
-  max_check_attempts
+  author_name,
+  comment_data,
+  notify_contacts
 from icinga_objects,
-  icinga_statehistory
-where icinga_objects.object_id = icinga_statehistory.object_id
+  icinga_acknowledgements
+where icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.object_id   = $P{p_object_id}
-and state_time between $P{p_date_start} and $P{p_date_end}
-order by state_time]]>
+and entry_time between $P{p_date_start} and $P{p_date_end}
+order by entry_time]]>
 	</queryString>
 	<field name="name1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="objecttype_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="state_time" class="java.sql.Timestamp">
+	<field name="entry_time" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="state" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="output" class="java.lang.String">
+	<field name="author_name" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="current_check_attempt" class="java.lang.Integer">
+	<field name="comment_data" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="max_check_attempts" class="java.lang.Integer">
+	<field name="notify_contacts" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -59,16 +57,16 @@ order by state_time]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="5" width="120" height="20"/>
+				<reportElement x="5" y="5" width="155" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Statehistory for Object:]]></text>
+				<text><![CDATA[Acknowledgements for Object:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="125" y="5" width="100" height="20"/>
+				<reportElement x="160" y="5" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_object_name}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -85,7 +83,7 @@ order by state_time]]>
 			<staticText>
 				<reportElement x="130" y="0" width="85" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Check Attempts]]></text>
+				<text><![CDATA[Notify]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="100" y="0" width="25" height="20"/>
@@ -95,17 +93,17 @@ order by state_time]]>
 			<staticText>
 				<reportElement x="295" y="0" width="250" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Output]]></text>
+				<text><![CDATA[Comment]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="215" y="0" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Max Attempts]]></text>
+				<text><![CDATA[Author]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="0" width="95" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Statetime]]></text>
+				<text><![CDATA[Entry Time]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -127,24 +125,24 @@ order by state_time]]>
 			<textField>
 				<reportElement x="295" y="0" width="250" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{output}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{comment_data}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="130" y="0" width="85" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{current_check_attempt}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{notify_contacts}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="215" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{max_check_attempts}]]></textFieldExpression>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{author_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="5" y="0" width="95" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{state_time}]]></textFieldExpression>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{entry_time}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -164,14 +162,14 @@ order by state_time]]>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="290" y="10" width="150" height="20"/>
+				<reportElement x="255" y="10" width="185" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Statechanges for this Object:]]></text>
+				<text><![CDATA[Acknowledgements for this Object:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="290" y="30" width="255" height="1"/>
+				<reportElement x="255" y="30" width="290" height="1"/>
 				<graphicElement>
 					<pen lineWidth="3.0" lineStyle="Double"/>
 				</graphicElement>

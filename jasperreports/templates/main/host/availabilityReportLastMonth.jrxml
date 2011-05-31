@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.availability.lastyear" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.availability.lastmonth" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="429"/>
+	<property name="ireport.y" value="428"/>
 	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -10,10 +10,10 @@
 	</parameter>
 	<parameter name="p_host_object_id" class="java.lang.String"/>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[DateHelper.getLastYearStart()]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[DateHelper.getLastMonthStart()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_date_end" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[DateHelper.getLastYearEnd()]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[DateHelper.getLastMonthEnd()]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select name1,
@@ -92,7 +92,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			<staticText>
 				<reportElement style="Cover" x="115" y="284" width="400" height="50"/>
 				<textElement/>
-				<text><![CDATA[Availability Report for given host and dependant services for the last year]]></text>
+				<text><![CDATA[Availability Report for given host and dependant services for the last month]]></text>
 			</staticText>
 			<rectangle radius="2">
 				<reportElement x="110" y="260" width="132" height="20" backcolor="#DCDCDC"/>
@@ -167,7 +167,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[Host Availability Report For Last Year]]></text>
+				<text><![CDATA[Host Availability Report For Last Month]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -256,7 +256,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availability"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

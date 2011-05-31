@@ -256,7 +256,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availability"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

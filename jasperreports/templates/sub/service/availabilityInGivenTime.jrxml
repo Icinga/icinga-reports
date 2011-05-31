@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.sub.host.availability" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability sub report in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="300"/>
+	<property name="ireport.y" value="0"/>
 	<subDataset name="graph_availability">
-		<parameter name="p_host_object_id" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{p_host_object_id}]]></defaultValueExpression>
+		<parameter name="p_service_object_id" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_service_object_id}]]></defaultValueExpression>
 		</parameter>
 		<parameter name="p_date_start" class="java.sql.Timestamp">
-			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<parameter name="p_date_end" class="java.sql.Timestamp">
-			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_period" class="java.math.BigDecimal"/>
+		<parameter name="p_period" class="java.math.BigDecimal">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[select sum(state_duration),
   state_one as state,
@@ -28,7 +30,7 @@ FROM
   FROM icinga_statehistory
    WHERE instance_id       = 1
     AND state_type        = 1
-    AND object_id         = $P{p_host_object_id}
+    AND object_id         = $P{p_service_object_id}
     AND state_time        between $P{p_date_start} and $P{p_date_start}
   UNION
   --
@@ -43,7 +45,7 @@ FROM
     FROM icinga_statehistory
     WHERE instance_id = 1
     AND state_type    = 1
-    AND object_id     = $P{p_host_object_id}
+    AND object_id     = $P{p_service_object_id}
     AND state_time    < $P{p_date_start}
     ORDER BY state_time DESC LIMIT 1
     ), 0) , sstart.state)                            AS state_one,
@@ -59,12 +61,12 @@ FROM
     WHERE statehistory_id > sstart.statehistory_id
     AND instance_id       = 1
     AND state_type        = 1
-    AND object_id         = $P{p_host_object_id}
+    AND object_id         = $P{p_service_object_id}
     AND state_time        > $P{p_date_start}
     )
   WHERE sstart.instance_id = 1
   AND sstart.state_type    = 1
-  AND sstart.object_id     = $P{p_host_object_id}
+  AND sstart.object_id     = $P{p_service_object_id}
   AND sstart.state_time BETWEEN $P{p_date_start} AND $P{p_date_end}
   UNION
   --
@@ -87,7 +89,7 @@ FROM
     FROM icinga_statehistory
     WHERE instance_id = 1
     AND state_type    = 1
-    AND object_id     = $P{p_host_object_id}
+    AND object_id     = $P{p_service_object_id}
     AND state_time    < $P{p_date_start}
     ORDER BY state_time DESC LIMIT 1
     ), 0)        AS state_one,
@@ -110,7 +112,7 @@ FROM
   ) as state where state_duration > 0
 GROUP BY state_one]]>
 		</queryString>
-		<field name="sum(state_duration)" class="java.math.BigDecimal">
+		<field name="sum(state_duration)" class="java.lang.Long">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="state" class="java.lang.Integer">
@@ -120,7 +122,7 @@ GROUP BY state_one]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<parameter name="p_service_object_id" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
@@ -130,28 +132,16 @@ GROUP BY state_one]]>
 	<parameter name="p_date_end" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_name" class="java.lang.String">
-		<defaultValueExpression><![CDATA[$P{p_host_name}]]></defaultValueExpression>
-	</parameter>
+	<parameter name="p_host_name" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select name1,
-  address,
-  service_object_id,
+		<![CDATA[select name2,
   timestampdiff(second, $P{p_date_start}, $P{p_date_end}) as period
 from icinga_objects,
-  icinga_hosts,
   icinga_services
-where icinga_objects.object_id  = icinga_hosts.host_object_id
-and icinga_hosts.host_object_id = icinga_services.host_object_id
-and object_id                      = $P{p_host_object_id}]]>
+where icinga_objects.object_id  = icinga_services.service_object_id
+and icinga_objects.object_id    = $P{p_service_object_id}]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="address" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="service_object_id" class="java.lang.String">
+	<field name="name2" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="period" class="java.lang.Long">
@@ -161,37 +151,48 @@ and object_id                      = $P{p_host_object_id}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="600">
+		<band/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="600" splitType="Stretch">
 			<rectangle radius="2">
-				<reportElement x="5" y="60" width="160" height="275" backcolor="#F1F1F1"/>
+				<reportElement x="5" y="65" width="160" height="275" backcolor="#F1F1F1"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="65" width="150" height="50"/>
-				<textElement markup="none"/>
-				<text><![CDATA[This graph displays the availability for given host]]></text>
+				<reportElement x="10" y="70" width="150" height="50"/>
+				<textElement markup="none">
+					<font isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[This graph displays the availability for given service]]></text>
 			</staticText>
 			<rectangle radius="2">
-				<reportElement x="5" y="5" width="400" height="30" backcolor="#F1F1F1"/>
+				<reportElement x="5" y="5" width="400" height="40" backcolor="#F1F1F1"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="5" width="110" height="30"/>
+				<reportElement x="10" y="25" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Availability for host:]]></text>
+				<text><![CDATA[Availability for service:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="120" y="5" width="285" height="30"/>
+				<reportElement x="130" y="25" width="275" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name2}]]></textFieldExpression>
 			</textField>
 			<pie3DChart>
 				<chart theme="aegean">
-					<reportElement x="175" y="60" width="380" height="275"/>
+					<reportElement x="175" y="65" width="380" height="275"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -199,8 +200,8 @@ and object_id                      = $P{p_host_object_id}]]>
 				<pieDataset>
 					<dataset>
 						<datasetRun subDataset="graph_availability">
-							<datasetParameter name="p_host_object_id">
-								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+							<datasetParameter name="p_service_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="p_date_start">
 								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
@@ -214,7 +215,7 @@ and object_id                      = $P{p_host_object_id}]]>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
-					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></keyExpression>
+					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></keyExpression>
 					<valueExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
 					<labelExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP).toString() + "%"]]></labelExpression>
 				</pieDataset>
@@ -226,47 +227,47 @@ and object_id                      = $P{p_host_object_id}]]>
 				</pie3DPlot>
 			</pie3DChart>
 			<textField>
-				<reportElement x="40" y="115" width="120" height="20"/>
+				<reportElement x="40" y="120" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="175" width="100" height="20"/>
+				<reportElement x="10" y="180" width="100" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Period in minutes:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="115" width="30" height="20"/>
+				<reportElement x="10" y="120" width="30" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Start:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="135" width="30" height="20"/>
+				<reportElement x="10" y="140" width="30" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[End:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="40" y="135" width="120" height="20"/>
+				<reportElement x="40" y="140" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="10" y="195" width="150" height="20"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="200" width="150" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[($F{period} / 60).setScale(2,BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 			</textField>
 			<rectangle radius="2">
-				<reportElement x="5" y="345" width="550" height="125" backcolor="#F1F1F1"/>
+				<reportElement x="5" y="350" width="550" height="125" backcolor="#F1F1F1"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
 			<componentElement>
-				<reportElement x="5" y="365" width="550" height="20"/>
+				<reportElement x="5" y="370" width="550" height="20"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="graph_availability">
-						<datasetParameter name="p_host_object_id">
-							<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+						<datasetParameter name="p_service_object_id">
+							<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="p_date_start">
 							<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
@@ -280,10 +281,10 @@ and object_id                      = $P{p_host_object_id}]]>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:listContents height="20" width="550">
-						<textField>
+						<textField isBlankWhenNull="true">
 							<reportElement x="5" y="0" width="155" height="20"/>
 							<textElement/>
-							<textFieldExpression class="java.lang.String"><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="170" y="0" width="125" height="20"/>
@@ -304,60 +305,43 @@ and object_id                      = $P{p_host_object_id}]]>
 				</jr:list>
 			</componentElement>
 			<staticText>
-				<reportElement x="10" y="345" width="155" height="20"/>
+				<reportElement x="10" y="350" width="155" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[State]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="175" y="345" width="125" height="20"/>
+				<reportElement x="175" y="350" width="125" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Duration in seconds]]></text>
+				<text><![CDATA[Duration in minutes]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="300" y="345" width="125" height="20"/>
+				<reportElement x="300" y="350" width="125" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Duration in hours]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="425" y="345" width="125" height="20"/>
+				<reportElement x="10" y="5" width="120" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Hostname:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="5" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_host_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="350" width="125" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Percentage]]></text>
 			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="50">
-			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
-				<subreportParameter name="p_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_service_object_id">
-					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_host_name">
-					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "service/availability"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

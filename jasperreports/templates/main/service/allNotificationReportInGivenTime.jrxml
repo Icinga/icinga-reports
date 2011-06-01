@@ -192,7 +192,7 @@
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "service/notifications"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "service/allNotificationsInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

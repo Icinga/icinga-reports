@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host contacts sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host services sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="p_host_object_id" class="java.lang.String"/>
-	<parameter name="p_object_name" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select a.name1,
-  b.alias,
-  b.email_address
+  b.display_name,
+  c.current_state,
+  c.check_command,
+  c.output
 from icinga_objects a,
-  icinga_contacts b,
-  icinga_host_contacts c
-where a.object_id = b.contact_object_id
-and b.contact_id  = c.contact_object_id
-and c.host_id     = $P{p_host_object_id}]]>
+  icinga_services b,
+  icinga_servicestatus c
+where a.object_id       = b.service_object_id
+and b.service_object_id = c.service_object_id
+and b.host_object_id    = $P{p_host_object_id}]]>
 	</queryString>
 	<field name="name1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="alias" class="java.lang.String">
+	<field name="display_name" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="email_address" class="java.lang.String">
+	<field name="current_state" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="check_command" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="output" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -42,14 +49,14 @@ and c.host_id     = $P{p_host_object_id}]]>
 			<staticText>
 				<reportElement x="5" y="5" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Contacts for host:]]></text>
+				<text><![CDATA[Services for host:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="125" y="5" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_object_name}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -66,17 +73,22 @@ and c.host_id     = $P{p_host_object_id}]]>
 			<staticText>
 				<reportElement x="5" y="0" width="110" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Contactname]]></text>
+				<text><![CDATA[Servicename]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="115" y="0" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Contactalias]]></text>
+				<text><![CDATA[Displayname]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="235" y="0" width="215" height="20"/>
+				<reportElement x="235" y="0" width="75" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Email]]></text>
+				<text><![CDATA[Current State]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="140" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Command]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -95,7 +107,7 @@ and c.host_id     = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{alias}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{display_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="5" y="0" width="110" height="20"/>
@@ -105,12 +117,44 @@ and c.host_id     = $P{p_host_object_id}]]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="235" y="0" width="294" height="20"/>
+				<reportElement x="310" y="0" width="219" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{email_address}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{check_command}]]></textFieldExpression>
 			</textField>
+			<rectangle radius="2">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#66FF66">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 0 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#FFFF66">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 1 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#FF3333">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 2 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#FF9933">
+					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 3 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
 		</band>
 	</detail>
 	<columnFooter>

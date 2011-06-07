@@ -245,7 +245,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availability"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability sub report in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="48"/>
 	<subDataset name="graph_availability">
 		<parameter name="p_service_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_service_object_id}]]></defaultValueExpression>
@@ -220,7 +220,12 @@ and icinga_objects.object_id    = $P{p_service_object_id}]]>
 					<labelExpression><![CDATA[($F{sum(state_duration)} / ($P{p_period} / 100) ).setScale(3,BigDecimal.ROUND_HALF_UP).toString() + "%"]]></labelExpression>
 				</pieDataset>
 				<pie3DPlot isCircular="false" labelFormat="" legendLabelFormat="{0} ({1} %)">
-					<plot/>
+					<plot backgroundAlpha="0.0" foregroundAlpha="1.0">
+						<seriesColor seriesOrder="0" color="#66FF66"/>
+						<seriesColor seriesOrder="1" color="#FF9933"/>
+						<seriesColor seriesOrder="2" color="#BF44B2"/>
+						<seriesColor seriesOrder="3" color="#FF3333"/>
+					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF">
 						<font size="8"/>
 					</itemLabel>

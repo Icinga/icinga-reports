@@ -312,7 +312,7 @@ and object_id                  = $P{p_service_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -331,7 +331,7 @@ and object_id                  = $P{p_service_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -350,7 +350,7 @@ and object_id                  = $P{p_service_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>

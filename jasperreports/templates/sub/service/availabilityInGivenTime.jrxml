@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability sub report in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.y" value="0"/>
 	<subDataset name="graph_availability">
 		<parameter name="p_service_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_service_object_id}]]></defaultValueExpression>
@@ -139,14 +139,11 @@ GROUP BY state_one]]>
 from icinga_objects,
   icinga_services
 where icinga_objects.object_id  = icinga_services.service_object_id
+and icinga_services.config_type = 1
 and icinga_objects.object_id    = $P{p_service_object_id}]]>
 	</queryString>
-	<field name="name2" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="period" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="name2" class="java.lang.String"/>
+	<field name="period" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

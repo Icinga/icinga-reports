@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Availability report about a selected Host in a given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0000000000000009"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="429"/>
+	<property name="ireport.y" value="0"/>
 	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
@@ -20,14 +20,11 @@
 from icinga_objects,
   icinga_hosts
 where icinga_objects.object_id = icinga_hosts.host_object_id
+and icinga_hosts.config_type = 1
 and object_id                  = $P{p_host_object_id}]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="address" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="name1" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

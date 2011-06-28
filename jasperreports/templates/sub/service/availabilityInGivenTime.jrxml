@@ -134,13 +134,13 @@ GROUP BY state_one]]>
 	</parameter>
 	<parameter name="p_host_name" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select name2,
-  timestampdiff(second, $P{p_date_start}, $P{p_date_end}) as period
-from icinga_objects,
-  icinga_services
-where icinga_objects.object_id  = icinga_services.service_object_id
-and icinga_services.config_type = 1
-and icinga_objects.object_id    = $P{p_service_object_id}]]>
+		<![CDATA[SELECT name2, timestampdiff(second, $P{p_date_start}, $P{p_date_end}) AS period
+FROM icinga_objects, icinga_services, icinga_hosts
+WHERE icinga_objects.object_id  = icinga_hosts.host_object_id
+AND icinga_hosts.host_object_id = icinga_services.service_object_id
+AND icinga_services.config_type = 1
+AND icinga_hosts.config_type = 1
+AND icinga_objects.object_id    = $P{p_service_object_id}]]>
 	</queryString>
 	<field name="name2" class="java.lang.String"/>
 	<field name="period" class="java.lang.Long"/>

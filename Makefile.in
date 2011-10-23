@@ -45,9 +45,20 @@ none:
 	@echo ""
 	@echo "*** Installation ***"
 	@echo ""
-	@echo "  make js-import"
+	@echo " make install"
+	@echo "     - Makes a completely installation. Import jasper reports and install JAR-Files"
+	@echo ""
+	@echo " make update"
+	@echo "     - Makes a completely update. Update jasper reports and install JAR-Files"
+	@echo ""
+	@echo " make js-import"
 	@echo "     - This imports the reports into your JasperServer"
 	@echo ""
+	@echo " make js-update"
+	@echo "     - This updates the reports on your JasperServer"
+	@echo ""
+	@echo " make install-jar-files"
+	@echo "     - Install JAR-Files to your JasperServer"
 	@echo ""
 	@echo ""
 	@echo "*** Support Notes *******************************************"
@@ -77,6 +88,36 @@ none:
 	@echo "Enjoy."
 	@echo ""
 
+install:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		$(MAKE) js-import install-jar-files;\
+        fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "*** Jasper Reports successfully installed ***" ;\
+		echo "" ;\
+	fi
+
+update:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		$(MAKE) js-update install-jar-files ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "*** Japser Reports successfully updated ***" ;\
+		echo "" ;\
+	fi
+
 clean:
 	rm -f Makefile
 	rm -f config.log config.status
@@ -97,7 +138,7 @@ js-import:
 		echo "" ;\
 	else \
 		echo "" ;\
-		echo "*** Japser Reports imported ***" ;\
+		echo "*** Japser Reports successfully imported ***" ;\
 		echo "" ;\
 	fi
 
@@ -118,7 +159,39 @@ js-export:
 	else \
 		echo "" ;\
 		echo "New report package exported to /tmp/icinga-reports.zip" ;\
-		echo "*** Japser Reports exported ***" ;\
+		echo "*** Japser Reports successfully exported ***" ;\
+		echo "" ;\
+	fi
+
+js-update:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/icinga-reports.zip --update ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "*** Japser Reports successfully updated ***" ;\
+		echo "" ;\
+	fi
+
+install-jar-files:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
+	fi      
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "*** JAR-Files successfully installed ***" ;\
+		echo "" ;\
+		echo "Please don't forget to restart your jasper server!" ;\
 		echo "" ;\
 	fi
 

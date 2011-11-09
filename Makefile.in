@@ -148,7 +148,7 @@ js-export:
 		echo "*** Beginning export Reports from JasperServer..... ***" ;\
 		echo "" ;\
 		$(JASPER_SERVER)/buildomatic/js-export.sh --uris \
-			/Icinga \
+			/icinga \
 			--output-zip /tmp/icinga-reports.zip ;\
 	fi
 

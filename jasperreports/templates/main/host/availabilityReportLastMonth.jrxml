@@ -2,9 +2,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.availability.lastmonth" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="428"/>
+	<property name="ireport.y" value="240"/>
 	<import value="org.icinga.reporting.DateHelper"/>
-	<template><![CDATA["repo:/Icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
 	</parameter>
@@ -36,7 +36,7 @@ and object_id                  = $P{p_host_object_id}]]>
 		<band height="660">
 			<image>
 				<reportElement x="0" y="0" width="555" height="202"/>
-				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_background.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.png"]]></imageExpression>
 			</image>
 			<rectangle radius="2">
 				<reportElement x="110" y="367" width="132" height="20" backcolor="#DCDCDC"/>
@@ -58,12 +58,12 @@ and object_id                  = $P{p_host_object_id}]]>
 			<textField>
 				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Cover" x="250" y="367" width="243" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="5">
 				<reportElement x="81" y="162" width="3" height="400" forecolor="#000000" backcolor="#666666"/>
@@ -107,7 +107,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="45" width="250" height="91"/>
-				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_logo_big.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_big.png"]]></imageExpression>
 			</image>
 			<rectangle radius="2">
 				<reportElement x="110" y="403" width="132" height="20" backcolor="#DCDCDC"/>
@@ -134,22 +134,22 @@ and object_id                  = $P{p_host_object_id}]]>
 			<textField pattern="dd/MM/yyyy h.mm a">
 				<reportElement style="Cover" x="250" y="422" width="213" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Cover" x="250" y="403" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Cover" x="343" y="403" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Cover" x="328" y="403" width="15" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Cover" x="115" y="347" width="132" height="20"/>
@@ -175,7 +175,7 @@ and object_id                  = $P{p_host_object_id}]]>
 		<band height="37" splitType="Stretch">
 			<image>
 				<reportElement x="461" y="0" width="94" height="35"/>
-				<imageExpression class="java.lang.String"><![CDATA["repo:/Icinga/images/icinga_logo_small.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_small.png"]]></imageExpression>
 			</image>
 			<rectangle radius="3">
 				<reportElement x="0" y="0" width="300" height="35" backcolor="#FAFADC"/>
@@ -202,7 +202,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
 				<reportElement x="0" y="35" width="555" height="2" forecolor="#000000" backcolor="#666666"/>
@@ -215,21 +215,21 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_start}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Header" x="140" y="18" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_date_end}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Header" x="125" y="18" width="15" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -256,7 +256,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -268,12 +268,12 @@ and object_id                  = $P{p_host_object_id}]]>
 			<textField>
 				<reportElement style="Footer" x="435" y="2" width="80" height="30"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement style="Footer" x="515" y="2" width="40" height="30"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
 				<reportElement x="0" y="0" width="555" height="2" forecolor="#000000" backcolor="#666666"/>
@@ -287,7 +287,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
 			</subreport>
 		</band>
 	</pageFooter>

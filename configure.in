@@ -52,6 +52,7 @@ AC_ARG_WITH(jasper_server,AC_HELP_STRING([--with-jasper-server=<path>],[sets pat
 if test x$JASPER_SERVER = xno; then
 	AS_IF([ test -d /opt/jasperreports-server-cp-4.0.0 ], [ AC_MSG_RESULT([found]); JASPER_SERVER="/opt/jasperreports-server-cp-4.0.0"; break; ],
 	      [ test -d /opt/jasperreports-server-cp-4.1.0 ], [ AC_MSG_RESULT([found]); JASPER_SERVER="/opt/jasperreports-server-cp-4.1.0"; break; ],
+	      [ test -d /opt/jasperreports-server-cp-4.2.1 ], [ AC_MSG_RESULT([found]); JASPER_SERVER="/opt/jasperreports-server-cp-4.2.1"; break; ],
               [ AC_MSG_RESULT([not found]) ])
 fi
 AC_SUBST(JASPER_SERVER)

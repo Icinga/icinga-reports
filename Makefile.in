@@ -1,5 +1,5 @@
 ####################################################################
-# Makefile for Icinga-Reporting Availability Parser
+# Makefile for Icinga-Reporting
 ####################################################################
 
 ###############################
@@ -59,6 +59,9 @@ none:
 	@echo ""
 	@echo " make install-jar-files"
 	@echo "     - Install JAR-Files to your JasperServer"
+	@echo ""
+	@echo " make install-mysql-connector"
+	@echo "     - Install Java MySQL-Connector (5.1.18) to your JasperServer"
 	@echo ""
 	@echo ""
 	@echo "*** Support Notes *******************************************"
@@ -180,8 +183,25 @@ js-update:
 
 install-jar-files:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/icinga/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
 	fi      
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "*** JAR-Files successfully installed ***" ;\
+		echo "" ;\
+		echo "Please don't forget to restart your jasper server!" ;\
+		echo "" ;\
+	fi
+
+install-mysql-connector:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/mysql/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar $(JASPER_SERVER)/apache-tomcat/lib ;\
+	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
 		echo "" ;\

@@ -132,7 +132,7 @@ distclean: clean
 	
 js-import:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/icinga-reports.zip ;\
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-reports.zip ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -152,7 +152,7 @@ js-export:
 		echo "" ;\
 		$(JASPER_SERVER)/buildomatic/js-export.sh --uris \
 			/icinga \
-			--output-zip /tmp/icinga-reports.zip ;\
+			--output-zip /tmp/js-icinga-reports.zip ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -161,14 +161,14 @@ js-export:
 		echo "" ;\
 	else \
 		echo "" ;\
-		echo "New report package exported to /tmp/icinga-reports.zip" ;\
+		echo "New report package exported to /tmp/js-icinga-reports.zip" ;\
 		echo "*** Japser Reports successfully exported ***" ;\
 		echo "" ;\
 	fi
 
 js-update:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/icinga-reports.zip --update ;\
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-reports.zip --update ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

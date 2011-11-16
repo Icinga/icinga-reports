@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Availability Report for given host for the last year" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service downtime report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.210000000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="415"/>
-	<import value="org.icinga.reporting.DateHelper"/>
+	<property name="ireport.y" value="598"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
-	<parameter name="p_date_start" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[DateHelper.getLastYearStart()]]></defaultValueExpression>
-	</parameter>
-	<parameter name="p_date_end" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[DateHelper.getLastYearEnd()]]></defaultValueExpression>
-	</parameter>
+	<parameter name="p_service_object_id" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select name1,
-  address
+  name2
 from icinga_objects,
-  icinga_hosts
-where icinga_objects.object_id = icinga_hosts.host_object_id
-and object_id                  = $P{p_host_object_id}]]>
+  icinga_services
+where icinga_objects.object_id = icinga_services.service_object_id
+and object_id                  = $P{p_service_object_id}]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="address" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="name1" class="java.lang.String"/>
+	<field name="name2" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="800">
-			<rectangle>
+			<rectangle radius="0">
 				<reportElement x="0" y="0" width="555" height="800" forecolor="#908B8B"/>
 				<graphicElement>
 					<pen lineStyle="Solid"/>
@@ -48,7 +37,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_header"]]></imageExpression>
 			</image>
 			<line>
-				<reportElement x="0" y="75" width="555" height="1"/>
+				<reportElement x="0" y="74" width="555" height="1"/>
 				<graphicElement>
 					<pen lineWidth="20.0"/>
 				</graphicElement>
@@ -64,7 +53,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Host Availability Report For Last Year]]></text>
+				<text><![CDATA[Service Downtime Report]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="84" y="312" width="105" height="20" forecolor="#000000"/>
@@ -74,11 +63,11 @@ and object_id                  = $P{p_host_object_id}]]>
 				<text><![CDATA[Description:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="196" y="312" width="290" height="20"/>
+				<reportElement mode="Transparent" x="196" y="312" width="290" height="20"/>
 				<textElement verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Availability Report for given host and dependant services for the last month]]></text>
+				<text><![CDATA[This reports shows all downtimes for a given service]]></text>
 			</staticText>
 			<line>
 				<reportElement x="197" y="331" width="295" height="1"/>
@@ -109,43 +98,15 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Hostadress:]]></text>
+				<text><![CDATA[Servicename:]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="Cover" x="196" y="410" width="290" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="197" y="429" width="295" height="1"/>
-				<graphicElement>
-					<pen lineStyle="Dashed" lineColor="#908B8B"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement x="87" y="475" width="105" height="20" forecolor="#000000"/>
-				<textElement verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Period:]]></text>
-			</staticText>
-			<textField>
-				<reportElement style="Cover" x="196" y="475" width="64" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Cover" x="275" y="475" width="64" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Cover" x="260" y="475" width="15" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="197" y="494" width="295" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dashed" lineColor="#908B8B"/>
 				</graphicElement>
@@ -187,13 +148,6 @@ and object_id                  = $P{p_host_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="Header" x="5" y="18" width="60" height="15"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Period:]]></text>
-			</staticText>
-			<staticText>
 				<reportElement style="Header" x="5" y="3" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
@@ -213,55 +167,13 @@ and object_id                  = $P{p_host_object_id}]]>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField>
-				<reportElement style="Header" x="65" y="18" width="60" height="15"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Header" x="140" y="18" width="60" height="15"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Header" x="125" y="18" width="15" height="15"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="50" splitType="Stretch">
-			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_host_object_id">
-					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_host_name">
-					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
-			</subreport>
-		</band>
+		<band height="50" splitType="Stretch"/>
 	</detail>
 	<columnFooter>
 		<band splitType="Stretch"/>

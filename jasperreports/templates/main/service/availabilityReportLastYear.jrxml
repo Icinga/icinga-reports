@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.service.availability.lastyear" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability report for last year" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="415"/>
 	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -32,126 +32,145 @@ and object_id                  = $P{p_service_object_id}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="660">
-			<image>
-				<reportElement x="0" y="0" width="555" height="202"/>
-				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.png"]]></imageExpression>
-			</image>
-			<rectangle radius="2">
-				<reportElement x="110" y="347" width="132" height="20" backcolor="#DCDCDC"/>
+		<band height="800">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="800" forecolor="#908B8B"/>
 				<graphicElement>
-					<pen lineColor="#666666"/>
+					<pen lineStyle="Solid"/>
 				</graphicElement>
 			</rectangle>
+			<image>
+				<reportElement x="0" y="0" width="555" height="70"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_header"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="74" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="20.0"/>
+				</graphicElement>
+			</line>
+			<rectangle radius="5">
+				<reportElement x="33" y="190" width="490" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="190" width="554" height="25" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Service Availability Report For Last Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="312" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="196" y="312" width="290" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Availability Report for given service for the last year]]></text>
+			</staticText>
+			<line>
+				<reportElement x="197" y="331" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="87" y="385" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostname:]]></text>
+			</staticText>
 			<textField>
-				<reportElement style="Cover" x="250" y="347" width="243" height="20"/>
+				<reportElement style="Cover" x="196" y="385" width="290" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="197" y="404" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="87" y="410" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Servicename:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="196" y="410" width="290" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
 			</textField>
-			<rectangle radius="5">
-				<reportElement x="81" y="162" width="3" height="400" forecolor="#000000" backcolor="#666666"/>
+			<line>
+				<reportElement x="197" y="429" width="295" height="1"/>
 				<graphicElement>
-					<pen lineWidth="0.0"/>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
 				</graphicElement>
-			</rectangle>
-			<rectangle radius="5">
-				<reportElement x="78" y="162" width="3" height="425" forecolor="#000000" backcolor="#F1F1F1"/>
-				<graphicElement>
-					<pen lineWidth="0.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="5">
-				<reportElement x="75" y="162" width="3" height="450" forecolor="#000000" backcolor="#DCDCDC"/>
-				<graphicElement>
-					<pen lineWidth="0.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="110" y="282" width="400" height="52" backcolor="#F1F1F1"/>
-				<graphicElement>
-					<pen lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
+			</line>
 			<staticText>
-				<reportElement style="Cover" x="115" y="284" width="400" height="50"/>
-				<textElement/>
-				<text><![CDATA[Availability Report for given service for the last year]]></text>
-			</staticText>
-			<rectangle radius="2">
-				<reportElement x="110" y="260" width="132" height="20" backcolor="#DCDCDC"/>
-				<graphicElement>
-					<pen lineColor="#666666"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement style="Cover" x="115" y="260" width="132" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Description]]></text>
-			</staticText>
-			<image>
-				<reportElement x="0" y="45" width="250" height="91"/>
-				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_big.png"]]></imageExpression>
-			</image>
-			<rectangle radius="2">
-				<reportElement x="110" y="403" width="132" height="20" backcolor="#DCDCDC"/>
-				<graphicElement>
-					<pen lineColor="#666666"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement style="Cover" x="115" y="402" width="132" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="87" y="475" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Period:]]></text>
 			</staticText>
-			<rectangle radius="2">
-				<reportElement x="110" y="423" width="132" height="20" backcolor="#DCDCDC"/>
-				<graphicElement>
-					<pen lineColor="#666666"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement style="Cover" x="115" y="422" width="132" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Creation:]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement style="Cover" x="250" y="422" width="213" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<textField>
-				<reportElement style="Cover" x="250" y="403" width="80" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement style="Cover" x="196" y="475" width="64" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Cover" x="343" y="403" width="80" height="20"/>
+				<reportElement style="Cover" x="275" y="475" width="64" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Cover" x="328" y="403" width="15" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement style="Cover" x="260" y="475" width="15" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement style="Cover" x="115" y="347" width="132" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Servicename:]]></text>
-			</staticText>
-			<rectangle radius="2">
-				<reportElement x="110" y="190" width="330" height="25" backcolor="#EA9F1B"/>
+			<line>
+				<reportElement x="197" y="494" width="295" height="1"/>
 				<graphicElement>
-					<pen lineColor="#666666"/>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
 				</graphicElement>
-			</rectangle>
+			</line>
 			<staticText>
-				<reportElement style="Headline" x="115" y="190" width="330" height="25"/>
+				<reportElement x="89" y="500" width="105" height="20" forecolor="#000000"/>
 				<textElement verticalAlignment="Middle">
-					<font size="14"/>
+					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Service Availability Report For Last Year]]></text>
+				<text><![CDATA[Creation:]]></text>
 			</staticText>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement style="Cover" x="196" y="500" width="290" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="197" y="519" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="1" y="608" width="200" height="191"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_blume"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -161,7 +180,7 @@ and object_id                  = $P{p_service_object_id}]]>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_small.png"]]></imageExpression>
 			</image>
 			<rectangle radius="3">
-				<reportElement x="0" y="0" width="300" height="35" backcolor="#FAFADC"/>
+				<reportElement x="0" y="0" width="300" height="35" backcolor="#3D99AD"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>

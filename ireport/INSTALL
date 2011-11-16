@@ -20,7 +20,7 @@ Templates for iReport
 
 	Copy the templates in the template folder to your iReport installation. As example:
 
-		~/icinga-reports/ireport$ cp -r ./ireport /opt/iReport-4.0.2/.
+		~/icinga-reports/ireport/templates/1.6 $ cp -r * /opt/iReport-4.1.3/ireport/templates/.
 
 
 2.) Using templates

@@ -200,7 +200,7 @@ install-jar-files:
 
 install-mysql-connector:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/mysql/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar $(JASPER_SERVER)/apache-tomcat/lib ;\
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/connector/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar $(JASPER_SERVER)/apache-tomcat/lib ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

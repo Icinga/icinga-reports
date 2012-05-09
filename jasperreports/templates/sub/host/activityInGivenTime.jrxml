@@ -17,8 +17,10 @@
 			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
   state,
   count(*)
-from icinga_notifications
-where object_id = $P{p_object_id}
+from icinga_notifications, icinga_objects
+where icinga_notifications.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.is_active = 1
 and start_time between $P{p_date_start} and $P{p_date_end}
 group by month(start_time), state]]>
 		</queryString>
@@ -46,8 +48,10 @@ group by month(start_time), state]]>
 			<![CDATA[select DATE_FORMAT(state_time, '%b %Y')date,
   state,
   count(*)
-from icinga_statehistory
-where object_id = $P{p_object_id}
+from icinga_statehistory, icinga_objects
+where icinga_statehistory.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.is_active = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
 group by month(state_time), state]]>
 		</queryString>
@@ -75,8 +79,10 @@ group by month(state_time), state]]>
 			<![CDATA[select DATE_FORMAT(entry_time, '%b %Y') date,
   state,
   count(*)
-from icinga_acknowledgements
-where object_id = $P{p_object_id}
+from icinga_acknowledgements, icinga_objects
+where icinga_acknowledgements.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_acknowledgements.object_id
+and icinga_objects.is_active = 1
 and entry_time between $P{p_date_start} and $P{p_date_end}
 group by month(entry_time), state]]>
 		</queryString>

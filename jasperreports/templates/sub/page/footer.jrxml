@@ -22,7 +22,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Icinga Reports - Version 1.6 © Icinga Development Team (www.icinga.org)]]></text>
+				<text><![CDATA[Icinga Reports - Version 1.7 © Icinga Development Team (www.icinga.org)]]></text>
 			</staticText>
 		</band>
 	</detail>

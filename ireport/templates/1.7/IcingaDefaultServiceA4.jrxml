@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service downtime report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.210000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="598"/>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_service_object_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select name1,
+  name2
+from icinga_objects,
+  icinga_services
+where icinga_objects.object_id = icinga_services.service_object_id
+and object_id                  = $P{p_service_object_id}]]>
+	</queryString>
+	<field name="name1" class="java.lang.String"/>
+	<field name="name2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="800">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="800" forecolor="#908B8B"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="0" y="0" width="555" height="70"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_header"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="74" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="20.0"/>
+				</graphicElement>
+			</line>
+			<rectangle radius="5">
+				<reportElement x="33" y="190" width="490" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="190" width="554" height="25" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Service Downtime Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="312" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="196" y="312" width="290" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[This reports shows all downtimes for a given service]]></text>
+			</staticText>
+			<line>
+				<reportElement x="197" y="331" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="87" y="385" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostname:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="196" y="385" width="290" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="197" y="404" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="87" y="410" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Servicename:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="196" y="410" width="290" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="197" y="429" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="89" y="500" width="105" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creation:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement style="Cover" x="196" y="500" width="290" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="197" y="519" width="295" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#908B8B"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="1" y="608" width="200" height="191"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_blume"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="37" splitType="Stretch">
+			<image>
+				<reportElement x="461" y="0" width="94" height="35"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_small.png"]]></imageExpression>
+			</image>
+			<rectangle radius="3">
+				<reportElement x="0" y="0" width="300" height="35" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="Header" x="5" y="3" width="60" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Hostname:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Header" x="65" y="3" width="185" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="0" y="35" width="555" height="2" forecolor="#000000" backcolor="#666666"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="50" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement style="Footer" x="435" y="2" width="80" height="30"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="515" y="2" width="40" height="30"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="2" forecolor="#000000" backcolor="#666666"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<subreport>
+				<reportElement x="0" y="0" width="435" height="32"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -3,30 +3,30 @@ Templates for iReport
 
 0.) Prerequisites
 
-	You need a running Icinga with IDO
+You need a running Icinga with IDO
 
-	If there's something missing on your system, please refer to the Icinga
-	documentation website:
+If there's something missing on your system, please refer to the Icinga
+documentation website:
 
-    		http://docs.icinga.org/
+http://docs.icinga.org/
 
-	For using the templates you need a running iReport. Download and a installtion
-	guide cann you find on the website:
+For using the templates you need a running iReport. Download and a installtion
+guide cann you find on the website:
 
-		http://jasperforge.org/projects/ireport
+http://jasperforge.org/projects/ireport
 
 
 1.) Installation
 
-	Copy the templates in the template folder to your iReport installation. As example:
+Copy the templates in the template folder to your iReport installation. As example:
 
-		~/icinga-reports/ireport/templates/1.6 $ cp -r * /opt/iReport-4.1.3/ireport/templates/.
+~/icinga-reports/ireport/templates/{version} $ cp -r * /opt/iReport-{version}/ireport/templates/.
 
 
 2.) Using templates
 
-	Open iReport and select "File -> New". In the Wizard select "Report" and select a Icinga report.
-	Now you can begin to create your own Icinga report.
+Open iReport and select "File -> New". In the Wizard select "Report" and select a Icinga report.
+Now you can begin to create your own Icinga report.
 
 
-	Have fun!
+Have fun!

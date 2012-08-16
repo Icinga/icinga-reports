@@ -84,7 +84,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[Downtime Report for host]]></text>
+				<text><![CDATA[Downtime Report for given host]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000"/>

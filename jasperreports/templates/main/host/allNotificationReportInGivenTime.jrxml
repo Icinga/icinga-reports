@@ -79,7 +79,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[The report shows all notifiations for all hosts in given time]]></text>
+				<text><![CDATA[The report shows all notifications for all hosts in given time]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000"/>
@@ -200,7 +200,36 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="25" splitType="Stretch"/>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="400" height="25"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+			</subreport>
+			<rectangle radius="0">
+				<reportElement x="550" y="0" width="5" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>

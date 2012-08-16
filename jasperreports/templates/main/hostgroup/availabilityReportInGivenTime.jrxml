@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Availability report about a selected Hostgroup in a given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="303"/>
+	<property name="ireport.y" value="304"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
@@ -82,7 +82,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Hostgroup Availability]]></text>
+				<text><![CDATA[Hostgroup Availability Report]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF"/>

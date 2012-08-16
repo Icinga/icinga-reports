@@ -3,6 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="304"/>
+	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
@@ -13,6 +14,13 @@
 	</parameter>
 	<parameter name="p_date_end" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select a.host_object_id,
@@ -172,7 +180,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 			<textField>
 				<reportElement style="Cover" x="160" y="420" width="310" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{p_date_start}.toString() + " - " + $P{p_date_end}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -190,7 +198,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Hostgroup Availability Report for " + $F{alias} + "\n" +
-"Timerange: " + $P{p_date_start}.toString() + " to " + $P{p_date_end}.toString()]]></textFieldExpression>
+"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement x="530" y="2" width="21" height="21"/>
@@ -211,20 +219,20 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 		<band height="50">
 			<subreport>
 				<reportElement x="0" y="0" width="555" height="50"/>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_host_object_id">
 					<subreportParameterExpression><![CDATA[$F{host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>

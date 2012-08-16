@@ -9,3 +9,5 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - added new template design and corrected some template issues
 - modifed ireport base template to fit new design
 - fixed some typos in report titles
+- deleted all weekly, monthly and yearly SLA reports and created a combined one
+- integrated SLA function for MySQL -> Thanks to Thomas Gelf

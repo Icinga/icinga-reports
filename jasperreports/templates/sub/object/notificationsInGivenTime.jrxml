@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Notifications for Object in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="p_object_id" class="java.lang.String"/>
@@ -50,58 +50,58 @@ order by start_time]]>
 	</title>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="400" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement x="5" y="5" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Notifications for Object:]]></text>
+				<text><![CDATA[Notifications for object:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="125" y="5" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="22" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#999999">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Solid"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="130" y="0" width="85" height="20"/>
+				<reportElement x="130" y="0" width="85" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Escalated]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="0" width="25" height="20"/>
+				<reportElement x="100" y="0" width="25" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[State]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="295" y="0" width="250" height="20"/>
+				<reportElement x="295" y="0" width="250" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Output]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="215" y="0" width="80" height="20"/>
+				<reportElement x="215" y="0" width="80" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Contacts]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="0" width="95" height="20"/>
+				<reportElement x="5" y="0" width="95" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Notification Time]]></text>
 			</staticText>
@@ -109,71 +109,79 @@ order by start_time]]>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#F1F1F1">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
 				<reportElement x="100" y="0" width="25" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{state}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="295" y="0" width="250" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{output}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="130" y="0" width="85" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{escalated}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{escalated}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="215" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{contacts_notified}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{contacts_notified}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="5" y="0" width="95" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{start_time}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="30" splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="245" y="10" width="300" height="20" backcolor="#3F99AD"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
 			<textField>
-				<reportElement x="445" y="10" width="100" height="20"/>
-				<textElement>
+				<reportElement x="410" y="10" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="300" y="10" width="140" height="20"/>
-				<textElement>
+				<reportElement x="255" y="10" width="150" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Notications for this Object:]]></text>
+				<text><![CDATA[Notifications for this object:]]></text>
 			</staticText>
-			<line>
-				<reportElement x="300" y="30" width="245" height="1"/>
-				<graphicElement>
-					<pen lineWidth="3.0" lineStyle="Double"/>
-				</graphicElement>
-			</line>
 		</band>
 	</summary>
 </jasperReport>

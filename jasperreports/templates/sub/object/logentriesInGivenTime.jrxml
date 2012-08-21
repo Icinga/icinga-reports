@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Logentries for Object in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="p_weekday_start" class="java.lang.String">
@@ -25,36 +25,36 @@ ORDER BY entry_time]]>
 	</title>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
-			<rectangle radius="2">
+			<rectangle radius="0">
 				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
 				<reportElement x="5" y="5" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Log Entries:]]></text>
+				<text><![CDATA[Log Entries for given time:]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="22" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="555" height="20" backcolor="#999999">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Solid"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="105" y="0" width="443" height="20"/>
+				<reportElement x="105" y="0" width="443" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Log Entry]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="0" width="95" height="20"/>
+				<reportElement x="5" y="0" width="95" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Log Entry Time]]></text>
 			</staticText>
@@ -62,24 +62,62 @@ ORDER BY entry_time]]>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="555" height="20" backcolor="#F1F1F1">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
 				<reportElement x="5" y="0" width="95" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{entry_time}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{entry_time}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="105" y="0" width="443" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{logentry_data}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{logentry_data}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
+	<columnFooter>
+		<band height="10"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10"/>
+	</pageFooter>
+	<summary>
+		<band height="42">
+			<rectangle radius="0">
+				<reportElement x="245" y="10" width="300" height="20" backcolor="#3F99AD"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="410" y="10" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="255" y="10" width="150" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Statechanges for given time:]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>

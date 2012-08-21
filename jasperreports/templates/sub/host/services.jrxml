@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host services sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="p_host_object_id" class="java.lang.String"/>
@@ -40,10 +40,10 @@ and b.host_object_id    = $P{p_host_object_id}]]>
 	</title>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F1F1F1"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
@@ -56,37 +56,37 @@ and b.host_object_id    = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="22" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#999999">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Solid"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="0" width="110" height="20"/>
+				<reportElement x="5" y="0" width="110" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Servicename]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="115" y="0" width="120" height="20"/>
+				<reportElement x="115" y="0" width="120" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Displayname]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="235" y="0" width="75" height="20"/>
+				<reportElement x="235" y="0" width="75" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Current State]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="310" y="0" width="140" height="20"/>
+				<reportElement x="310" y="0" width="140" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Command]]></text>
 			</staticText>
@@ -94,12 +94,20 @@ and b.host_object_id    = $P{p_host_object_id}]]>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#F1F1F1">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
@@ -107,52 +115,52 @@ and b.host_object_id    = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{display_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{display_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="5" y="0" width="110" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="310" y="0" width="219" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{check_command}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{check_command}]]></textFieldExpression>
 			</textField>
-			<rectangle radius="2">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#66FF66">
+			<rectangle radius="4">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#00CC00">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#FFFF66">
+			<rectangle radius="4">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#FFFF00">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 1 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#FF3333">
+			<rectangle radius="4">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#CC0000">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 2 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#FF9933">
+			<rectangle radius="4">
+				<reportElement x="249" y="2" width="38" height="16" backcolor="#FF8000">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 3 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
 		</band>

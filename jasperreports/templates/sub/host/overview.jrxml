@@ -1,29 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host overview sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="146"/>
-	<subDataset name="graph_notifications">
+	<property name="ireport.y" value="288"/>
+	<subDataset name="graph_activity">
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[select DATE_FORMAT(start_time, '%b %Y') date,
+			<![CDATA[select state_time as date,
   state,
-  count(*)
-from icinga_notifications
-where object_id = $P{p_object_id}
-group by month(start_time), state]]>
+  'State changes' as type,
+  sum(state) as number
+from icinga_statehistory, icinga_objects
+where icinga_statehistory.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.is_active = 1
+group by extract(month from state_time), state
+union all
+select start_time as date,
+  state,
+  'Notifications' as type,
+  sum(state) as number
+from icinga_notifications, icinga_objects
+where icinga_notifications.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.is_active = 1
+group by extract(month from start_time), state
+union all
+select entry_time as date,
+  state,
+  'Acknowledgements' as type,
+  sum(state) as number
+from icinga_acknowledgements, icinga_objects
+where icinga_acknowledgements.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_acknowledgements.object_id
+and icinga_objects.is_active = 1
+group by extract(month from entry_time), state
+order by date]]>
 		</queryString>
-		<field name="date" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="state" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="count(*)" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="date" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="type" class="java.lang.String"/>
+		<field name="number" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="p_host_object_id" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -62,101 +81,97 @@ and object_id                  = $P{p_host_object_id}]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="285">
-			<rectangle radius="2">
-				<reportElement x="6" y="107" width="160" height="175" backcolor="#F1F1F1"/>
+		<band height="375">
+			<rectangle radius="0">
+				<reportElement x="5" y="25" width="80" height="40" backcolor="#F5F5F5"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="11" y="112" width="150" height="111"/>
-				<textElement markup="none">
-					<font isItalic="false"/>
-				</textElement>
-				<text><![CDATA[This graph displays the notifications for given host
-
-    0 = Up
-    1 = Down
-    2 = Unreachable]]></text>
-			</staticText>
-			<rectangle radius="2">
-				<reportElement x="8" y="5" width="160" height="20" backcolor="#F1F1F1"/>
-				<graphicElement>
-					<pen lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="13" y="5" width="132" height="20"/>
+				<reportElement x="10" y="25" width="75" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Hostname:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="178" y="5" width="243" height="20"/>
+				<reportElement x="90" y="25" width="243" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
-			<rectangle radius="2">
-				<reportElement x="8" y="35" width="160" height="20" backcolor="#F1F1F1"/>
-				<graphicElement>
-					<pen lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
 			<staticText>
-				<reportElement x="13" y="35" width="132" height="20"/>
+				<reportElement x="10" y="45" width="75" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Address:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="178" y="35" width="243" height="20"/>
+				<reportElement x="90" y="45" width="243" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
-			<rectangle radius="2">
-				<reportElement x="8" y="65" width="160" height="20" backcolor="#F1F1F1"/>
+			<rectangle radius="0">
+				<reportElement x="5" y="70" width="80" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="13" y="65" width="132" height="20"/>
+				<reportElement x="10" y="70" width="75" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Current State:]]></text>
 			</staticText>
-			<rectangle radius="2">
-				<reportElement x="178" y="65" width="38" height="20" backcolor="#66FF66">
+			<rectangle radius="4">
+				<reportElement x="90" y="70" width="38" height="20" backcolor="#00CC00">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="178" y="65" width="38" height="20" backcolor="#FF3333">
+			<rectangle radius="4">
+				<reportElement x="90" y="70" width="38" height="20" backcolor="#CC0000">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 1 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="178" y="65" width="38" height="20" backcolor="#FF9933">
+			<rectangle radius="4">
+				<reportElement x="90" y="70" width="38" height="20" backcolor="#FF8000">
 					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 3 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="5" y="100" width="545" height="20" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="100" width="540" height="20"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<text><![CDATA[This graph displays notifications, state changes and acknowledgements for given host grouped by month]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="5" y="125" width="545" height="250" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<areaChart>
-				<chart theme="aegean">
-					<reportElement mode="Transparent" x="176" y="107" width="380" height="175"/>
-					<chartTitle/>
+				<chart>
+					<reportElement x="5" y="125" width="550" height="250"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Activity by month"]]></titleExpression>
+					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset resetType="None">
-						<datasetRun subDataset="graph_notifications">
+					<dataset>
+						<datasetRun subDataset="graph_activity">
 							<datasetParameter name="p_object_id">
 								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -164,25 +179,17 @@ and object_id                  = $P{p_host_object_id}]]>
 						</datasetRun>
 					</dataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[$F{state}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{count(*)}]]></valueExpression>
+						<seriesExpression><![CDATA[$F{type}]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM-yyyy").format($F{date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{number}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<areaPlot>
-					<plot foregroundAlpha="0.7"/>
-					<categoryAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</valueAxisFormat>
+					<plot foregroundAlpha="0.5" labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#CC0000"/>
+						<seriesColor seriesOrder="1" color="#00CC00"/>
+						<seriesColor seriesOrder="2" color="#FF8000"/>
+					</plot>
 				</areaPlot>
 			</areaChart>
 		</band>
@@ -196,7 +203,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/services"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/services"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -209,7 +216,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/hostgroups"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/hostgroups"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -222,7 +229,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/servicegroups"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/servicegroups"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
@@ -235,7 +242,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/contactgroups"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/contactgroups"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="51">
@@ -248,7 +255,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "host/contacts"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/contacts"]]></subreportExpression>
 			</subreport>
 			<break>
 				<reportElement x="0" y="50" width="100" height="1"/>

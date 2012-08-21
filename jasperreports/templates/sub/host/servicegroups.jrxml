@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host servicegroups sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="p_host_object_id" class="java.lang.String"/>
@@ -26,9 +26,9 @@ and c.host_object_id    = $P{p_host_object_id}]]>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
 			<rectangle radius="2">
-				<reportElement x="0" y="5" width="400" height="20" backcolor="#F1F1F1"/>
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F1F1F1"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
@@ -41,22 +41,22 @@ and c.host_object_id    = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_object_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_object_name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="22" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#999999">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Solid"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="0" width="95" height="20"/>
+				<reportElement x="5" y="0" width="95" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Servicegroup]]></text>
 			</staticText>
@@ -64,12 +64,20 @@ and c.host_object_id    = $P{p_host_object_id}]]>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#F1F1F1">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
 					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
+					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
@@ -77,7 +85,7 @@ and c.host_object_id    = $P{p_host_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{alias}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

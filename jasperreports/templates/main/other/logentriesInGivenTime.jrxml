@@ -2,7 +2,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Logentries in given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="320"/>
+	<property name="ireport.y" value="364"/>
+	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/other/LogEntries"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.56.101:8080/jasperserver/services/repository"/>
+	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
@@ -11,8 +14,15 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_weekday_end" class="java.lang.String"/>
-	<parameter name="p_time_start" class="java.lang.String"/>
-	<parameter name="p_time_end" class="java.lang.String"/>
+	<parameter name="p_date_start" class="java.sql.Timestamp"/>
+	<parameter name="p_date_end" class="java.sql.Timestamp"/>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT conninfo_id FROM icinga_conninfo LIMIT 0,1]]>
 	</queryString>
@@ -65,7 +75,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Log Entry Report]]></text>
+				<text><![CDATA[Logentry Report]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -79,7 +89,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[Report for all log entries in given time]]></text>
+				<text><![CDATA[Report for all logentries in given time]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000"/>
@@ -136,7 +146,7 @@
 			<textField>
 				<reportElement style="Cover" x="160" y="400" width="310" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{p_time_start}.toString() + " - " + $P{p_time_end}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000"/>
@@ -172,8 +182,8 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Log Entry Report" + "\n" +
-"Timerange: " + $P{p_time_start}.toString() + " to " + $P{p_time_end}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Logentry Report" + "\n" +
+"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement x="530" y="2" width="21" height="21"/>
@@ -198,7 +208,7 @@
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_time_end">
-					<subreportParameterExpression><![CDATA[$P{p_time_end}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_weekday_start">
 					<subreportParameterExpression><![CDATA[$P{p_weekday_start}]]></subreportParameterExpression>
@@ -207,7 +217,7 @@
 					<subreportParameterExpression><![CDATA[$P{p_weekday_end}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_time_start">
-					<subreportParameterExpression><![CDATA[$P{p_time_start}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "object/logEntriesInGivenTime"]]></subreportExpression>

@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<subDataset name="graph_activity">
+	<subDataset name="graph_activity_monthly">
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
@@ -17,41 +17,91 @@
 			<![CDATA[select state_time as date,
   state,
   'State changes' as type,
-  count(*)
+  sum(state) as number
 from icinga_statehistory, icinga_objects
 where icinga_statehistory.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.is_active = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by state_time, state
+group by extract(month from state_time), state
 union all
 select start_time as date,
   state,
   'Notifications' as type,
-  count(*)
+  sum(state) as number
 from icinga_notifications, icinga_objects
 where icinga_notifications.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.is_active = 1
 and start_time between $P{p_date_start} and $P{p_date_end}
-group by start_time, state
+group by extract(month from start_time), state
 union all
 select entry_time as date,
   state,
   'Acknowledgements' as type,
-  count(*)
+  sum(state) as number
 from icinga_acknowledgements, icinga_objects
 where icinga_acknowledgements.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.is_active = 1
 and entry_time between $P{p_date_start} and $P{p_date_end}
-group by entry_time, state
+group by extract(month from entry_time), state
 order by date]]>
 		</queryString>
 		<field name="date" class="java.sql.Timestamp"/>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="type" class="java.lang.String"/>
-		<field name="count(*)" class="java.lang.Long"/>
+		<field name="number" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="graph_activity_daily">
+		<parameter name="p_object_id" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select state_time as date,
+  state,
+  'State changes' as type,
+  sum(state) as number
+from icinga_statehistory, icinga_objects
+where icinga_statehistory.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.is_active = 1
+and state_time between $P{p_date_start} and $P{p_date_end}
+group by extract(day from state_time), state
+union all
+select start_time as date,
+  state,
+  'Notifications' as type,
+  sum(state) as number
+from icinga_notifications, icinga_objects
+where icinga_notifications.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.is_active = 1
+and start_time between $P{p_date_start} and $P{p_date_end}
+group by extract(day from start_time), state
+union all
+select entry_time as date,
+  state,
+  'Acknowledgements' as type,
+  sum(state) as number
+from icinga_acknowledgements, icinga_objects
+where icinga_acknowledgements.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_acknowledgements.object_id
+and icinga_objects.is_active = 1
+and entry_time between $P{p_date_start} and $P{p_date_end}
+group by extract(day from entry_time), state
+order by date]]>
+		</queryString>
+		<field name="date" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="type" class="java.lang.String"/>
+		<field name="number" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="p_service_object_id" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -93,12 +143,6 @@ and object_id                  = $P{p_service_object_id}]]>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="0">
-				<reportElement x="5" y="100" width="550" height="250" backcolor="#F5F5F5"/>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
 			<staticText>
 				<reportElement x="10" y="75" width="545" height="20"/>
 				<textElement verticalAlignment="Middle" markup="none"/>
@@ -111,23 +155,105 @@ and object_id                  = $P{p_service_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="25" width="130" height="20"/>
+				<reportElement x="10" y="25" width="135" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Activity Report for service:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="140" y="25" width="265" height="20"/>
+				<reportElement x="145" y="25" width="260" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{display_name}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
+				<reportElement x="5" y="100" width="550" height="250" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
 				<reportElement x="5" y="355" width="550" height="250" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
+			<areaChart>
+				<chart>
+					<reportElement x="5" y="100" width="550" height="250"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Activity by month"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graph_activity_monthly">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{type}]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM-yyyy").format($F{date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{number}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.5" labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#CC0000"/>
+						<seriesColor seriesOrder="1" color="#00CC00"/>
+						<seriesColor seriesOrder="2" color="#FF8000"/>
+					</plot>
+				</areaPlot>
+			</areaChart>
+			<areaChart>
+				<chart>
+					<reportElement x="5" y="355" width="550" height="250"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Activity by day"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graph_activity_daily">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{type}]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($F{date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{number}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.5" labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#CC0000"/>
+						<seriesColor seriesOrder="1" color="#00CC00"/>
+						<seriesColor seriesOrder="2" color="#FF8000"/>
+					</plot>
+				</areaPlot>
+			</areaChart>
 		</band>
 		<band height="50">
 			<subreport>

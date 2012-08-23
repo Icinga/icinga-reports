@@ -79,43 +79,25 @@ order by events desc limit 0,10]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
-	<subDataset name="graph_unknown">
-		<parameter name="p_date_start" class="java.lang.String">
+	<subDataset name="graph_sla">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[select icinga_objects.object_id,
-  name1,
-  name2,
-  state,
-  count(state) events
-from icinga_objects,
-  icinga_statehistory
-where icinga_objects.object_id   = icinga_statehistory.object_id
-and icinga_objects.objecttype_id = 2
-and state                        = 3
-and state_time between $P{p_date_start} and $P{p_date_end}
-group by name2
-order by events desc limit 0,10]]>
+			<![CDATA[SELECT
+    name2,
+    icinga_availability(object_id, $P{p_date_start}, $P{p_date_end}) as sla
+  FROM icinga_objects
+  WHERE is_active = 1
+    AND objecttype_id = 2
+    AND icinga_availability(object_id, $P{p_date_start}, $P{p_date_end}) > 0
+  ORDER BY sla limit 0,10;]]>
 		</queryString>
-		<field name="object_id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="name1" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="name2" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="state" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="events" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="name2" class="java.lang.String"/>
+		<field name="sla" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -146,15 +128,15 @@ order by events desc limit 0,10]]>
 	</columnHeader>
 	<detail>
 		<band height="600" splitType="Stretch">
-			<rectangle radius="2">
-				<reportElement x="5" y="65" width="550" height="175" backcolor="#F1F1F1"/>
+			<rectangle radius="0">
+				<reportElement x="5" y="215" width="545" height="175" backcolor="#F4F4F4"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<bar3DChart>
-				<chart isShowLegend="false" theme="generic">
-					<reportElement mode="Transparent" x="5" y="65" width="550" height="175"/>
+				<chart isShowLegend="false" theme="default">
+					<reportElement mode="Transparent" x="5" y="215" width="545" height="175"/>
 					<chartTitle>
 						<font isBold="true"/>
 						<titleExpression><![CDATA["Top 10 services with state critical"]]></titleExpression>
@@ -181,13 +163,12 @@ order by events desc limit 0,10]]>
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
-					<plot orientation="Horizontal" labelRotation="0.0">
-						<seriesColor seriesOrder="0" color="#FF3333"/>
+					<plot orientation="Horizontal" foregroundAlpha="0.5" labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#CC0000"/>
 					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
-					<categoryAxisFormat labelRotation="0.0">
+					<categoryAxisFormat labelRotation="45.0">
 						<axisFormat verticalTickLabels="true">
-							<labelFont/>
 							<tickLabelFont>
 								<font size="8"/>
 							</tickLabelFont>
@@ -195,7 +176,6 @@ order by events desc limit 0,10]]>
 					</categoryAxisFormat>
 					<valueAxisFormat>
 						<axisFormat verticalTickLabels="false">
-							<labelFont/>
 							<tickLabelFont>
 								<font size="8"/>
 							</tickLabelFont>
@@ -203,21 +183,21 @@ order by events desc limit 0,10]]>
 					</valueAxisFormat>
 				</bar3DPlot>
 			</bar3DChart>
-			<rectangle radius="2">
-				<reportElement x="5" y="5" width="400" height="30" backcolor="#F1F1F1"/>
+			<rectangle radius="0">
+				<reportElement x="5" y="5" width="300" height="20" backcolor="#F1F1F1"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
-			<rectangle radius="2">
-				<reportElement x="5" y="245" width="550" height="175" backcolor="#F1F1F1"/>
+			<rectangle radius="0">
+				<reportElement x="5" y="395" width="545" height="175" backcolor="#F4F4F4"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<bar3DChart>
-				<chart isShowLegend="false" theme="generic">
-					<reportElement mode="Transparent" x="5" y="245" width="550" height="175"/>
+				<chart isShowLegend="false" theme="default">
+					<reportElement mode="Transparent" x="5" y="395" width="545" height="175"/>
 					<chartTitle>
 						<font isBold="true"/>
 						<titleExpression><![CDATA["Top 10 services with state warning"]]></titleExpression>
@@ -244,13 +224,12 @@ order by events desc limit 0,10]]>
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
-					<plot orientation="Horizontal" labelRotation="0.0">
+					<plot orientation="Horizontal" foregroundAlpha="0.5" labelRotation="45.0">
 						<seriesColor seriesOrder="0" color="#FFFF33"/>
 					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
-					<categoryAxisFormat labelRotation="0.0">
+					<categoryAxisFormat labelRotation="45.0">
 						<axisFormat verticalTickLabels="true">
-							<labelFont/>
 							<tickLabelFont>
 								<font size="8"/>
 							</tickLabelFont>
@@ -258,7 +237,6 @@ order by events desc limit 0,10]]>
 					</categoryAxisFormat>
 					<valueAxisFormat>
 						<axisFormat verticalTickLabels="false">
-							<labelFont/>
 							<tickLabelFont>
 								<font size="8"/>
 							</tickLabelFont>
@@ -266,25 +244,30 @@ order by events desc limit 0,10]]>
 					</valueAxisFormat>
 				</bar3DPlot>
 			</bar3DChart>
-			<rectangle radius="2">
-				<reportElement x="5" y="425" width="550" height="175" backcolor="#F1F1F1"/>
+			<staticText>
+				<reportElement x="10" y="5" width="282" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Top 10 Service Report]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="5" y="35" width="545" height="175" backcolor="#F4F4F4"/>
 				<graphicElement>
-					<pen lineStyle="Dotted"/>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<bar3DChart>
-				<chart isShowLegend="false" theme="generic">
-					<reportElement mode="Transparent" x="5" y="425" width="550" height="175"/>
+				<chart isShowLegend="false" theme="default">
+					<reportElement mode="Transparent" x="5" y="35" width="545" height="175"/>
 					<chartTitle>
 						<font isBold="true"/>
-						<titleExpression><![CDATA["Top 10 services with state unknown"]]></titleExpression>
+						<titleExpression><![CDATA["Top 10 services with SLA impact"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="graph_unknown">
+						<datasetRun subDataset="graph_sla">
 							<datasetParameter name="p_date_start">
 								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -295,19 +278,18 @@ order by events desc limit 0,10]]>
 						</datasetRun>
 					</dataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
+						<seriesExpression><![CDATA["SLA"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{name2}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{events}]]></valueExpression>
+						<valueExpression><![CDATA[$F{sla}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="5.0">
-					<plot orientation="Horizontal" labelRotation="0.0">
-						<seriesColor seriesOrder="0" color="#FF9933"/>
+					<plot orientation="Horizontal" foregroundAlpha="0.5" labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#00CC00"/>
 					</plot>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
-					<categoryAxisFormat labelRotation="0.0">
+					<categoryAxisFormat labelRotation="45.0">
 						<axisFormat verticalTickLabels="true">
-							<labelFont/>
 							<tickLabelFont>
 								<font size="8"/>
 							</tickLabelFont>
@@ -315,7 +297,6 @@ order by events desc limit 0,10]]>
 					</categoryAxisFormat>
 					<valueAxisFormat>
 						<axisFormat verticalTickLabels="false">
-							<labelFont/>
 							<tickLabelFont>
 								<font size="8"/>
 							</tickLabelFont>
@@ -323,11 +304,6 @@ order by events desc limit 0,10]]>
 					</valueAxisFormat>
 				</bar3DPlot>
 			</bar3DChart>
-			<staticText>
-				<reportElement x="10" y="5" width="282" height="30"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Top 10 Service Report]]></text>
-			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

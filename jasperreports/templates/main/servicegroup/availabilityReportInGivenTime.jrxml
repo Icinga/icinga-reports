@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service notification report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Availability report about a selected Servicegroup in a given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="364"/>
+	<property name="ireport.y" value="0"/>
 	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_servicegroup_object_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -22,9 +25,16 @@
 		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT conninfo_id FROM icinga_conninfo LIMIT 0,1]]>
+		<![CDATA[select a.service_object_id,
+  c.name1,
+  b.alias
+from icinga_servicegroup_members a,
+  icinga_servicegroups b,
+  icinga_objects c
+where a.servicegroup_id   = b.servicegroup_id
+and c.object_id           = a.service_object_id
+and b.servicegroup_object_id = $P{p_servicegroup_object_id}]]>
 	</queryString>
-	<field name="conninfo_id" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -50,7 +60,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="70" y="400" width="400" height="20" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<reportElement x="70" y="400" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
@@ -73,7 +83,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Service Notification Report]]></text>
+				<text><![CDATA[Servicegroup Availability Report]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -87,8 +97,20 @@
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[Service Notification Report for all Services in given time]]></text>
+				<text><![CDATA[Availability Report for servicegroup and dependant services]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostgroup:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="160" y="400" width="310" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000"/>
 				<textElement verticalAlignment="Middle">
@@ -120,7 +142,7 @@
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="70" y="400" width="5" height="20" backcolor="#3D99AD"/>
+				<reportElement x="70" y="400" width="5" height="40" backcolor="#3D99AD"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
@@ -141,18 +163,18 @@
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
-			<textField>
-				<reportElement style="Cover" x="160" y="400" width="310" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000"/>
+				<reportElement x="80" y="420" width="80" height="20" forecolor="#000000"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Timerange:]]></text>
 			</staticText>
+			<textField>
+				<reportElement style="Cover" x="160" y="420" width="310" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -163,6 +185,14 @@
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
+			<textField>
+				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Servicegroup Availability Report for " + $F{alias} + "\n" +
+"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
 			<image>
 				<reportElement x="530" y="2" width="21" height="21"/>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
@@ -173,34 +203,32 @@
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
-			<textField>
-				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Service Notification Report" + "\n" +
-"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="50" splitType="Stretch">
+		<band height="50">
 			<subreport>
 				<reportElement x="0" y="0" width="555" height="50"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$F{host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="p_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/allNotificationsInGivenTime"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/availabilityInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

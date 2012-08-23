@@ -1,6 +1,6 @@
-#######################
+############################
 Icinga Reporting Change Log
-#######################
+############################
 
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
@@ -11,3 +11,10 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - fixed some typos in report titles
 - deleted all weekly, monthly and yearly SLA reports and created a combined one
 - integrated SLA function for MySQL -> Thanks to Thomas Gelf
+- integrated SLA in the host-top10 report
+- updated charts in the activity report
+- enable preselected timeranges in every report
+- fixed logentry report
+- extend host-service top10 report with sla feature
+- fixed notification reports for host and services (dual line print)
+- integrated SLA in the service-top10 report

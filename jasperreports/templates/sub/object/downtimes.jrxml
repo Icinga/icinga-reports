@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.56.101:8080/jasperserver/services/repository"/>
-	<parameter name="p_service_object_id" class="java.lang.Integer"/>
+	<parameter name="p_object_id" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[SELECT
 	isd.author_name,
@@ -13,11 +13,11 @@
 	isd.scheduled_start_time,
 	isd.scheduled_end_time,
 	isd.duration,
-	io.name2 AS servicename
+	io.name2 AS name
 FROM icinga_scheduleddowntime AS isd
 INNER JOIN icinga_objects AS io
 ON isd.object_id = io.object_id
-WHERE io.object_id = $P{p_service_object_id}]]>
+WHERE io.object_id = $P{p_object_id}]]>
 	</queryString>
 	<field name="author_name" class="java.lang.String"/>
 	<field name="comment_data" class="java.lang.String"/>
@@ -25,29 +25,29 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 	<field name="scheduled_start_time" class="java.sql.Timestamp"/>
 	<field name="scheduled_end_time" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
-	<field name="servicename" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="40">
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="418" height="20" backcolor="#F1F1F1"/>
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F1F1F1"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="5" width="125" height="20"/>
+				<reportElement x="5" y="5" width="80" height="20"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Downtimes for service:]]></text>
+				<text><![CDATA[Downtimes for:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="130" y="5" width="288" height="20"/>
+				<reportElement x="85" y="5" width="215" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{servicename}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -67,22 +67,22 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 				<text><![CDATA[Author]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="436" y="0" width="65" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="433" y="0" width="65" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Endtime]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="506" y="0" width="40" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="500" y="0" width="45" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Duration]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="366" y="0" width="65" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="363" y="0" width="65" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Starttime]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="148" y="0" width="213" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="148" y="0" width="205" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Comment]]></text>
 			</staticText>
@@ -112,14 +112,14 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="148" y="0" width="213" height="40"/>
+				<reportElement x="148" y="0" width="205" height="40"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{comment_data}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="366" y="0" width="65" height="40"/>
+				<reportElement x="363" y="0" width="65" height="40"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -133,7 +133,7 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 				<textFieldExpression><![CDATA[$F{author_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="436" y="0" width="65" height="40"/>
+				<reportElement x="433" y="0" width="65" height="40"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -147,7 +147,7 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 				<textFieldExpression><![CDATA[$F{entry_time}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="506" y="0" width="40" height="40"/>
+				<reportElement x="500" y="0" width="45" height="40"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -181,7 +181,7 @@ WHERE io.object_id = $P{p_service_object_id}]]>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Acknowledgements for this object:]]></text>
+				<text><![CDATA[Downtimes for this object:]]></text>
 			</staticText>
 		</band>
 	</summary>

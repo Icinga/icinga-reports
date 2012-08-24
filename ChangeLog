@@ -18,3 +18,4 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - extend host-service top10 report with sla feature
 - fixed notification reports for host and services (dual line print)
 - integrated SLA in the service-top10 report
+- added servicegroup availability

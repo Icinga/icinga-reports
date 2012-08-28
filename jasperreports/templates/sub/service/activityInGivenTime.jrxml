@@ -149,7 +149,7 @@ and object_id                  = $P{p_service_object_id}]]>
 				<text><![CDATA[This graph displays notifications, state changes and acknowledgments for given service]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="5" y="25" width="400" height="20" backcolor="#F5F5F5"/>
+				<reportElement x="5" y="25" width="300" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
@@ -160,7 +160,7 @@ and object_id                  = $P{p_service_object_id}]]>
 				<text><![CDATA[Activity Report for service:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="145" y="25" width="260" height="20"/>
+				<reportElement x="145" y="25" width="160" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>

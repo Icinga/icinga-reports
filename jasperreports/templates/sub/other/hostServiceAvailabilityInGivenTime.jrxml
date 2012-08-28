@@ -4,18 +4,43 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.56.101:8080/jasperserver/services/repository"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
-	</parameter>
-	<parameter name="p_date_start" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="p_date_end" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[SELECT
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="query_hostserviceavailability">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_host_object_id" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT
   object_id,
   name1,
   name2,
@@ -44,12 +69,29 @@ icinga_objects objects,
 icinga_services services
 WHERE objects.object_id = services.service_object_id
 and services.host_object_id = $P{p_host_object_id}]]>
+		</queryString>
+		<field name="object_id" class="java.math.BigInteger"/>
+		<field name="name1" class="java.lang.String"/>
+		<field name="name2" class="java.lang.String"/>
+		<field name="objecttype_id" class="java.math.BigInteger"/>
+		<field name="sla" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_host_object_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1 from icinga_objects where object_id = $P{p_host_object_id}]]>
 	</queryString>
-	<field name="object_id" class="java.math.BigInteger"/>
 	<field name="name1" class="java.lang.String"/>
-	<field name="name2" class="java.lang.String"/>
-	<field name="objecttype_id" class="java.math.BigInteger"/>
-	<field name="sla" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -78,112 +120,132 @@ and services.host_object_id = $P{p_host_object_id}]]>
 			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="22" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="5" y="0" width="150" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Hostname]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="155" y="0" width="175" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Servicename]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="330" y="0" width="100" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Availability]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="430" y="0" width="115" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Availability %]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="30" backcolor="#FAFAFA">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="30" backcolor="#E1E1E1">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="5" y="0" width="150" height="30">
-					<printWhenExpression><![CDATA[$F{objecttype_id} == 1]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="155" y="0" width="175" height="30">
-					<printWhenExpression><![CDATA[$F{objecttype_id} == 2]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="430" y="0" width="115" height="30"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sla} + " %"]]></textFieldExpression>
-			</textField>
-			<rectangle radius="10">
-				<reportElement x="330" y="5" width="50" height="20" backcolor="#00CC00">
-					<printWhenExpression><![CDATA[$F{sla} >= 100]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="10">
-				<reportElement x="330" y="5" width="50" height="20" backcolor="#CC8000">
-					<printWhenExpression><![CDATA[$F{sla} > 99 && $F{sla} < 100]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="10">
-				<reportElement x="330" y="5" width="50" height="20" backcolor="#CC0000">
-					<printWhenExpression><![CDATA[$F{sla} < 99]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0"/>
-				</graphicElement>
-			</rectangle>
+		<band height="20">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_hostserviceavailability">
+						<datasetParameter name="p_host_object_id">
+							<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="p_date_start">
+							<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="p_date_end">
+							<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="145" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostname]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="145" height="20">
+									<printWhenExpression><![CDATA[$F{objecttype_id} == 1]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Servicename]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="150" height="20">
+									<printWhenExpression><![CDATA[$F{objecttype_id} == 2]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Availabiltiy]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<rectangle radius="10">
+								<reportElement x="15" y="1" width="30" height="18" backcolor="#00CC00">
+									<printWhenExpression><![CDATA[$F{sla} >= 100]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="10">
+								<reportElement x="15" y="1" width="30" height="18" backcolor="#CC8000">
+									<printWhenExpression><![CDATA[$F{sla} > 99 && $F{sla} < 100]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="10">
+								<reportElement x="15" y="1" width="30" height="18" backcolor="#CC0000">
+									<printWhenExpression><![CDATA[$F{sla} < 99]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0"/>
+								</graphicElement>
+							</rectangle>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="155">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="155" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Availability in %]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="155" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sla} + " %"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
 	<columnFooter>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
 </jasperReport>

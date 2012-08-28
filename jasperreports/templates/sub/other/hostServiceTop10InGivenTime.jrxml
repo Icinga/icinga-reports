@@ -184,7 +184,7 @@ order by events desc limit 0,10]]>
 				</bar3DPlot>
 			</bar3DChart>
 			<rectangle radius="0">
-				<reportElement x="5" y="5" width="400" height="20" backcolor="#F4F4F4"/>
+				<reportElement x="5" y="5" width="300" height="20" backcolor="#F4F4F4"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>

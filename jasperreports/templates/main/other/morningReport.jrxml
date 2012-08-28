@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Morning report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.icinga.reporting.DateHelper"/>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 1 from dual]]>
+	</queryString>
+	<field name="1" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="800">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="800"/>
+				<graphicElement>
+					<pen lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame">
+				<reportElement x="33" y="200" width="521" height="599"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#999999"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.jpg"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="490" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="2" y="1" width="555" height="64"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_banner.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="175" width="554" height="25" forecolor="#000000" backcolor="#DCDCDC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Morning Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="300" width="310" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Report of all events in the last 24 hours]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creation:]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement style="Cover" x="160" y="320" width="310" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="5" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="518" y="175" width="5" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="5" height="40" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="64" width="555" height="15" forecolor="#2C2B2C" backcolor="#2C2B2C"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="497" y="177" width="21" height="21"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="790" width="555" height="10" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Morning Report for " + new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="530" y="2" width="21" height="21"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="5" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "other/morningReport"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="400" height="25"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+			</subreport>
+			<rectangle radius="0">
+				<reportElement x="550" y="0" width="5" height="25" backcolor="#3D99AD"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

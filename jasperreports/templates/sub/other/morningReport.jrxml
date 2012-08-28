@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Morning report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="192"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="query_graph_hostevents">
+		<queryString>
+			<![CDATA[select
+state,
+count(state) number
+from
+icinga_objects,
+icinga_statehistory
+where icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 1
+group by (state)]]>
+		</queryString>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="number" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="query_hostevents">
+		<queryString>
+			<![CDATA[select
+name1,
+name2,
+state_time,
+state,
+output
+from
+icinga_objects,
+icinga_statehistory
+where icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 1
+and icinga_statehistory.state_type = 1
+order by state]]>
+		</queryString>
+		<field name="name1" class="java.lang.String"/>
+		<field name="name2" class="java.lang.String"/>
+		<field name="state_time" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="output" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="query_serviceevents">
+		<queryString>
+			<![CDATA[select
+name1,
+name2,
+state_time,
+state,
+output
+from
+icinga_objects,
+icinga_statehistory
+where icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 2
+and icinga_statehistory.state_type = 1
+order by state]]>
+		</queryString>
+		<field name="name1" class="java.lang.String"/>
+		<field name="name2" class="java.lang.String"/>
+		<field name="state_time" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="output" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="query_graph_serviceevents">
+		<queryString>
+			<![CDATA[select
+state,
+count(state) number
+from
+icinga_objects,
+icinga_statehistory
+where icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.objecttype_id = 2
+group by (state)]]>
+		</queryString>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="number" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="query_graph_hostnotifications">
+		<queryString>
+			<![CDATA[select
+start_time,
+state,
+count(state) number
+from
+icinga_objects,
+icinga_notifications
+where icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.objecttype_id = 1
+and notification_type = 0
+group by extract(hour from start_time)]]>
+		</queryString>
+		<field name="start_time" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="number" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="query_graph_servicenotifications">
+		<queryString>
+			<![CDATA[select
+start_time,
+state,
+count(state) number
+from
+icinga_objects,
+icinga_notifications
+where icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.objecttype_id = 2
+and notification_type = 1
+group by extract(hour from start_time)]]>
+		</queryString>
+		<field name="start_time" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="number" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="query_notificationsbyhostgroup">
+		<queryString>
+			<![CDATA[select
+alias,
+state,
+count(state) number
+from
+icinga_objects,
+icinga_notifications,
+icinga_hostgroups,
+icinga_hostgroup_members
+where icinga_objects.object_id = icinga_notifications.object_id
+and icinga_hostgroup_members.host_object_id = icinga_notifications.object_id
+and icinga_hostgroups.hostgroup_id = icinga_hostgroup_members.hostgroup_id
+and icinga_objects.objecttype_id = 1
+and notification_type = 0
+group by alias, state]]>
+		</queryString>
+		<field name="alias" class="java.lang.String"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="number" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="query_notificationsbyservicegroup">
+		<queryString>
+			<![CDATA[select
+alias,
+state,
+count(state) number
+from
+icinga_objects,
+icinga_notifications,
+icinga_servicegroups,
+icinga_servicegroup_members
+where icinga_objects.object_id = icinga_notifications.object_id
+and icinga_servicegroup_members.service_object_id = icinga_notifications.object_id
+and icinga_servicegroups.servicegroup_id = icinga_servicegroup_members.servicegroup_id
+and icinga_objects.objecttype_id = 2
+and notification_type = 1
+group by alias, state]]>
+		</queryString>
+		<field name="alias" class="java.lang.String"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="number" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="query_hostnotifications">
+		<queryString>
+			<![CDATA[select
+name1,
+start_time,
+notification_type,
+state,
+output
+from
+icinga_objects,
+icinga_notifications
+where icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.objecttype_id = 1
+and notification_type = 0]]>
+		</queryString>
+		<field name="name1" class="java.lang.String"/>
+		<field name="start_time" class="java.sql.Timestamp"/>
+		<field name="notification_type" class="java.lang.Integer"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="output" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="query_servicenotifications">
+		<queryString>
+			<![CDATA[select
+name1,
+name2,
+start_time,
+notification_type,
+state,
+output
+from
+icinga_objects,
+icinga_notifications
+where icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.objecttype_id = 2
+and notification_type = 1]]>
+		</queryString>
+		<field name="name1" class="java.lang.String"/>
+		<field name="name2" class="java.lang.String"/>
+		<field name="start_time" class="java.sql.Timestamp"/>
+		<field name="notification_type" class="java.lang.Integer"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="output" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select instance_id from icinga_conninfo limit 0,1]]>
+	</queryString>
+	<field name="instance_id" class="java.math.BigInteger"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F4F4F4"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="85" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Morning Report:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="5" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="250" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="0" width="245" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostevents in the last 24 hours:]]></text>
+			</staticText>
+			<pie3DChart>
+				<chart isShowLegend="true" theme="aegean">
+					<reportElement mode="Transparent" x="0" y="20" width="250" height="175" forecolor="#000000"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="query_graph_hostevents">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></keyExpression>
+					<valueExpression><![CDATA[$F{number}]]></valueExpression>
+					<labelExpression><![CDATA[$F{number}.toString()]]></labelExpression>
+					<sectionHyperlink hyperlinkType="LocalAnchor">
+						<hyperlinkAnchorExpression><![CDATA["Hostevents"]]></hyperlinkAnchorExpression>
+					</sectionHyperlink>
+				</pieDataset>
+				<pie3DPlot isShowLabels="true" depthFactor="0.0" isCircular="true">
+					<plot foregroundAlpha="0.5"/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<pie3DChart>
+				<chart isShowLegend="true" theme="aegean">
+					<reportElement mode="Transparent" x="295" y="20" width="250" height="175" forecolor="#000000"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="query_graph_serviceevents">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></keyExpression>
+					<valueExpression><![CDATA[$F{number}]]></valueExpression>
+					<labelExpression><![CDATA[$F{number}.toString()]]></labelExpression>
+					<sectionHyperlink hyperlinkType="LocalAnchor">
+						<hyperlinkAnchorExpression><![CDATA["Serviceevents"]]></hyperlinkAnchorExpression>
+					</sectionHyperlink>
+				</pieDataset>
+				<pie3DPlot isShowLabels="true" isCircular="true">
+					<plot foregroundAlpha="0.5"/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<rectangle radius="0">
+				<reportElement x="295" y="0" width="250" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="300" y="0" width="245" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serviceevents in the last 24 hours:]]></text>
+			</staticText>
+		</band>
+		<band height="50">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="30" width="250" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_notificationsbyhostgroup">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostgroup]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="295" y="30" width="250" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_notificationsbyservicegroup">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Servicegroup]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle radius="0">
+				<reportElement x="0" y="10" width="250" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="10" width="245" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Notifications by Hostgroup:]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="295" y="10" width="250" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="300" y="10" width="245" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Notifications by Servicegroup:]]></text>
+			</staticText>
+		</band>
+		<band height="175">
+			<stackedBar3DChart>
+				<chart theme="aegean">
+					<reportElement x="0" y="25" width="545" height="150"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="query_graph_hostnotifications"/>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{start_time}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{number}]]></valueExpression>
+						<itemHyperlink hyperlinkType="LocalAnchor">
+							<hyperlinkAnchorExpression><![CDATA["Hostnotifications"]]></hyperlinkAnchorExpression>
+						</itemHyperlink>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot foregroundAlpha="0.5" labelRotation="90.0"/>
+					<itemLabel/>
+				</bar3DPlot>
+			</stackedBar3DChart>
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostnotifications in the last 24 hours:]]></text>
+			</staticText>
+		</band>
+		<band height="175">
+			<stackedBar3DChart>
+				<chart theme="aegean">
+					<reportElement x="0" y="25" width="545" height="150"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="query_graph_servicenotifications">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{start_time}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{number}]]></valueExpression>
+						<itemHyperlink hyperlinkType="LocalAnchor">
+							<hyperlinkAnchorExpression><![CDATA["Servicenotifications"]]></hyperlinkAnchorExpression>
+						</itemHyperlink>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot foregroundAlpha="0.5" labelRotation="90.0"/>
+					<itemLabel/>
+				</bar3DPlot>
+			</stackedBar3DChart>
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Servicenotifications in the last 24 hours:]]></text>
+			</staticText>
+		</band>
+		<band height="45">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="25" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_hostevents">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostname]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Timestamp]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state_time}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="255">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="255" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Output]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="255" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<textField bookmarkLevel="1">
+				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hostevents in the last 24 hours:"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Hostevents"]]></anchorNameExpression>
+			</textField>
+		</band>
+		<band height="45">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="25" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_serviceevents">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="125">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="120" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Host-Service]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="120" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name1} + " - " + $F{name2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Timestamp]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state_time}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="220">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="220" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Output]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="220" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<textField bookmarkLevel="1">
+				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Serviceevents in the last 24 hours:"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Serviceevents"]]></anchorNameExpression>
+			</textField>
+		</band>
+		<band height="50">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="30" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_hostnotifications">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostname]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Timestamp]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{notification_type}.toString().replaceFirst("0", "Normal").replaceFirst("1", "Acknowledgement").replaceFirst("2", "Flapping started").replaceFirst("3", "Flapping stopped").replaceFirst("4", "Flapping disabled").replaceFirst("5", "Downtime started").replaceFirst("6", "Downtime ended").replaceFirst("7", "Downtime cancelled").replaceFirst("99", "Custom")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="165">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="165" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Output]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="165" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle radius="0">
+				<reportElement x="0" y="10" width="300" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+			<textField bookmarkLevel="1">
+				<reportElement x="5" y="10" width="295" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hostnotifications in the last 24 hours:"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Hostnotifications"]]></anchorNameExpression>
+			</textField>
+		</band>
+		<band height="50">
+			<textField bookmarkLevel="1">
+				<reportElement x="5" y="10" width="295" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Servicenotifications in the last 24 hours:"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Servicenotifications"]]></anchorNameExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="30" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_servicenotifications">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="125">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="120" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Host-Service]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="120" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name1} + " - " + $F{name2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Timestamp]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{notification_type}.toString().replaceFirst("0", "Normal").replaceFirst("1", "Acknowledgement").replaceFirst("2", "Flapping started").replaceFirst("3", "Flapping stopped").replaceFirst("4", "Flapping disabled").replaceFirst("5", "Downtime started").replaceFirst("6", "Downtime ended").replaceFirst("7", "Downtime cancelled").replaceFirst("99", "Custom")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130">
+						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Output]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="130" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle radius="0">
+				<reportElement x="0" y="10" width="300" height="20" backcolor="#81AAB8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

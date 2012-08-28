@@ -19,3 +19,5 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - fixed notification reports for host and services (dual line print)
 - integrated SLA in the service-top10 report
 - added servicegroup availability
+- added easy availability report for given host and dependant services
+- added morning report

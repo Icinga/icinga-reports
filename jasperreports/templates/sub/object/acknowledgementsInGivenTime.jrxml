@@ -3,15 +3,43 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="p_object_id" class="java.lang.String"/>
-	<parameter name="p_date_start" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="p_date_end" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<queryString>
-		<![CDATA[select name1,
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="query_acknowledgement">
+		<parameter name="p_object_id" class="java.lang.String"/>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select name1,
   entry_time,
   state,
   author_name,
@@ -23,25 +51,27 @@ where icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.object_id   = $P{p_object_id}
 and entry_time between $P{p_date_start} and $P{p_date_end}
 order by entry_time]]>
+		</queryString>
+		<field name="name1" class="java.lang.String"/>
+		<field name="entry_time" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="author_name" class="java.lang.String"/>
+		<field name="comment_data" class="java.lang.String"/>
+		<field name="notify_contacts" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="p_object_id" class="java.lang.String"/>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1
+from icinga_objects
+where  icinga_objects.object_id   = $P{p_object_id}]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="entry_time" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="state" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="author_name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="comment_data" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="notify_contacts" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="name1" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -51,7 +81,7 @@ order by entry_time]]>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="400" height="20" backcolor="#F5F5F5"/>
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
@@ -70,118 +100,150 @@ order by entry_time]]>
 			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="22" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#3D99AD">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="130" y="0" width="85" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Notify]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="0" width="25" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[State]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="295" y="0" width="250" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Comment]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="215" y="0" width="80" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Author]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="5" y="0" width="95" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Entry Time]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="100" y="0" width="25" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="295" y="0" width="250" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{comment_data}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="130" y="0" width="85" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{notify_contacts}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="215" y="0" width="80" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{author_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="5" y="0" width="95" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{entry_time}]]></textFieldExpression>
-			</textField>
+		<band height="20">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_acknowledgement">
+						<datasetParameter name="p_object_id">
+							<datasetParameterExpression><![CDATA[$P{p_object_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="p_date_start">
+							<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="p_date_end">
+							<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Entry Time]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{entry_time}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostname]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Author]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{author_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Contacts]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{notify_contacts}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="135">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="135" height="30" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="135" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Comment]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="135" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{comment_data}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="10" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
 		<band height="10" splitType="Stretch"/>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="245" y="10" width="300" height="20" backcolor="#3D99AD"/>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="445" y="10" width="100" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="255" y="10" width="185" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Acknowledgements for this object:]]></text>
-			</staticText>
-		</band>
-	</summary>
 </jasperReport>

@@ -210,9 +210,9 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 							<textField>
 								<reportElement style="table_TH" x="0" y="0" width="90" height="30" forecolor="#FFFFFF"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8" isBold="true"/>
+									<font size="10" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["Sum: " + $V{REPORT_COUNT}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader style="table_CH" height="30" rowSpan="1">

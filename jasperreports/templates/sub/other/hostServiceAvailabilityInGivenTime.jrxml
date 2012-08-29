@@ -139,7 +139,7 @@ and services.host_object_id = $P{p_host_object_id}]]>
 					</datasetRun>
 					<jr:column width="150">
 						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
-						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="5" y="0" width="145" height="30"/>
@@ -161,7 +161,7 @@ and services.host_object_id = $P{p_host_object_id}]]>
 					</jr:column>
 					<jr:column width="150">
 						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
-						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="150" height="30"/>
@@ -183,7 +183,7 @@ and services.host_object_id = $P{p_host_object_id}]]>
 					</jr:column>
 					<jr:column width="90">
 						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
-						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30"/>
@@ -220,7 +220,7 @@ and services.host_object_id = $P{p_host_object_id}]]>
 					</jr:column>
 					<jr:column width="155">
 						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
-						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="155" height="30"/>

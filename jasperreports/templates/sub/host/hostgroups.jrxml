@@ -3,18 +3,51 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
-	<parameter name="p_object_name" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[select a.alias
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="query_hostgroups">
+		<parameter name="p_host_object_id" class="java.lang.String"/>
+		<parameter name="p_object_name" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select a.alias
 from icinga_hostgroups a,
 icinga_hostgroup_members b
 where a.hostgroup_id = b.hostgroup_id
 and b.host_object_id = $P{p_host_object_id}]]>
+		</queryString>
+		<field name="alias" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<parameter name="p_object_name" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>
 	</queryString>
-	<field name="alias" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="conninfo_id" class="java.math.BigInteger"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -43,57 +76,43 @@ and b.host_object_id = $P{p_host_object_id}]]>
 			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="22" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="5" y="0" width="95" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Hostgroup]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="5" y="0" width="375" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
-			</textField>
+		<band height="20">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_hostgroups">
+						<datasetParameter name="p_host_object_id">
+							<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="p_object_name">
+							<datasetParameterExpression><![CDATA[$P{p_object_name}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="545">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="545" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostgroup]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="545" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
-	<columnFooter>
-		<band splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
 </jasperReport>

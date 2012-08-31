@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host activity sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="115"/>
 	<subDataset name="graph_activity_monthly">
 		<parameter name="p_object_id" class="java.lang.String">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
@@ -261,6 +261,9 @@ and object_id                  = $P{p_host_object_id}]]>
 					</plot>
 				</areaPlot>
 			</areaChart>
+			<break>
+				<reportElement x="0" y="605" width="100" height="1"/>
+			</break>
 		</band>
 		<band height="50">
 			<subreport>

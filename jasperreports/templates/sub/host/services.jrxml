@@ -3,9 +3,37 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[select a.name1,
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="query_hostservices">
+		<parameter name="p_host_object_id" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select a.name1,
   b.display_name,
   c.current_state,
   c.check_command,
@@ -16,22 +44,18 @@ from icinga_objects a,
 where a.object_id       = b.service_object_id
 and b.service_object_id = c.service_object_id
 and b.host_object_id    = $P{p_host_object_id}]]>
+		</queryString>
+		<field name="name1" class="java.lang.String"/>
+		<field name="display_name" class="java.lang.String"/>
+		<field name="current_state" class="java.lang.Integer"/>
+		<field name="check_command" class="java.lang.String"/>
+		<field name="output" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select name1 from icinga_objects where object_id = $P{p_host_object_id}]]>
 	</queryString>
-	<field name="name1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="display_name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="current_state" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="check_command" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="output" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="name1" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -60,118 +84,123 @@ and b.host_object_id    = $P{p_host_object_id}]]>
 			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="22" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="5" y="0" width="110" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Servicename]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="115" y="0" width="120" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Displayname]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="235" y="0" width="75" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Current State]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="310" y="0" width="140" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Command]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#FAFAFA">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#E1E1E1">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="115" y="0" width="120" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{display_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="5" y="0" width="110" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="310" y="0" width="219" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{check_command}]]></textFieldExpression>
-			</textField>
-			<rectangle radius="4">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#00CC00">
-					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="4">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#FFFF00">
-					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="4">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#CC0000">
-					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 2 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="4">
-				<reportElement x="249" y="2" width="38" height="16" backcolor="#FF8000">
-					<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 3 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
+		<band height="20">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_hostservices">
+						<datasetParameter name="p_host_object_id">
+							<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Servicename]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{display_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<rectangle radius="4">
+								<reportElement x="15" y="1" width="50" height="18" backcolor="#00CC00">
+									<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 0 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="4">
+								<reportElement x="15" y="1" width="50" height="18" backcolor="#FFFF00">
+									<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 1 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="4">
+								<reportElement x="15" y="1" width="50" height="18" backcolor="#CC0000">
+									<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 2 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="4">
+								<reportElement x="15" y="1" width="50" height="18" backcolor="#FF8000">
+									<printWhenExpression><![CDATA[new Boolean( $F{current_state}.intValue() == 3 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Command]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{check_command}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="275">
+						<jr:tableHeader style="table_TH" height="0" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="275" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Output]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="275" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
-	<columnFooter>
-		<band splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch"/>
+		<band height="10" splitType="Stretch"/>
 	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
 </jasperReport>

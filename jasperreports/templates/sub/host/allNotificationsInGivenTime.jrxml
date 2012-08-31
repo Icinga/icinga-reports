@@ -3,10 +3,38 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="p_date_start" class="java.sql.Timestamp"/>
-	<parameter name="p_date_end" class="java.sql.Timestamp"/>
-	<queryString>
-		<![CDATA[SELECT
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="query_notifications">
+		<parameter name="p_date_start" class="java.sql.Timestamp"/>
+		<parameter name="p_date_end" class="java.sql.Timestamp"/>
+		<queryString>
+			<![CDATA[SELECT
 	iobj1.name1 AS hostname,
 	iobj2.name1 AS notification_command_name,
 	inot.notification_type,
@@ -25,18 +53,25 @@ INNER JOIN icinga_objects AS iobj2
 ON icnm.command_object_id = iobj2.object_id
 WHERE inot.notification_type = "0"
 AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
+		</queryString>
+		<field name="hostname" class="java.lang.String"/>
+		<field name="notification_command_name" class="java.lang.String"/>
+		<field name="notification_type" class="java.lang.Integer"/>
+		<field name="notification_reason" class="java.lang.Integer"/>
+		<field name="start_time" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="output" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="p_date_start" class="java.sql.Timestamp"/>
+	<parameter name="p_date_end" class="java.sql.Timestamp"/>
+	<queryString>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>
 	</queryString>
-	<field name="hostname" class="java.lang.String"/>
-	<field name="notification_command_name" class="java.lang.String"/>
-	<field name="notification_type" class="java.lang.Integer"/>
-	<field name="notification_reason" class="java.lang.Integer"/>
-	<field name="start_time" class="java.sql.Timestamp"/>
-	<field name="state" class="java.lang.Integer"/>
-	<field name="output" class="java.lang.String"/>
+	<field name="conninfo_id" class="java.math.BigInteger"/>
 	<pageHeader>
 		<band height="40">
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="400" height="20" backcolor="#F5F5F5"/>
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
@@ -50,229 +85,238 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 			</staticText>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="22" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="20" backcolor="#3F99AD">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="75" y="0" width="75" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Time]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="325" y="0" width="30" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[State]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="360" y="0" width="185" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Output]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="230" y="0" width="90" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Command]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="5" y="0" width="73" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle" rotation="None"/>
-				<text><![CDATA[Hostname]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Reason]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="25" backcolor="#FAFAFA">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="0">
-				<reportElement x="0" y="0" width="545" height="25" backcolor="#E1E1E1">
-					<printWhenExpression><![CDATA[new Boolean( $V{PAGE_COUNT}.intValue() % 2 ==1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="5" y="0" width="73" height="25"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{hostname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="75" y="0" width="75" height="25"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 0]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Normal notification]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 1]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Problem acknowledgement]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 2]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Flapping started]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 3]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Flapping stopped]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 4]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Flapping was disabled]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 5]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Downtime started]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 6]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Downtime ended]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 7]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Downtime was cancelled]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="151" y="0" width="80" height="25">
-					<printWhenExpression><![CDATA[$F{notification_reason} == 99]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Custom notification]]></text>
-			</staticText>
-			<rectangle radius="4">
-				<reportElement x="330" y="1" width="23" height="23" backcolor="#00CC00">
-					<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 0 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="4">
-				<reportElement x="330" y="1" width="23" height="23" backcolor="#CC0000">
-					<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 1 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle radius="4">
-				<reportElement mode="Opaque" x="330" y="1" width="23" height="23" backcolor="#CC00CC">
-					<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 2 )]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Dotted"/>
-				</graphicElement>
-			</rectangle>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="360" y="0" width="185" height="25"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="230" y="0" width="90" height="25"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{notification_command_name}]]></textFieldExpression>
-			</textField>
+		<band height="20">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="545" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="query_notifications">
+						<datasetParameter name="p_date_start">
+							<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="p_date_end">
+							<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="85" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Hostname]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="5" y="0" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{hostname}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Time]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="75" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Reason]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 0]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Normal notification]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 1]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Problem acknowledgement]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 2]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Flapping started]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 3]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Flapping stopped]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 4]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Flapping was disabled]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 5]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Downtime started]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 6]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Downtime ended]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 7]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Downtime was cancelled]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20">
+									<printWhenExpression><![CDATA[$F{notification_reason} == 99]]></printWhenExpression>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Custom notification]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Command]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{notification_command_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<rectangle radius="4">
+								<reportElement x="15" y="1" width="40" height="18" backcolor="#00CC00">
+									<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 0 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="4">
+								<reportElement x="15" y="1" width="40" height="18" backcolor="#CC0000">
+									<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 1 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+							<rectangle radius="4">
+								<reportElement mode="Opaque" x="15" y="1" width="40" height="18" backcolor="#CC00CC">
+									<printWhenExpression><![CDATA[new Boolean( $F{state}.intValue() == 2 )]]></printWhenExpression>
+								</reportElement>
+								<graphicElement>
+									<pen lineWidth="0.0" lineStyle="Dotted"/>
+								</graphicElement>
+							</rectangle>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="125">
+						<jr:tableFooter style="table_TH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="125" height="30" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Sum: " + $V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="125" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Output]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="125" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{output}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="10"/>
-	</columnFooter>
 	<pageFooter>
 		<band height="10"/>
 	</pageFooter>
-	<summary>
-		<band height="42">
-			<rectangle radius="0">
-				<reportElement x="245" y="10" width="300" height="20" backcolor="#3D99AD"/>
-				<graphicElement>
-					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement x="445" y="10" width="100" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="255" y="10" width="185" height="20" forecolor="#FFFFFF"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Notifications for given time:]]></text>
-			</staticText>
-		</band>
-	</summary>
 </jasperReport>

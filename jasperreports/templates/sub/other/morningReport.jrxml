@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Morning report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="692"/>
+	<property name="ireport.y" value="464"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
@@ -45,7 +45,9 @@ icinga_objects,
 icinga_statehistory
 where icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 1
-group by (state)]]>
+and state_time > current_date - interval '1' day
+group by (state)
+]]>
 		</queryString>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
@@ -64,6 +66,7 @@ icinga_statehistory
 where icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 1
 and icinga_statehistory.state_type = 1
+and state_time > current_date - interval '1' day
 order by state]]>
 		</queryString>
 		<field name="name1" class="java.lang.String"/>
@@ -86,6 +89,7 @@ icinga_statehistory
 where icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
 and icinga_statehistory.state_type = 1
+and state_time > current_date - interval '1' day
 order by state]]>
 		</queryString>
 		<field name="name1" class="java.lang.String"/>
@@ -104,6 +108,7 @@ icinga_objects,
 icinga_statehistory
 where icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
+and state_time > current_date - interval '1' day
 group by (state)]]>
 		</queryString>
 		<field name="state" class="java.lang.Integer"/>
@@ -112,6 +117,12 @@ group by (state)]]>
 	<subDataset name="query_graph_hostnotifications">
 		<queryString>
 			<![CDATA[select
+now() as start_time,
+0 as state,
+0 as number
+from icinga_objects
+union all
+select
 start_time,
 state,
 count(state) number
@@ -121,15 +132,22 @@ icinga_notifications
 where icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.objecttype_id = 1
 and notification_type = 0
+and start_time > current_date - interval '1' day
 group by extract(hour from start_time)]]>
 		</queryString>
 		<field name="start_time" class="java.sql.Timestamp"/>
-		<field name="state" class="java.lang.Integer"/>
+		<field name="state" class="java.lang.Long"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="query_graph_servicenotifications">
 		<queryString>
 			<![CDATA[select
+now() as start_time,
+0 as state,
+0 as number
+from icinga_objects
+union all
+select
 start_time,
 state,
 count(state) number
@@ -139,10 +157,11 @@ icinga_notifications
 where icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.objecttype_id = 2
 and notification_type = 1
+and start_time > current_date - interval '1' day
 group by extract(hour from start_time)]]>
 		</queryString>
 		<field name="start_time" class="java.sql.Timestamp"/>
-		<field name="state" class="java.lang.Integer"/>
+		<field name="state" class="java.lang.Long"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="query_notificationsbyhostgroup">
@@ -161,6 +180,7 @@ and icinga_hostgroup_members.host_object_id = icinga_notifications.object_id
 and icinga_hostgroups.hostgroup_id = icinga_hostgroup_members.hostgroup_id
 and icinga_objects.objecttype_id = 1
 and notification_type = 0
+and start_time > current_date - interval '1' day
 group by alias, state]]>
 		</queryString>
 		<field name="alias" class="java.lang.String"/>
@@ -183,6 +203,7 @@ and icinga_servicegroup_members.service_object_id = icinga_notifications.object_
 and icinga_servicegroups.servicegroup_id = icinga_servicegroup_members.servicegroup_id
 and icinga_objects.objecttype_id = 2
 and notification_type = 1
+and start_time > current_date - interval '1' day
 group by alias, state]]>
 		</queryString>
 		<field name="alias" class="java.lang.String"/>
@@ -203,6 +224,7 @@ icinga_objects,
 icinga_notifications
 where icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.objecttype_id = 1
+and start_time > current_date - interval '1' day
 and notification_type = 0]]>
 		</queryString>
 		<field name="name1" class="java.lang.String"/>
@@ -227,7 +249,8 @@ icinga_objects,
 icinga_notifications
 where icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.objecttype_id = 2
-and notification_type = 1]]>
+and notification_type = 1
+and start_time > current_date - interval '1' day]]>
 		</queryString>
 		<field name="name1" class="java.lang.String"/>
 		<field name="name2" class="java.lang.String"/>

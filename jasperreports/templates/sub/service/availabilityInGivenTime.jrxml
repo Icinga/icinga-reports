@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="graph_availability">
-		<parameter name="p_service_object_id" class="java.lang.String">
+		<parameter name="p_service_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_service_object_id}]]></defaultValueExpression>
 		</parameter>
 		<parameter name="p_date_start" class="java.sql.Timestamp">
@@ -49,7 +49,7 @@ WHERE objects.object_id = $P{p_service_object_id}]]>
 		<field name="state" class="java.lang.String"/>
 		<field name="sla" class="java.math.BigDecimal"/>
 	</subDataset>
-	<parameter name="p_service_object_id" class="java.lang.String"/>
+	<parameter name="p_service_object_id" class="java.lang.Integer"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>

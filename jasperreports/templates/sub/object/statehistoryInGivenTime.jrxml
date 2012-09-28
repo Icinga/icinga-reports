@@ -31,7 +31,7 @@
 		</conditionalStyle>
 	</style>
 	<subDataset name="query_statehistory">
-		<parameter name="p_object_id" class="java.lang.String"/>
+		<parameter name="p_object_id" class="java.lang.Integer"/>
 		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
@@ -61,7 +61,7 @@ order by state_time]]>
 		<field name="current_check_attempt" class="java.lang.Integer"/>
 		<field name="max_check_attempts" class="java.lang.Integer"/>
 	</subDataset>
-	<parameter name="p_object_id" class="java.lang.String"/>
+	<parameter name="p_object_id" class="java.lang.Integer"/>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>

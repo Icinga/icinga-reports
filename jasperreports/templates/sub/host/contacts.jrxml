@@ -31,7 +31,7 @@
 		</conditionalStyle>
 	</style>
 	<subDataset name="query_contacts">
-		<parameter name="p_host_object_id" class="java.lang.String"/>
+		<parameter name="p_host_object_id" class="java.lang.Integer"/>
 		<parameter name="p_object_name" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[select a.name1,
@@ -48,7 +48,7 @@ and c.host_id     = $P{p_host_object_id}]]>
 		<field name="alias" class="java.lang.String"/>
 		<field name="email_address" class="java.lang.String"/>
 	</subDataset>
-	<parameter name="p_host_object_id" class="java.lang.String"/>
+	<parameter name="p_host_object_id" class="java.lang.Integer"/>
 	<parameter name="p_object_name" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>

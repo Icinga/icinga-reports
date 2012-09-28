@@ -31,7 +31,7 @@
 		</conditionalStyle>
 	</style>
 	<subDataset name="query_notifications">
-		<parameter name="p_object_id" class="java.lang.String"/>
+		<parameter name="p_object_id" class="java.lang.Integer"/>
 		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
@@ -59,7 +59,7 @@ order by start_time]]>
 		<field name="escalated" class="java.lang.Integer"/>
 		<field name="contacts_notified" class="java.lang.Integer"/>
 	</subDataset>
-	<parameter name="p_object_id" class="java.lang.String"/>
+	<parameter name="p_object_id" class="java.lang.Integer"/>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>

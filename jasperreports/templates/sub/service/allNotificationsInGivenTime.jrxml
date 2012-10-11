@@ -67,7 +67,7 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 	<parameter name="p_date_start" class="java.sql.Timestamp"/>
 	<parameter name="p_date_end" class="java.sql.Timestamp"/>
 	<queryString>
-		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 1]]>
 	</queryString>
 	<field name="conninfo_id" class="java.math.BigInteger"/>
 	<pageHeader>

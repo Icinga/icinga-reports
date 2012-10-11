@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Morning report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="464"/>
+	<property name="ireport.y" value="861"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
@@ -46,8 +46,7 @@ icinga_statehistory
 where icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 1
 and state_time > current_date - interval '1' day
-group by (state)
-]]>
+group by (state)]]>
 		</queryString>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
@@ -133,10 +132,10 @@ where icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.objecttype_id = 1
 and notification_type = 0
 and start_time > current_date - interval '1' day
-group by extract(hour from start_time)]]>
+group by extract(hour from start_time), start_time, state]]>
 		</queryString>
 		<field name="start_time" class="java.sql.Timestamp"/>
-		<field name="state" class="java.lang.Long"/>
+		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="query_graph_servicenotifications">
@@ -158,10 +157,10 @@ where icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.objecttype_id = 2
 and notification_type = 1
 and start_time > current_date - interval '1' day
-group by extract(hour from start_time)]]>
+group by extract(hour from start_time), start_time, state]]>
 		</queryString>
 		<field name="start_time" class="java.sql.Timestamp"/>
-		<field name="state" class="java.lang.Long"/>
+		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="query_notificationsbyhostgroup">
@@ -264,9 +263,9 @@ and start_time > current_date - interval '1' day]]>
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select instance_id from icinga_conninfo limit 0,1]]>
+		<![CDATA[select instance_id from icinga_conninfo limit 1]]>
 	</queryString>
-	<field name="instance_id" class="java.math.BigInteger"/>
+	<field name="instance_id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

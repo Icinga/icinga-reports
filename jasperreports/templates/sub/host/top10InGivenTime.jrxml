@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host top 10 sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="147"/>
 	<subDataset name="graph_unreachable">
 		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
@@ -21,21 +21,13 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 1
 and state                        = 2
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by name1
-order by events desc limit 0,10]]>
+group by name1, icinga_objects.object_id, state
+order by events desc limit 10]]>
 		</queryString>
-		<field name="object_id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="name1" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="state" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="events" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="object_id" class="java.lang.Long"/>
+		<field name="name1" class="java.lang.String"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="events" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="graph_down">
 		<parameter name="p_date_start" class="java.sql.Timestamp">
@@ -55,21 +47,13 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 1
 and state                        = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by name1
-order by events desc limit 0,10]]>
+group by name1, icinga_objects.object_id, state
+order by events desc limit 10]]>
 		</queryString>
-		<field name="object_id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="name1" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="state" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="events" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="object_id" class="java.lang.Long"/>
+		<field name="name1" class="java.lang.String"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="events" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="graph_sla">
 		<parameter name="p_date_start" class="java.sql.Timestamp">
@@ -86,7 +70,7 @@ order by events desc limit 0,10]]>
   WHERE is_active = 1
     AND objecttype_id = 1
     AND icinga_availability(object_id, $P{p_date_start}, $P{p_date_end}) > 0
-  ORDER BY sla limit 0,10;]]>
+  ORDER BY sla limit 10;]]>
 		</queryString>
 		<field name="name1" class="java.lang.String"/>
 		<field name="sla" class="java.math.BigDecimal"/>
@@ -101,11 +85,9 @@ order by events desc limit 0,10]]>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select 1 from dual]]>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 1;]]>
 	</queryString>
-	<field name="1" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="conninfo_id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

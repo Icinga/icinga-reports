@@ -2,15 +2,15 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host activity sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="115"/>
+	<property name="ireport.y" value="0"/>
 	<subDataset name="graph_activity_monthly">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -23,7 +23,7 @@ where icinga_statehistory.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.is_active = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by extract(month from state_time), state
+group by extract(month from state_time), state, state_time
 union all
 select start_time as date,
   state,
@@ -34,7 +34,7 @@ where icinga_notifications.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.is_active = 1
 and start_time between $P{p_date_start} and $P{p_date_end}
-group by extract(month from start_time), state
+group by extract(month from start_time), state, start_time
 union all
 select entry_time as date,
   state,
@@ -45,22 +45,22 @@ where icinga_acknowledgements.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.is_active = 1
 and entry_time between $P{p_date_start} and $P{p_date_end}
-group by extract(month from entry_time), state
+group by extract(month from entry_time), state, entry_time
 order by date]]>
 		</queryString>
 		<field name="date" class="java.sql.Timestamp"/>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="type" class="java.lang.String"/>
-		<field name="number" class="java.math.BigDecimal"/>
+		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<subDataset name="graph_activity_daily">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -73,7 +73,7 @@ where icinga_statehistory.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.is_active = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by extract(day from state_time), state
+group by extract(day from state_time), state, state_time
 union all
 select start_time as date,
   state,
@@ -84,7 +84,7 @@ where icinga_notifications.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.is_active = 1
 and start_time between $P{p_date_start} and $P{p_date_end}
-group by extract(day from start_time), state
+group by extract(day from start_time), state, start_time
 union all
 select entry_time as date,
   state,
@@ -95,13 +95,13 @@ where icinga_acknowledgements.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.is_active = 1
 and entry_time between $P{p_date_start} and $P{p_date_end}
-group by extract(day from entry_time), state
+group by extract(day from entry_time), state, entry_time
 order by date]]>
 		</queryString>
 		<field name="date" class="java.sql.Timestamp"/>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="type" class="java.lang.String"/>
-		<field name="number" class="java.math.BigDecimal"/>
+		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>

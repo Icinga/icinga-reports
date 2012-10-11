@@ -51,7 +51,7 @@ INNER JOIN icinga_contactnotificationmethods AS icnm
 ON icn.contactnotification_id = icnm.contactnotification_id
 INNER JOIN icinga_objects AS iobj2
 ON icnm.command_object_id = iobj2.object_id
-WHERE inot.notification_type = "0"
+WHERE inot.notification_type = '0'
 AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 		</queryString>
 		<field name="hostname" class="java.lang.String"/>
@@ -65,9 +65,9 @@ AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 	<parameter name="p_date_start" class="java.sql.Timestamp"/>
 	<parameter name="p_date_end" class="java.sql.Timestamp"/>
 	<queryString>
-		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 1]]>
 	</queryString>
-	<field name="conninfo_id" class="java.math.BigInteger"/>
+	<field name="conninfo_id" class="java.lang.Long"/>
 	<pageHeader>
 		<band height="40">
 			<rectangle radius="0">

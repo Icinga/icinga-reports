@@ -8,7 +8,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_hostgroup_object_id" class="java.lang.Integer">
+	<parameter name="p_servicegroup_object_id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
@@ -36,7 +36,7 @@ where a.servicegroup_id   = b.servicegroup_id
 and c.object_id           = a.service_object_id
 and b.servicegroup_object_id = $P{p_servicegroup_object_id}]]>
 	</queryString>
-	<field name="service_object_id" class="java.math.BigInteger"/>
+	<field name="service_object_id" class="java.lang.Integer"/>
 	<field name="name2" class="java.lang.String"/>
 	<field name="alias" class="java.lang.String"/>
 	<field name="name1" class="java.lang.String"/>

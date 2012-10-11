@@ -35,8 +35,8 @@
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<parameter name="p_weekday_end" class="java.lang.String"/>
-		<parameter name="p_time_start" class="java.lang.String"/>
-		<parameter name="p_time_end" class="java.lang.String"/>
+		<parameter name="p_time_start" class="java.sql.Timestamp"/>
+		<parameter name="p_time_end" class="java.sql.Timestamp"/>
 		<queryString>
 			<![CDATA[SELECT
 logentry_data,
@@ -53,12 +53,12 @@ ORDER BY entry_time]]>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_weekday_end" class="java.lang.String"/>
-	<parameter name="p_time_start" class="java.lang.String"/>
-	<parameter name="p_time_end" class="java.lang.String"/>
+	<parameter name="p_time_start" class="java.sql.Timestamp"/>
+	<parameter name="p_time_end" class="java.sql.Timestamp"/>
 	<queryString>
-		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 1]]>
 	</queryString>
-	<field name="conninfo_id" class="java.math.BigInteger"/>
+	<field name="conninfo_id" class="java.lang.Long"/>
 	<title>
 		<band splitType="Stretch"/>
 	</title>

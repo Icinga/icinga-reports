@@ -45,9 +45,9 @@ and b.host_object_id = $P{p_host_object_id}]]>
 	<parameter name="p_host_object_id" class="java.lang.Integer"/>
 	<parameter name="p_object_name" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select conninfo_id from icinga_conninfo limit 0,1]]>
+		<![CDATA[select conninfo_id from icinga_conninfo limit 1]]>
 	</queryString>
-	<field name="conninfo_id" class="java.math.BigInteger"/>
+	<field name="conninfo_id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

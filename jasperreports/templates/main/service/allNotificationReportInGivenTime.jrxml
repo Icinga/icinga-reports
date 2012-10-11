@@ -22,7 +22,7 @@
 		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT conninfo_id FROM icinga_conninfo LIMIT 0,1]]>
+		<![CDATA[SELECT conninfo_id FROM icinga_conninfo LIMIT 1]]>
 	</queryString>
 	<field name="conninfo_id" class="java.lang.Integer"/>
 	<background>

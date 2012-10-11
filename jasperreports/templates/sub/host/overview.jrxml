@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host overview sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="86"/>
+	<property name="ireport.y" value="0"/>
 	<subDataset name="graph_activity">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
@@ -16,7 +16,7 @@ from icinga_statehistory, icinga_objects
 where icinga_statehistory.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.is_active = 1
-group by extract(month from state_time), state
+group by extract(month from state_time), state, state_time
 union all
 select start_time as date,
   state,
@@ -26,7 +26,7 @@ from icinga_notifications, icinga_objects
 where icinga_notifications.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.is_active = 1
-group by extract(month from start_time), state
+group by extract(month from start_time), state, start_time
 union all
 select entry_time as date,
   state,
@@ -36,13 +36,13 @@ from icinga_acknowledgements, icinga_objects
 where icinga_acknowledgements.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.is_active = 1
-group by extract(month from entry_time), state
+group by extract(month from entry_time), state, entry_time
 order by date]]>
 		</queryString>
 		<field name="date" class="java.sql.Timestamp"/>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="type" class="java.lang.String"/>
-		<field name="number" class="java.math.BigDecimal"/>
+		<field name="number" class="java.lang.Long"/>
 	</subDataset>
 	<parameter name="p_host_object_id" class="java.lang.Integer"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">

@@ -22,3 +22,4 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - added easy availability report for given host and dependant services
 - added morning report
 - moved all table reports to jasper template object
+- enhanced support for postgresql - most reports work except the sla reports

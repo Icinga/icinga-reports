@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity with Graph sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="graph_activity_monthly">
+		<parameter name="p_object_id" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_start" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select state_time as date,
+  state,
+  'State changes' as type,
+  sum(state) as number
+from icinga_statehistory, icinga_objects
+where icinga_statehistory.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_statehistory.object_id
+and icinga_objects.is_active = 1
+and state_time between $P{p_date_start} and $P{p_date_end}
+group by extract(month from state_time), state
+union all
+select start_time as date,
+  state,
+  'Notifications' as type,
+  sum(state) as number
+from icinga_notifications, icinga_objects
+where icinga_notifications.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_notifications.object_id
+and icinga_objects.is_active = 1
+and start_time between $P{p_date_start} and $P{p_date_end}
+group by extract(month from start_time), state
+union all
+select entry_time as date,
+  state,
+  'Acknowledgements' as type,
+  sum(state) as number
+from icinga_acknowledgements, icinga_objects
+where icinga_acknowledgements.object_id = $P{p_object_id}
+and icinga_objects.object_id = icinga_acknowledgements.object_id
+and icinga_objects.is_active = 1
+and entry_time between $P{p_date_start} and $P{p_date_end}
+group by extract(month from entry_time), state
+order by date]]>
+		</queryString>
+		<field name="date" class="java.sql.Timestamp"/>
+		<field name="state" class="java.lang.Integer"/>
+		<field name="type" class="java.lang.String"/>
+		<field name="number" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="p_service_object_id" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1,
+  display_name
+from icinga_objects,
+  icinga_services
+where icinga_objects.object_id = icinga_services.service_object_id
+and object_id                  = $P{p_service_object_id}]]>
+	</queryString>
+	<field name="name1" class="java.lang.String"/>
+	<field name="display_name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="610" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="5" y="330" width="550" height="20" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="330" width="545" height="20"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<text><![CDATA[This graph displays notifications, state changes and acknowledgments for given service]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="5" y="25" width="300" height="20" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="25" width="135" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Activity Report for service:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="145" y="25" width="160" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{display_name}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="5" y="100" width="550" height="225" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="5" y="355" width="550" height="250" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<areaChart>
+				<chart>
+					<reportElement x="5" y="355" width="550" height="250"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Activity by month"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graph_activity_monthly">
+							<datasetParameter name="p_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{type}]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM-yyyy").format($F{date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{number}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<areaPlot>
+					<plot foregroundAlpha="0.5" labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#CC0000"/>
+						<seriesColor seriesOrder="1" color="#00CC00"/>
+						<seriesColor seriesOrder="2" color="#FF8000"/>
+					</plot>
+				</areaPlot>
+			</areaChart>
+			<rectangle radius="0">
+				<reportElement x="5" y="75" width="550" height="20" backcolor="#F5F5F5"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="10" y="75" width="545" height="20"/>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA["Performance chart for " + $F{display_name}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="100" width="550" height="225"/>
+				<imageExpression><![CDATA["pnp-server" + "/pnp4nagios/graph?" + "host=" + $F{name1} + "&srv=" + $F{display_name} + "&start=" + $P{p_date_start}+ "&end=" + $P{p_date_end}]]></imageExpression>
+			</image>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "object/statehistoryInGivenTime"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "object/notificationsInGivenTime"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="p_object_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "object/acknowledgementsInGivenTime"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

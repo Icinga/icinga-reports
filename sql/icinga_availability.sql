@@ -1,16 +1,17 @@
 
--- ----------------------------------------------- --
--- SLA function for Icinga/IDO                     --
---                                                 --
--- Author    : Thomas Gelf <thomas@gelf.net>       --
--- Copyright : 2012 Netways <support@netways.de>   --
--- License   : GPL 2.0                             --
--- ----------------------------------------------- --
-#
-# History
-# 
-# added to Icinga @ 8/31/2012
-#
+-- --------------------------------------------------- --
+-- SLA function for Icinga/IDO                         --
+--                                                     --
+-- Author    : Icinga Developer Team <info@icinga.org> --
+-- Copyright : 2012 Icinga Developer Team              --
+-- License   : GPL 2.0                                 --
+-- --------------------------------------------------- --
+
+--
+-- History
+-- 
+-- added to Icinga @ 08/31/2012
+--
 
 DELIMITER |
 

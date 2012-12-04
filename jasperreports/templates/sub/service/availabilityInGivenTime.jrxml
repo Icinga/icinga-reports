@@ -35,11 +35,11 @@ SELECT
   name1,
   name2,
   '1' as state,
-  100 - ifnull(icinga_availability(
+  (100 - ifnull(icinga_availability(
     objects.object_id,
     $P{p_date_start},
     $P{p_date_end}
-  ), 0) / 100 as sla
+  ), 0)) / 100 as sla
 FROM icinga_objects objects
 WHERE objects.object_id = $P{p_service_object_id}]]>
 		</queryString>
@@ -147,8 +147,7 @@ AND icinga_objects.object_id    = $P{p_service_object_id}]]>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
-					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "OK").replaceFirst("1", "NOK")
-]]></keyExpression>
+					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "OK").replaceFirst("1", "NOK")]]></keyExpression>
 					<valueExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
 					<labelExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP).toString() + "%"]]></labelExpression>
 				</pieDataset>

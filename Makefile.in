@@ -37,6 +37,8 @@ PACKAGE_TARNAME=@PACKAGE_TARNAME@
 PACKAGE_NAME=@PACKAGE_NAME@
 PACKAGE_VERSION=@PACKAGE_VERSION@
 
+MYSQL_CONNECTOR_VERSION=5.1.18
+
 
 ###############################
 # Installation
@@ -61,7 +63,7 @@ none:
 	@echo "     - Install JAR-Files to your JasperServer"
 	@echo ""
 	@echo " make install-mysql-connector"
-	@echo "     - Install Java MySQL-Connector (5.1.18) to your JasperServer"
+	@echo "     - Install the official JDBC driver for MySQL ("$(MYSQL_CONNECTOR_VERSION)") to your JasperServer"
 	@echo ""
 	@echo ""
 	@echo "*** Support Notes *******************************************"
@@ -91,9 +93,10 @@ none:
 	@echo "Enjoy."
 	@echo ""
 
+
 install:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(MAKE) js-import-icinga install-jar-files;\
+		$(MAKE) js-import-icinga install-jar-files install-mysql-connector;\
         fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -102,10 +105,127 @@ install:
 		echo "" ;\
 	else \
 		echo "" ;\
-		echo "*** Jasper Reports successfully installed ***" ;\
+		echo "*** Icinga reports successfully installed ***" ;\
+		echo "" ;\
+		echo "" ;\
+		echo "***  Important Notes *******************************************" ;\
+		echo "" ;\
+		echo "Icinga availability report:" ;\
+		echo "---------------------------" ;\
+		echo "   Do not forget to update your IDO," ;\
+		echo "   if using icinga availability reports!" ;\
+		echo "" ;\
+		echo "   SQL script can you find in";\
+		echo "   db/icinga/mysql/availability.sql" ;\
+		echo "" ;\
+		echo "" ;\
+		echo "JDBC driver for MySQL:" ;\
+		echo "---------------------------" ;\
+		echo "   The official JDBC driver for MySQL can you find here" ;\
+		echo "   http://dev.mysql.com/downloads/connector/j/" ;\
+		echo "" ;\
+		echo "" ;\
+		echo "---> Please don't forget to restart your jasper server!!! <---" ;\
+		echo "" ;\
+		echo "*************************************************************" ;\
+	fi
+
+
+install-jar-files:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+                echo "" ;\
+                echo "*** Installing icinga-reporting.jar to your jasper server.....***" ;\
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jsp-server/classes/icinga/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
+	fi      
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "*** JAR-Files successfully installed ***" ;\
 		echo "" ;\
 	fi
 
+
+install-mysql-connector:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+                echo "" ;\
+                echo "*** Installing JDBC driver for MySQL $(MYSQL_CONNECTOR_VERSION) to your jasper server.....***" ;\
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jsp-server/classes/connector/mysql-connector-java-$(MYSQL_CONNECTOR_VERSION)/mysql-connector-java-$(MYSQL_CONNECTOR_VERSION)-bin.jar $(JASPER_SERVER)/apache-tomcat/lib ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "*** JDBC driver for MySQL successfully installed ***" ;\
+		echo "" ;\
+	fi
+
+
+###############################
+# JasperServer
+###############################
+js-import-icinga:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+                echo "" ;\
+                echo "*** Beginning import icinga reports into JasperServer..... ***" ;\
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./reports/icinga/package/js-icinga-reports.zip ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "*** Icinga reports successfully imported ***" ;\
+		echo "" ;\
+	fi
+
+
+js-export-icinga:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		echo "" ;\
+		echo "*** Beginning export icinga reports from JasperServer..... ***" ;\
+		$(JASPER_SERVER)/buildomatic/js-export.sh --uris \
+			/icinga \
+			--output-zip /tmp/js-icinga-reports.zip ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "New report package exported to /tmp/js-icinga-reports.zip" ;\
+		echo "*** Icinga reports successfully exported ***" ;\
+		echo "" ;\
+	fi
+
+
+js-update-icinga:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+                echo "" ;\
+                echo "*** Beginning update icinga reports on JasperServer..... ***" ;\
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./reports/icinga/package/js-icinga-reports.zip --update ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "*** Icinga reports successfully updated ***" ;\
+		echo "" ;\
+	fi
+
+
+###############################
+# Update
+###############################
 update:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
 		$(MAKE) js-update-iciniga install-jar-files ;\
@@ -121,103 +241,20 @@ update:
 		echo "" ;\
 	fi
 
+
+###############################
+# Clean
+###############################
 clean:
 	rm -f Makefile
 	rm -f config.log config.status
 
 distclean: clean
 	rm -f /tmp/js-icinga-detailed-report.zip
-	
-js-import-icinga:
-	@if [ x$(JASPER_SERVER) != xno ]; then \
-                echo "" ;\
-                echo "*** Beginning import icinga reports into JasperServer..... ***" ;\
-                echo "" ;\
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-reports.zip ;\
-	fi
 
-	@if [ x$(JASPER_SERVER) = xno ]; then \
-		echo "" ;\
-		echo "Sorry, but no supported JasperServer installation found!" ;\
-		echo "" ;\
-	else \
-		echo "" ;\
-		echo "*** Japser Reports successfully imported ***" ;\
-		echo "" ;\
-	fi
 
-js-export-icinga:
-	@if [ x$(JASPER_SERVER) != xno ]; then \
-		echo "" ;\
-		echo "*** Beginning export icinga reports from JasperServer..... ***" ;\
-		echo "" ;\
-		$(JASPER_SERVER)/buildomatic/js-export.sh --uris \
-			/icinga \
-			--output-zip /tmp/js-icinga-reports.zip ;\
-	fi
-
-	@if [ x$(JASPER_SERVER) = xno ]; then \
-		echo "" ;\
-		echo "Sorry, but no supported JasperServer installation found!" ;\
-		echo "" ;\
-	else \
-		echo "" ;\
-		echo "New report package exported to /tmp/js-icinga-reports.zip" ;\
-		echo "*** Japser Reports successfully exported ***" ;\
-		echo "" ;\
-	fi
-
-js-update-icinga:
-	@if [ x$(JASPER_SERVER) != xno ]; then \
-                echo "" ;\
-                echo "*** Beginning update icinga reports on JasperServer..... ***" ;\
-                echo "" ;\
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-reports.zip --update ;\
-	fi
-
-	@if [ x$(JASPER_SERVER) = xno ]; then \
-		echo "" ;\
-		echo "Sorry, but no supported JasperServer installation found!" ;\
-		echo "" ;\
-	else \
-		echo "" ;\
-		echo "*** Japser Reports successfully updated ***" ;\
-		echo "" ;\
-	fi
-
-install-jar-files:
-	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/icinga/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
-	fi      
-
-	@if [ x$(JASPER_SERVER) = xno ]; then \
-		echo "" ;\
-		echo "Sorry, but no supported JasperServer installation found!" ;\
-		echo "" ;\
-	else \
-		echo "" ;\
-		echo "*** JAR-Files successfully installed ***" ;\
-		echo "" ;\
-		echo "Please don't forget to restart your jasper server!" ;\
-		echo "" ;\
-	fi
-
-install-mysql-connector:
-	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jasperreports/classes/connector/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar $(JASPER_SERVER)/apache-tomcat/lib ;\
-	fi
-
-	@if [ x$(JASPER_SERVER) = xno ]; then \
-		echo "" ;\
-		echo "Sorry, but no supported JasperServer installation found!" ;\
-		echo "" ;\
-	else \
-		echo "" ;\
-		echo "*** JAR-Files successfully installed ***" ;\
-		echo "" ;\
-		echo "Please don't forget to restart your jasper server!" ;\
-		echo "" ;\
-	fi
-
+###############################
+# Package
+###############################
 create-tarball:
 	./make-tarball --prefix ${PACKAGE_TARNAME}-${PACKAGE_VERSION}/

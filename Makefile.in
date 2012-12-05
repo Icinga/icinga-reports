@@ -51,10 +51,10 @@ none:
 	@echo " make update"
 	@echo "     - Makes a completely update. Update jasper reports and install JAR-Files"
 	@echo ""
-	@echo " make js-import"
-	@echo "     - This imports the reports into your JasperServer"
+	@echo " make js-import-icinga"
+	@echo "     - This imports the icinga reports into your JasperServer"
 	@echo ""
-	@echo " make js-update"
+	@echo " make js-update-icinga"
 	@echo "     - This updates the reports on your JasperServer"
 	@echo ""
 	@echo " make install-jar-files"
@@ -93,7 +93,7 @@ none:
 
 install:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(MAKE) js-import install-jar-files;\
+		$(MAKE) js-import-icinga install-jar-files;\
         fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -108,7 +108,7 @@ install:
 
 update:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(MAKE) js-update install-jar-files ;\
+		$(MAKE) js-update-iciniga install-jar-files ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -128,8 +128,11 @@ clean:
 distclean: clean
 	rm -f /tmp/js-icinga-detailed-report.zip
 	
-js-import:
+js-import-icinga:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
+                echo "" ;\
+                echo "*** Beginning import icinga reports into JasperServer..... ***" ;\
+                echo "" ;\
 		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-reports.zip ;\
 	fi
 
@@ -143,10 +146,10 @@ js-import:
 		echo "" ;\
 	fi
 
-js-export:
+js-export-icinga:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
 		echo "" ;\
-		echo "*** Beginning export Reports from JasperServer..... ***" ;\
+		echo "*** Beginning export icinga reports from JasperServer..... ***" ;\
 		echo "" ;\
 		$(JASPER_SERVER)/buildomatic/js-export.sh --uris \
 			/icinga \
@@ -164,8 +167,11 @@ js-export:
 		echo "" ;\
 	fi
 
-js-update:
+js-update-icinga:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
+                echo "" ;\
+                echo "*** Beginning update icinga reports on JasperServer..... ***" ;\
+                echo "" ;\
 		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-reports.zip --update ;\
 	fi
 

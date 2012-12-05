@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host activity sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Host activity sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8486fa5a-ca29-4f4f-90d5-e1aa63e34fa4">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
-	<subDataset name="graph_activity_monthly">
+	<property name="ireport.y" value="260"/>
+	<subDataset name="graph_activity_monthly" uuid="37639d9e-c29e-43f1-b1f6-9013def08634">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
@@ -53,7 +53,7 @@ order by date]]>
 		<field name="type" class="java.lang.String"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="graph_activity_daily">
+	<subDataset name="graph_activity_daily" uuid="0db2be03-8d87-4ec1-9fe9-60d4e11b3e0e">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
@@ -145,49 +145,49 @@ and object_id                  = $P{p_host_object_id}]]>
 	<detail>
 		<band height="610" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="5" y="75" width="550" height="20" backcolor="#F5F5F5"/>
+				<reportElement uuid="f95e4a89-8249-48ae-9a2a-5c425d602d71" x="5" y="75" width="550" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="5" y="100" width="550" height="250" backcolor="#F5F5F5"/>
+				<reportElement uuid="12c87c91-b0a8-43e4-888e-44c54013425d" x="5" y="100" width="550" height="250" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="75" width="545" height="20"/>
+				<reportElement uuid="c29d5231-5ced-47ec-8619-b00c09e36eb8" x="10" y="75" width="545" height="20"/>
 				<textElement verticalAlignment="Middle" markup="none"/>
 				<text><![CDATA[This graph displays notifications, state changes and acknowledgements for given host]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="5" y="25" width="400" height="20" backcolor="#F5F5F5"/>
+				<reportElement uuid="f434ba92-7d27-4933-876f-16f4ff448c06" x="5" y="25" width="400" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="25" width="130" height="20"/>
+				<reportElement uuid="9b79a9cf-d523-4522-80cc-633097890f04" x="10" y="25" width="130" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Activity Report for host:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="140" y="25" width="265" height="20"/>
+				<reportElement uuid="9b44b0fe-004a-4595-8c94-bcef21008ced" x="140" y="25" width="265" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
-				<reportElement x="5" y="355" width="550" height="250" backcolor="#F5F5F5"/>
+				<reportElement uuid="06f08a6c-94e4-49c8-85d7-546a9b2c1e68" x="5" y="355" width="550" height="250" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<areaChart>
 				<chart>
-					<reportElement x="5" y="100" width="550" height="250"/>
+					<reportElement uuid="5e1167a1-71ba-4cde-81d3-fae8f5036975" x="5" y="100" width="550" height="250"/>
 					<chartTitle>
 						<titleExpression><![CDATA["Activity by month"]]></titleExpression>
 					</chartTitle>
@@ -196,7 +196,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="graph_activity_monthly">
+						<datasetRun subDataset="graph_activity_monthly" uuid="235f0580-7968-4bb4-bbfd-131f9b1995f4">
 							<datasetParameter name="p_object_id">
 								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -211,7 +211,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					</dataset>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{type}]]></seriesExpression>
-						<categoryExpression><![CDATA[new SimpleDateFormat("MM-yyyy").format($F{date})]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{number}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
@@ -225,7 +225,7 @@ and object_id                  = $P{p_host_object_id}]]>
 			</areaChart>
 			<areaChart>
 				<chart>
-					<reportElement x="5" y="355" width="550" height="250"/>
+					<reportElement uuid="00e74d15-de88-46e3-aec0-054db49bc08f" x="5" y="355" width="550" height="250"/>
 					<chartTitle>
 						<titleExpression><![CDATA["Activity by day"]]></titleExpression>
 					</chartTitle>
@@ -234,7 +234,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="graph_activity_daily">
+						<datasetRun subDataset="graph_activity_daily" uuid="3deafbb6-408f-427d-999c-3301a693bd7b">
 							<datasetParameter name="p_object_id">
 								<datasetParameterExpression><![CDATA[$P{p_host_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -249,7 +249,7 @@ and object_id                  = $P{p_host_object_id}]]>
 					</dataset>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{type}]]></seriesExpression>
-						<categoryExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($F{date})]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{number}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
@@ -262,12 +262,12 @@ and object_id                  = $P{p_host_object_id}]]>
 				</areaPlot>
 			</areaChart>
 			<break>
-				<reportElement x="0" y="605" width="100" height="1"/>
+				<reportElement uuid="fbbbe428-6def-48b3-b2e1-a514ad9e3b95" x="0" y="605" width="100" height="1"/>
 			</break>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<reportElement uuid="2c29f54e-37a4-41a2-ae10-b69b2d0835a7" x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -286,7 +286,7 @@ and object_id                  = $P{p_host_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<reportElement uuid="d2bb9a77-c950-4238-bf5a-39ccec9e03ee" x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -305,7 +305,7 @@ and object_id                  = $P{p_host_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<reportElement uuid="494b3146-3a45-4a97-855c-1e910773e267" x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$P{p_host_name}]]></subreportParameterExpression>
 				</subreportParameter>

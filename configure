@@ -2385,6 +2385,9 @@ $as_echo "found" >&6; }; JASPER_SERVER="/opt/jasperreports-server-cp-4.5.0"; bre
 elif  test -d /opt/jasperreports-server-cp-4.7.0 ; then :
    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found" >&5
 $as_echo "found" >&6; }; JASPER_SERVER="/opt/jasperreports-server-cp-4.7.0"; break;
+elif  test -d /opt/jasperreports-server-cp-5.0.0 ; then :
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: found" >&5
+$as_echo "found" >&6; }; JASPER_SERVER="/opt/jasperreports-server-cp-5.0.0"; break;
 else
    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
 $as_echo "not found" >&6; }

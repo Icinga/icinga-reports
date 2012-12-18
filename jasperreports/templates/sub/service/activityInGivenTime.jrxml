@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="917d9dba-94e7-4548-aa75-eabde7f8289d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity sub report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="212"/>
-	<subDataset name="graph_activity_monthly" uuid="5f1c5bde-fcd1-48ea-b0db-e0834cfe2820">
+	<subDataset name="graph_activity_monthly">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
@@ -53,7 +53,7 @@ order by date]]>
 		<field name="type" class="java.lang.String"/>
 		<field name="number" class="java.math.BigDecimal"/>
 	</subDataset>
-	<subDataset name="graph_activity_daily" uuid="ae9cf7b0-e840-43d1-9df2-df52a5d4fbc3">
+	<subDataset name="graph_activity_daily">
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
@@ -138,49 +138,49 @@ and object_id                  = $P{p_service_object_id}]]>
 	<detail>
 		<band height="610" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement uuid="6e89ba81-4c4e-46b8-8896-bdc91092ab50" x="5" y="75" width="550" height="20" backcolor="#F5F5F5"/>
+				<reportElement x="5" y="75" width="550" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="acfbd208-3c61-4854-97b7-2a33549a47c3" x="10" y="75" width="545" height="20"/>
+				<reportElement x="10" y="75" width="545" height="20"/>
 				<textElement verticalAlignment="Middle" markup="none"/>
 				<text><![CDATA[This graph displays notifications, state changes and acknowledgments for given service]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement uuid="760fc53e-9186-44dd-a537-5cb01dea2a44" x="5" y="25" width="300" height="20" backcolor="#F5F5F5"/>
+				<reportElement x="5" y="25" width="300" height="20" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="b8c522db-a9e7-4272-929a-ec74cbc29f53" x="10" y="25" width="135" height="20"/>
+				<reportElement x="10" y="25" width="135" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Activity Report for service:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="3fa256fc-d8b3-4406-9702-ee966c6c4a3d" x="145" y="25" width="160" height="20"/>
+				<reportElement x="145" y="25" width="160" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{display_name}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
-				<reportElement uuid="25f0808d-3437-4cc6-8d19-64be692821aa" x="5" y="100" width="550" height="250" backcolor="#F5F5F5"/>
+				<reportElement x="5" y="100" width="550" height="250" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement uuid="01d435e5-9c6f-46a7-9b43-052bd4992f78" x="5" y="355" width="550" height="250" backcolor="#F5F5F5"/>
+				<reportElement x="5" y="355" width="550" height="250" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<areaChart>
 				<chart>
-					<reportElement uuid="6b355578-174a-478d-b6ad-19a871caac66" x="5" y="100" width="550" height="250"/>
+					<reportElement x="5" y="100" width="550" height="250"/>
 					<chartTitle>
 						<titleExpression><![CDATA["Activity by month"]]></titleExpression>
 					</chartTitle>
@@ -189,7 +189,7 @@ and object_id                  = $P{p_service_object_id}]]>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="graph_activity_monthly" uuid="9b04b324-2151-4848-995c-e2aa2b2b5310">
+						<datasetRun subDataset="graph_activity_monthly">
 							<datasetParameter name="p_object_id">
 								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -218,7 +218,7 @@ and object_id                  = $P{p_service_object_id}]]>
 			</areaChart>
 			<areaChart>
 				<chart>
-					<reportElement uuid="a6021d49-beca-48cc-a717-01c798509cbb" x="5" y="355" width="550" height="250"/>
+					<reportElement x="5" y="355" width="550" height="250"/>
 					<chartTitle>
 						<titleExpression><![CDATA["Activity by day"]]></titleExpression>
 					</chartTitle>
@@ -227,7 +227,7 @@ and object_id                  = $P{p_service_object_id}]]>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="graph_activity_daily" uuid="82bda412-1a9d-493e-b6f0-e02a3b092197">
+						<datasetRun subDataset="graph_activity_daily">
 							<datasetParameter name="p_object_id">
 								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -257,7 +257,7 @@ and object_id                  = $P{p_service_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement uuid="996ea801-7b0d-48ca-9709-88fa041ba475" x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -276,7 +276,7 @@ and object_id                  = $P{p_service_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement uuid="47f18861-fbde-499c-98bd-3ff8f2b4f64f" x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -295,7 +295,7 @@ and object_id                  = $P{p_service_object_id}]]>
 		</band>
 		<band height="50">
 			<subreport>
-				<reportElement uuid="cebc590d-2234-42a9-966a-e7f54b2ea46a" x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
+				<reportElement x="0" y="0" width="555" height="50" isRemoveLineWhenBlank="true"/>
 				<subreportParameter name="p_object_name">
 					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
 				</subreportParameter>

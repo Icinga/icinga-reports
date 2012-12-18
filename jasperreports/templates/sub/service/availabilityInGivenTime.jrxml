@@ -148,8 +148,8 @@ AND icinga_objects.object_id    = $P{p_service_object_id}]]>
 						</datasetRun>
 					</dataset>
 					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "OK").replaceFirst("1", "NOK")]]></keyExpression>
-					<valueExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
-					<labelExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP).toString() + "%"]]></labelExpression>
+					<valueExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP).multiply(100)]]></valueExpression>
+					<labelExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP).multiply(100).toString() + "%"]]></labelExpression>
 				</pieDataset>
 				<pie3DPlot depthFactor="0.2" isCircular="false" labelFormat="" legendLabelFormat="{0} ({1} %)">
 					<plot backgroundAlpha="0.0" foregroundAlpha="0.5">

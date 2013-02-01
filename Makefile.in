@@ -228,7 +228,7 @@ js-update-icinga:
 ###############################
 update:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(MAKE) js-update-iciniga install-jar-files ;\
+		$(MAKE) js-update-icinga install-jar-files ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

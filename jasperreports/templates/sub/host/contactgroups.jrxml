@@ -42,12 +42,14 @@ from icinga_objects a,
   icinga_contacts b,
   icinga_contactgroups c,
   icinga_contactgroup_members d,
-  icinga_host_contactgroups e
+  icinga_host_contactgroups e,
+  icinga_hosts f
 where a.object_id            = b.contact_object_id
 and b.contact_object_id      = d.contact_object_id
 and d.contactgroup_id        = c.contactgroup_id
 and c.contactgroup_object_id = e.contactgroup_object_id
-and e.host_id                = $P{p_host_object_id}]]>
+and e.host_id                = f.host_id
+and f.host_object_id         = $P{p_host_object_id}]]>
 		</queryString>
 		<field name="alias" class="java.lang.String"/>
 		<field name="name1" class="java.lang.String"/>

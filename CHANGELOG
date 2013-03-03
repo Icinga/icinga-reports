@@ -10,6 +10,8 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - fix empty reports and reversed OK/NOK
 - fix compatibility with jasperreports <= 4.6
 - fix host overview with empty contacts and contactgroups
+- test support for jasperserver 5.0.0
+- define the least supported jasperserver version (4.5.0)
 
 1.8.1
 

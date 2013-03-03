@@ -4,6 +4,17 @@ Icinga Reporting Change Log
 
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
+1.8.2
+
+- fix queries for host/service availability/activity report
+- fix empty reports and reversed OK/NOK
+- fix compatibility with jasperreports <= 4.6
+- fix host overview with empty contacts and contactgroups
+
+1.8.1
+
+- fix configure not supporting AM_INIT_AUTOMAKE
+
 1.8.0 
 
 - added new template design and corrected some template issues

@@ -39,10 +39,13 @@
   b.email_address
 from icinga_objects a,
   icinga_contacts b,
-  icinga_host_contacts c
+  icinga_host_contacts c,
+  icinga_hosts d
 where a.object_id = b.contact_object_id
-and b.contact_id  = c.contact_object_id
-and c.host_id     = $P{p_host_object_id}]]>
+and b.contact_object_id  = c.contact_object_id
+and c.host_id     = d.host_id
+and d.host_object_id = $P{p_host_object_id}]]>
+
 		</queryString>
 		<field name="name1" class="java.lang.String"/>
 		<field name="alias" class="java.lang.String"/>

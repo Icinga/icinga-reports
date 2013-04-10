@@ -6,6 +6,10 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 
 1.9.0
 - fixed image expression in pnp4nagios template #3693
+- fixed input control for service_object_id #3746
+- fixed order for service_object_id control #3747
+- fixed state replacement in morning report #3752
+
 
 1.8.0 
 

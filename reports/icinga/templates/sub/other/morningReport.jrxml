@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Morning report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Morning report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0" uuid="cd8be26c-05c9-452f-b193-33a85d4f584c">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="861"/>
+	<property name="ireport.y" value="687"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
@@ -35,7 +35,7 @@
 			<style backcolor="#F3F7F8"/>
 		</conditionalStyle>
 	</style>
-	<subDataset name="query_graph_hostevents">
+	<subDataset name="query_graph_hostevents" uuid="fef0cf8c-b03b-45a4-a0e7-0322275e8cf3">
 		<queryString>
 			<![CDATA[select
 state,
@@ -51,7 +51,7 @@ group by (state)]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="query_hostevents">
+	<subDataset name="query_hostevents" uuid="13e6a850-bc6c-4833-b476-cf40427a2512">
 		<queryString>
 			<![CDATA[select
 name1,
@@ -74,7 +74,7 @@ order by state]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="output" class="java.lang.String"/>
 	</subDataset>
-	<subDataset name="query_serviceevents">
+	<subDataset name="query_serviceevents" uuid="f36f3e25-5ddc-4505-9b7c-43bed2a3262f">
 		<queryString>
 			<![CDATA[select
 name1,
@@ -97,7 +97,7 @@ order by state]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="output" class="java.lang.String"/>
 	</subDataset>
-	<subDataset name="query_graph_serviceevents">
+	<subDataset name="query_graph_serviceevents" uuid="6573d045-2c3c-4b2b-888b-71e9c9ce4aab">
 		<queryString>
 			<![CDATA[select
 state,
@@ -113,7 +113,7 @@ group by (state)]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="query_graph_hostnotifications">
+	<subDataset name="query_graph_hostnotifications" uuid="49855bdb-d424-4deb-8473-38e293b39b43">
 		<queryString>
 			<![CDATA[select
 now() as start_time,
@@ -138,7 +138,7 @@ group by extract(hour from start_time), start_time, state]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="query_graph_servicenotifications">
+	<subDataset name="query_graph_servicenotifications" uuid="c6ae1ba5-c6c4-4065-af53-68df680e9bfa">
 		<queryString>
 			<![CDATA[select
 now() as start_time,
@@ -163,7 +163,7 @@ group by extract(hour from start_time), start_time, state]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="query_notificationsbyhostgroup">
+	<subDataset name="query_notificationsbyhostgroup" uuid="cda5c453-1d4e-4975-a758-25dc9cdbacc3">
 		<queryString>
 			<![CDATA[select
 alias,
@@ -186,7 +186,7 @@ group by alias, state]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="query_notificationsbyservicegroup">
+	<subDataset name="query_notificationsbyservicegroup" uuid="5599f87a-f528-4d1b-96f6-c588f186879b">
 		<queryString>
 			<![CDATA[select
 alias,
@@ -209,7 +209,7 @@ group by alias, state]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="number" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="query_hostnotifications">
+	<subDataset name="query_hostnotifications" uuid="cbd1091a-d961-4fe9-baba-e6f5eabbf7bb">
 		<queryString>
 			<![CDATA[select
 name1,
@@ -233,7 +233,7 @@ and notification_type = 0]]>
 		<field name="state" class="java.lang.Integer"/>
 		<field name="output" class="java.lang.String"/>
 	</subDataset>
-	<subDataset name="query_servicenotifications">
+	<subDataset name="query_servicenotifications" uuid="243455f8-7928-457e-8cf1-12c262929815">
 		<queryString>
 			<![CDATA[select
 name1,
@@ -275,18 +275,18 @@ and start_time > current_date - interval '1' day]]>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="300" height="20" backcolor="#F4F4F4"/>
+				<reportElement uuid="841c62a4-2cdb-4bc2-b8d7-7a367cb8aac3" x="0" y="5" width="300" height="20" backcolor="#F4F4F4"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="5" width="85" height="20"/>
+				<reportElement uuid="6ba6d4f5-70ea-4c56-996d-7c22bb9d9c74" x="5" y="5" width="85" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Morning Report:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="90" y="5" width="100" height="20"/>
+				<reportElement uuid="80e8a813-bc39-4bce-a36b-a19b8194fa8e" x="90" y="5" width="100" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -297,13 +297,13 @@ and start_time > current_date - interval '1' day]]>
 	<detail>
 		<band height="200" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="0" y="0" width="250" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="b5ffc9f0-928e-4a70-81c9-79339dd09b21" x="0" y="0" width="250" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="0" width="245" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="23b663e7-55b8-4d25-bfc5-094793ddfb12" x="5" y="0" width="245" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -311,14 +311,14 @@ and start_time > current_date - interval '1' day]]>
 			</staticText>
 			<pie3DChart>
 				<chart isShowLegend="true" theme="aegean">
-					<reportElement mode="Transparent" x="0" y="20" width="250" height="175" forecolor="#000000"/>
+					<reportElement uuid="1a9bc87f-1004-4b84-8654-7ac7f242b158" mode="Transparent" x="0" y="20" width="250" height="175" forecolor="#000000"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend position="Bottom"/>
 				</chart>
 				<pieDataset>
 					<dataset>
-						<datasetRun subDataset="query_graph_hostevents">
+						<datasetRun subDataset="query_graph_hostevents" uuid="22eed8e2-41dc-42b5-adb9-467bbd35467e">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
@@ -336,14 +336,14 @@ and start_time > current_date - interval '1' day]]>
 			</pie3DChart>
 			<pie3DChart>
 				<chart isShowLegend="true" theme="aegean">
-					<reportElement mode="Transparent" x="295" y="20" width="250" height="175" forecolor="#000000"/>
+					<reportElement uuid="316f4ae9-3f2f-409a-a1ef-6c502c034ab0" mode="Transparent" x="295" y="20" width="250" height="175" forecolor="#000000"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend position="Bottom"/>
 				</chart>
 				<pieDataset>
 					<dataset>
-						<datasetRun subDataset="query_graph_serviceevents">
+						<datasetRun subDataset="query_graph_serviceevents" uuid="9fa86f47-52d2-4761-8374-c6e542e3c1a4">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
@@ -360,13 +360,13 @@ and start_time > current_date - interval '1' day]]>
 				</pie3DPlot>
 			</pie3DChart>
 			<rectangle radius="0">
-				<reportElement x="295" y="0" width="250" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="b86d5ed5-9ccf-422b-9183-4c4bf4aa1627" x="295" y="0" width="250" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="300" y="0" width="245" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="90b58dc7-1222-4197-a242-77702d23f87f" x="300" y="0" width="245" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -375,23 +375,23 @@ and start_time > current_date - interval '1' day]]>
 		</band>
 		<band height="50">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="0" y="30" width="250" height="20"/>
+				<reportElement uuid="fb66f418-9814-4eb5-8081-bd1172c538ac" key="table 2" style="table 2" x="0" y="30" width="250" height="20"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="query_notificationsbyhostgroup">
+					<datasetRun subDataset="query_notificationsbyhostgroup" uuid="a39ff77e-016a-4348-aa61-f34e7bb47608">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="90">
+					<jr:column width="90" uuid="90192ceb-0543-4421-a48f-816e8d73f426">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="5" y="0" width="85" height="30"/>
+								<reportElement uuid="038b6bac-8557-4adb-908a-8c167bab60e2" x="5" y="0" width="85" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Hostgroup]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="5" y="0" width="85" height="20"/>
+								<reportElement uuid="fd3249d8-dc1c-412d-a97b-6e7c7ccfbfae" x="5" y="0" width="85" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -399,18 +399,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110">
+					<jr:column width="110" uuid="ae9e15c7-8a65-4c0b-ba38-3e3ae1eb24ec">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30"/>
+								<reportElement uuid="680122d9-8095-4476-a9be-ba79917d7264" x="0" y="0" width="110" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[State]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="20"/>
+								<reportElement uuid="9be626b8-bb69-4bf1-974b-15d81cca1487" x="0" y="0" width="110" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -418,18 +418,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50">
+					<jr:column width="50" uuid="b7d83515-859b-4690-a89e-3e68e24cbe71">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30"/>
+								<reportElement uuid="af04b86a-cde8-4cb4-a0ec-f4e1f6e5d1f8" x="0" y="0" width="50" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Count]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="20"/>
+								<reportElement uuid="46d5a327-84e4-4172-a29c-d7ac34fd2676" x="0" y="0" width="50" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -440,23 +440,23 @@ and start_time > current_date - interval '1' day]]>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="295" y="30" width="250" height="20"/>
+				<reportElement uuid="1ff5c0be-fb48-4e37-9cb9-77a180779db2" key="table 2" style="table 2" x="295" y="30" width="250" height="20"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="query_notificationsbyservicegroup">
+					<datasetRun subDataset="query_notificationsbyservicegroup" uuid="005016ca-124d-4738-8e2c-51ff25a85ab0">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="90">
+					<jr:column width="90" uuid="8e109884-8842-400a-9621-044812dd2b7b">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="5" y="0" width="85" height="30"/>
+								<reportElement uuid="e305f8f3-02b3-44c7-bfe6-cf1c09524030" x="5" y="0" width="85" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Servicegroup]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="5" y="0" width="85" height="20"/>
+								<reportElement uuid="f0d2b22e-164b-49a6-8365-20ba74682477" x="5" y="0" width="85" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -464,18 +464,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110">
+					<jr:column width="110" uuid="03caeac6-b53b-4829-bb7e-8003418d8930">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30"/>
+								<reportElement uuid="9f632715-757c-44fc-892b-f7d6bfacd1e2" x="0" y="0" width="110" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[State]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="20"/>
+								<reportElement uuid="60d1e0db-16a1-4117-8309-5d90a49ca247" x="0" y="0" width="110" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -483,18 +483,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50">
+					<jr:column width="50" uuid="de239ad8-d8dc-4de3-9a32-9900d848f4a0">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30"/>
+								<reportElement uuid="4e3efda0-7d28-4095-8e90-e664f57831f4" x="0" y="0" width="50" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Count]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="20"/>
+								<reportElement uuid="508bb87e-cc64-4779-823d-de808807d45e" x="0" y="0" width="50" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -505,26 +505,26 @@ and start_time > current_date - interval '1' day]]>
 				</jr:table>
 			</componentElement>
 			<rectangle radius="0">
-				<reportElement x="0" y="10" width="250" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="eb60c331-4e57-4e4f-a6e0-9789c4357dc2" x="0" y="10" width="250" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="10" width="245" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="aaa8604e-7913-453a-bb66-b218e74f9d20" x="5" y="10" width="245" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Notifications by Hostgroup:]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="295" y="10" width="250" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="5a02d009-a2f9-4a97-b304-a1934098a309" x="295" y="10" width="250" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="300" y="10" width="245" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="1102d80e-59fb-4c82-bdaf-483419c1e2c1" x="300" y="10" width="245" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -534,14 +534,14 @@ and start_time > current_date - interval '1' day]]>
 		<band height="175">
 			<stackedBar3DChart>
 				<chart theme="aegean">
-					<reportElement x="0" y="25" width="545" height="150"/>
+					<reportElement uuid="b2c1172c-761c-4454-8a06-45430d688ac5" x="0" y="25" width="545" height="150"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="query_graph_hostnotifications"/>
+						<datasetRun subDataset="query_graph_hostnotifications" uuid="ee47a1e6-7b48-4767-9d33-9d49778adab3"/>
 					</dataset>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></seriesExpression>
@@ -558,13 +558,13 @@ and start_time > current_date - interval '1' day]]>
 				</bar3DPlot>
 			</stackedBar3DChart>
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="e2c173dd-3b69-4204-9f42-49b14d312370" x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="fac1a018-cd60-40f4-a271-b64b61003773" x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -574,14 +574,14 @@ and start_time > current_date - interval '1' day]]>
 		<band height="175">
 			<stackedBar3DChart>
 				<chart theme="aegean">
-					<reportElement x="0" y="25" width="545" height="150"/>
+					<reportElement uuid="fa284b39-28c9-4972-a77e-72604f862832" x="0" y="25" width="545" height="150"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="query_graph_servicenotifications">
+						<datasetRun subDataset="query_graph_servicenotifications" uuid="58290d44-a5f0-4906-8615-3a9ab1c8be6d">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
@@ -600,13 +600,13 @@ and start_time > current_date - interval '1' day]]>
 				</bar3DPlot>
 			</stackedBar3DChart>
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="ed9a3539-a202-46dc-93ef-f0cd8ae9d72c" x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="e7c20e90-b5d3-449f-9e21-9c8048b413e9" x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -615,23 +615,23 @@ and start_time > current_date - interval '1' day]]>
 		</band>
 		<band height="45">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="0" y="25" width="545" height="20"/>
+				<reportElement uuid="f4c13b01-994a-4c6b-bf6e-175280917293" key="table 2" style="table 2" x="0" y="25" width="545" height="20"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="query_hostevents">
+					<datasetRun subDataset="query_hostevents" uuid="f789250c-e981-4346-b563-da39b19d3de4">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="90">
+					<jr:column width="90" uuid="c2bdc4fb-e251-4f89-bac8-2092e1bf4992">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="5" y="0" width="85" height="30"/>
+								<reportElement uuid="6233e9ca-4a5f-4287-b442-3980ea8fbcb4" x="5" y="0" width="85" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Hostname]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="5" y="0" width="85" height="20"/>
+								<reportElement uuid="de83d1e2-ba81-4385-b360-89c7e4a1af2e" x="5" y="0" width="85" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -639,18 +639,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110">
+					<jr:column width="110" uuid="0a7b6ffa-4f83-4301-9ab8-10aa3b11b162">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30"/>
+								<reportElement uuid="4f75c686-7bcf-464a-a30a-2bc394b61424" x="0" y="0" width="110" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Timestamp]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="20"/>
+								<reportElement uuid="9e4d783d-6bd8-433b-a673-2c5d074801dd" x="0" y="0" width="110" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -658,18 +658,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="91ced62b-0891-4635-a987-939d259ce45e">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement uuid="b3c64b8b-e711-4611-ab94-f4fabe09d0e6" x="0" y="0" width="90" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[State]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="6885aeee-56f4-4054-bc98-48a8383cce09" x="0" y="0" width="90" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -677,18 +677,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="255">
+					<jr:column width="255" uuid="6a476240-3eef-480a-935f-9f9c5b5da19a">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="255" height="30"/>
+								<reportElement uuid="9b331cab-9666-4b3a-8e2a-e383f047da9d" x="0" y="0" width="255" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Output]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="255" height="20"/>
+								<reportElement uuid="2914799c-fbfe-4e79-bc73-04532a0628ec" x="0" y="0" width="255" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -699,13 +699,13 @@ and start_time > current_date - interval '1' day]]>
 				</jr:table>
 			</componentElement>
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="91c03daf-13ea-4ff6-bfcd-ea56f2e2dde6" x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<textField bookmarkLevel="1">
-				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="fdf3839c-35a1-47b1-a664-b97de5c48d5c" x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle" markup="none">
 					<font isBold="true"/>
 				</textElement>
@@ -715,23 +715,23 @@ and start_time > current_date - interval '1' day]]>
 		</band>
 		<band height="45">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="0" y="25" width="545" height="20"/>
+				<reportElement uuid="ff6bff0f-deda-44a7-a1cc-940921a40a88" key="table 2" style="table 2" x="0" y="25" width="545" height="20"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="query_serviceevents">
+					<datasetRun subDataset="query_serviceevents" uuid="8c1343a7-dc13-4432-8b68-29c3ee038ebe">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="125">
+					<jr:column width="125" uuid="d91a6ce4-dafa-4653-b091-347a29933c3e">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="5" y="0" width="120" height="30"/>
+								<reportElement uuid="9e5f3195-75d3-4be4-bdaa-23e0ce74f0ae" x="5" y="0" width="120" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Host-Service]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="5" y="0" width="120" height="20"/>
+								<reportElement uuid="f7e7e109-6c5b-4c9c-83b7-f77aba194ca2" x="5" y="0" width="120" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -739,18 +739,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110">
+					<jr:column width="110" uuid="1b00dd67-cd63-489b-baa0-c652dfec0d16">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30"/>
+								<reportElement uuid="b19b70cf-7c91-4a13-9484-2fa3cbae2b68" x="0" y="0" width="110" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Timestamp]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="20"/>
+								<reportElement uuid="dc7e7e90-a611-4702-a013-97bfc2246d62" x="0" y="0" width="110" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -758,37 +758,38 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="ab39a1df-765c-42dc-83c0-9ecd6d55987f">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement uuid="04dd8d29-8a20-4e95-9c00-a000291092c4" x="0" y="0" width="90" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[State]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="7930d6e1-9480-4cd9-bb06-5383107f7069" x="0" y="0" width="90" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Up").replaceFirst("1", "Down").replaceFirst("2", "Unreachable")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{state}.toString().replaceFirst("0", "Ok").replaceFirst("1", "Warning").replaceFirst("2", "Critical").replaceFirst("3", "Unknown")
+]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="220">
+					<jr:column width="220" uuid="1daa2fff-48d2-45f1-a6ba-d8fd35f53771">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="220" height="30"/>
+								<reportElement uuid="883fd093-5775-441e-b963-1061cd9bb221" x="0" y="0" width="220" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Output]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="220" height="20"/>
+								<reportElement uuid="b0f6107a-950b-439d-bb16-46a56e3bfa71" x="0" y="0" width="220" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -799,13 +800,13 @@ and start_time > current_date - interval '1' day]]>
 				</jr:table>
 			</componentElement>
 			<rectangle radius="0">
-				<reportElement x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="c5939024-2ea3-47aa-83b6-e07f511b2cf4" x="0" y="5" width="300" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<textField bookmarkLevel="1">
-				<reportElement x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="e00c7d3f-57b4-494a-8741-bf6cd02d5d62" x="5" y="5" width="295" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle" markup="none">
 					<font isBold="true"/>
 				</textElement>
@@ -815,23 +816,23 @@ and start_time > current_date - interval '1' day]]>
 		</band>
 		<band height="50">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="0" y="30" width="545" height="20"/>
+				<reportElement uuid="cfe07d81-8f6f-4ad2-a9b9-f8ec880c7975" key="table 2" style="table 2" x="0" y="30" width="545" height="20"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="query_hostnotifications">
+					<datasetRun subDataset="query_hostnotifications" uuid="b6f1a824-cd13-46c6-9027-ef945433e6fb">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="90">
+					<jr:column width="90" uuid="4ec5600f-62f1-46eb-b80a-d3691791c362">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="5" y="0" width="85" height="30"/>
+								<reportElement uuid="000476b1-e35c-41fd-9138-e1ed7eef3878" x="5" y="0" width="85" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Hostname]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="5" y="0" width="85" height="20"/>
+								<reportElement uuid="8e78eee6-3ba1-4071-8c01-4002e78a66c6" x="5" y="0" width="85" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -839,18 +840,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110">
+					<jr:column width="110" uuid="a867d709-ecd8-4b7b-b8e4-d9db9b8ae9ff">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30"/>
+								<reportElement uuid="6a89eb11-2195-480e-8728-f1b357ad3a11" x="0" y="0" width="110" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Timestamp]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="20"/>
+								<reportElement uuid="0ef1416a-ea09-45bd-898b-4b7ac522a41a" x="0" y="0" width="110" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -858,18 +859,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="1ac815ea-3f15-480a-9969-7528e1e76579">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement uuid="bfd88279-dfa8-4f3e-a4f8-6d9ab0e311a3" x="0" y="0" width="90" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[State]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="288d1fd4-2f6d-4600-b24c-c1a2c02add50" x="0" y="0" width="90" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -877,11 +878,11 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="9c069741-971c-41ce-9506-a35d7ced22a2">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement uuid="7ed56fa0-30b8-47d6-8d9c-5009ff9876dd" x="0" y="0" width="90" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Reason]]></text>
 							</staticText>
@@ -889,7 +890,7 @@ and start_time > current_date - interval '1' day]]>
 						<jr:columnFooter height="0" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="2d511948-72f6-4bc6-87a2-c2970413fd10" x="0" y="0" width="90" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -897,18 +898,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="165">
+					<jr:column width="165" uuid="4e1e7109-7a42-4fa0-93e4-d1bbfe9a28a1">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="165" height="30"/>
+								<reportElement uuid="c152538e-4753-4e56-958e-82c5259f75c1" x="0" y="0" width="165" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Output]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="165" height="20"/>
+								<reportElement uuid="2771c2b9-e3da-4da4-838e-b1de91953d4f" x="0" y="0" width="165" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -919,13 +920,13 @@ and start_time > current_date - interval '1' day]]>
 				</jr:table>
 			</componentElement>
 			<rectangle radius="0">
-				<reportElement x="0" y="10" width="300" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="9c45a7b9-15fc-46b3-8166-c387d276fe90" x="0" y="10" width="300" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<textField bookmarkLevel="1">
-				<reportElement x="5" y="10" width="295" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="7eae7069-ca62-4b64-bc92-aa13a2d0f6f1" x="5" y="10" width="295" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle" markup="none">
 					<font isBold="true"/>
 				</textElement>
@@ -935,23 +936,23 @@ and start_time > current_date - interval '1' day]]>
 		</band>
 		<band height="50">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="0" y="30" width="545" height="20"/>
+				<reportElement uuid="96557bc0-d8d7-463c-bfde-d1dc689872fe" key="table 2" style="table 2" x="0" y="30" width="545" height="20"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="query_servicenotifications">
+					<datasetRun subDataset="query_servicenotifications" uuid="9d3290eb-c3e5-4c3d-b417-6dc6926e87ec">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="125">
+					<jr:column width="125" uuid="f4732a6c-a01f-45b8-9934-beb4c685a483">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="5" y="0" width="120" height="30"/>
+								<reportElement uuid="7b5673cf-da22-4d9c-8bb1-9881a8c7d9ad" x="5" y="0" width="120" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Host-Service]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="5" y="0" width="120" height="20"/>
+								<reportElement uuid="513d0ed1-c2b6-4457-9847-78b2ab95fe43" x="5" y="0" width="120" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -959,18 +960,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110">
+					<jr:column width="110" uuid="cf0c8efc-47bb-40c6-a760-6a1c0b0532c1">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30"/>
+								<reportElement uuid="4dc0a262-afe7-4e61-904e-dbc54edc2be2" x="0" y="0" width="110" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Timestamp]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="20"/>
+								<reportElement uuid="5e7cbbc5-bd8c-41c1-92c3-b1b8209e47d8" x="0" y="0" width="110" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -978,18 +979,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="051585b0-15e2-4249-89ef-baf025991a4c">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement uuid="afe8ce4a-611c-4845-a614-130f7720925c" x="0" y="0" width="90" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[State]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="270077a3-72d7-400e-9a29-07e564432804" x="0" y="0" width="90" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -997,18 +998,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="4a0ba007-2225-46d8-bd9c-689e51916208">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement uuid="efafd497-80ac-45fd-a4b7-901b5a7fce4b" x="0" y="0" width="90" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Reason]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="fd2523bf-cf0b-4910-b2c7-c8c6e976bdbf" x="0" y="0" width="90" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -1016,18 +1017,18 @@ and start_time > current_date - interval '1' day]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="130">
+					<jr:column width="130" uuid="372730e7-2424-4ada-b4ba-371d233eb5f5">
 						<jr:tableHeader style="table 2_TH" height="0" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="130" height="30"/>
+								<reportElement uuid="ac4da2c3-0521-4f2c-bbc7-2ad9b0817e1f" x="0" y="0" width="130" height="30"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Output]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="130" height="20"/>
+								<reportElement uuid="ad57e412-95a1-4caa-8f63-2c1eb2e9ad82" x="0" y="0" width="130" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -1038,13 +1039,13 @@ and start_time > current_date - interval '1' day]]>
 				</jr:table>
 			</componentElement>
 			<rectangle radius="0">
-				<reportElement x="0" y="10" width="300" height="20" backcolor="#81AAB8"/>
+				<reportElement uuid="3ea5dd31-41cf-4150-9c73-34bea52daabe" x="0" y="10" width="300" height="20" backcolor="#81AAB8"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#727272"/>
 				</graphicElement>
 			</rectangle>
 			<textField bookmarkLevel="1">
-				<reportElement x="5" y="10" width="295" height="20" forecolor="#FFFFFF"/>
+				<reportElement uuid="cb4c9775-3739-4429-80e8-f4f39f3bf622" x="5" y="10" width="295" height="20" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle" markup="none">
 					<font isBold="true"/>
 				</textElement>

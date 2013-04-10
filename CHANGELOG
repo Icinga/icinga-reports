@@ -4,6 +4,9 @@ Icinga Reporting Change Log
 
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
+1.9.0
+- fixed image expression in pnp4nagios template #3693
+
 1.8.0 
 
 - added new template design and corrected some template issues

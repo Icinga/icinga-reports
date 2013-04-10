@@ -179,7 +179,7 @@ and object_id                  = $P{p_service_object_id}]]>
 			</textField>
 			<image>
 				<reportElement x="5" y="100" width="550" height="225"/>
-				<imageExpression><![CDATA["pnp-server" + "/pnp4nagios/graph?" + "host=" + $F{name1} + "&srv=" + $F{display_name} + "&start=" + $P{p_date_start}+ "&end=" + $P{p_date_end}]]></imageExpression>
+				<imageExpression><![CDATA["pnp-server-url-with-path + "?" + "host=" + $F{name1} + "&srv=" + $F{display_name} + "&start=" + $P{p_date_start}+ "&end=" + $P{p_date_end}]]></imageExpression>
 			</image>
 		</band>
 		<band height="50">

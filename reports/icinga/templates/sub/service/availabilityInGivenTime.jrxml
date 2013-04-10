@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability sub report in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability sub report in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="33cac294-e038-49a3-82ea-514eb21556ce">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<subDataset name="graph_availability">
+	<subDataset name="graph_availability" uuid="e4874aa1-84c8-48ad-87ec-db5a52a20f3a">
 		<parameter name="p_service_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_service_object_id}]]></defaultValueExpression>
 		</parameter>
@@ -86,52 +86,52 @@ AND icinga_objects.object_id    = $P{p_service_object_id}]]>
 	<detail>
 		<band height="350" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="5" y="75" width="185" height="275" backcolor="#F5F5F5"/>
+				<reportElement uuid="6e33b4b3-58b2-4224-bb4c-2f5fb9607e6f" x="5" y="75" width="185" height="275" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="80" width="150" height="40"/>
+				<reportElement uuid="f0f2007c-e117-4eda-8bbb-2b86dfd566dc" x="10" y="80" width="150" height="40"/>
 				<textElement markup="none">
 					<font isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[This graph displays the availability for given service]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="5" y="25" width="300" height="40" backcolor="#F5F5F5"/>
+				<reportElement uuid="24b72854-ad56-4c63-bcb8-d9e8b699c782" x="5" y="25" width="300" height="40" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="45" width="65" height="20"/>
+				<reportElement uuid="e005ae2b-45e8-42ac-9876-27597427497c" x="10" y="45" width="65" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Service:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="75" y="45" width="230" height="20"/>
+				<reportElement uuid="d274b7fb-a3b7-440c-833a-b1bbb2ef65a7" x="75" y="45" width="230" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
-				<reportElement x="191" y="75" width="364" height="275" backcolor="#F5F5F5"/>
+				<reportElement uuid="56775f50-ed64-41e5-91a2-ce377f70b399" x="191" y="75" width="364" height="275" backcolor="#F5F5F5"/>
 				<graphicElement>
 					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<pie3DChart>
 				<chart theme="default">
-					<reportElement x="192" y="76" width="362" height="273"/>
+					<reportElement uuid="5774186a-c60b-47ca-8fc2-e3e0bdd0ace7" x="192" y="76" width="362" height="273"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend position="Bottom"/>
 				</chart>
 				<pieDataset>
 					<dataset>
-						<datasetRun subDataset="graph_availability">
+						<datasetRun subDataset="graph_availability" uuid="c20a72d3-a216-4ec2-aea0-6d278fb5fab6">
 							<datasetParameter name="p_service_object_id">
 								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -148,8 +148,8 @@ AND icinga_objects.object_id    = $P{p_service_object_id}]]>
 						</datasetRun>
 					</dataset>
 					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "OK").replaceFirst("1", "NOK")]]></keyExpression>
-					<valueExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP).multiply(100)]]></valueExpression>
-					<labelExpression><![CDATA[$F{sla}.setScale(3,BigDecimal.ROUND_HALF_UP).multiply(100).toString() + "%"]]></labelExpression>
+					<valueExpression><![CDATA[$F{sla}.setScale(5,BigDecimal.ROUND_HALF_UP).multiply(100)]]></valueExpression>
+					<labelExpression><![CDATA[$F{sla}.setScale(5,BigDecimal.ROUND_HALF_UP).multiply(100).toString() + "%"]]></labelExpression>
 				</pieDataset>
 				<pie3DPlot depthFactor="0.2" isCircular="false" labelFormat="" legendLabelFormat="{0} ({1} %)">
 					<plot backgroundAlpha="0.0" foregroundAlpha="0.5">
@@ -162,70 +162,70 @@ AND icinga_objects.object_id    = $P{p_service_object_id}]]>
 				</pie3DPlot>
 			</pie3DChart>
 			<textField>
-				<reportElement x="40" y="120" width="120" height="20"/>
+				<reportElement uuid="bfe9a865-6d96-4438-9499-f08fabe4fa63" x="40" y="120" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="180" width="100" height="20"/>
+				<reportElement uuid="3428dec4-a4cc-4bae-83c2-8655b12187eb" x="10" y="180" width="100" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Period in minutes:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="120" width="30" height="20"/>
+				<reportElement uuid="2b87a1d8-ddf1-43dc-aad6-b617b09a71d8" x="10" y="120" width="30" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Start:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="140" width="30" height="20"/>
+				<reportElement uuid="78fd52bf-d78e-4c72-9e9c-04f8fc7a353a" x="10" y="140" width="30" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[End:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="40" y="140" width="120" height="20"/>
+				<reportElement uuid="61aee093-eeb8-4263-8327-937fa453dbe1" x="40" y="140" width="120" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="180" width="80" height="20"/>
+				<reportElement uuid="f8a4816a-214a-4948-8f72-63c3e6043cc8" x="110" y="180" width="80" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{period} / 60).setScale(2,BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="25" width="65" height="20"/>
+				<reportElement uuid="91ca2abd-e1e7-4e93-941f-09c50b528347" x="10" y="25" width="65" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Hostname:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="75" y="25" width="230" height="20"/>
+				<reportElement uuid="5e4080a4-bc8d-455f-b2ec-15a2af388d73" x="75" y="25" width="230" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{p_host_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="200" width="100" height="20"/>
+				<reportElement uuid="4ae111f5-9d5c-4871-b256-d126182cf150" x="10" y="200" width="100" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Period in hours:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="200" width="80" height="20"/>
+				<reportElement uuid="cd03b6d4-81cc-460d-85ae-089442e88efa" x="110" y="200" width="80" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{period} / 60 / 60).setScale(2,BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="220" width="80" height="20"/>
+				<reportElement uuid="aaa97bdd-b7ab-433c-ba15-a7cdce6293fd" x="110" y="220" width="80" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{period} / 60 / 60 / 24).setScale(2,BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="220" width="100" height="20"/>
+				<reportElement uuid="701e2f69-a866-4c08-a825-6c2a5d8b44e9" x="10" y="220" width="100" height="20"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Period in days:]]></text>
 			</staticText>

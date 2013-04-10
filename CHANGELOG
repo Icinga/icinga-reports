@@ -9,6 +9,7 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - fixed input control for service_object_id #3746
 - fixed order for service_object_id control #3747
 - fixed state replacement in morning report #3752
+- fixed rounding error with small numbers #3942
 
 
 1.8.0 

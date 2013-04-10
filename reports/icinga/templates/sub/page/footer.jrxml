@@ -14,7 +14,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7" isBold="false" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Report created with Icinga Reports 1.8 - © Icinga Development Team (www.icinga.org)]]></text>
+				<text><![CDATA[Report created with Icinga Reports 1.9 - © Icinga Development Team (www.icinga.org)]]></text>
 			</staticText>
 			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
 				<reportElement x="5" y="1" width="250" height="12" forecolor="#999999"/>

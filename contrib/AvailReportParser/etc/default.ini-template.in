@@ -1,0 +1,52 @@
+# Configuration file for availability parser
+# Version 1.9
+
+# ===== Basic Authentification =====
+HOST = localhost
+PORT = 80
+REALM = Icinga Access
+
+USERNAME = icingaadmin
+PASSWORD = icinga
+
+# ===== URL path =====
+URLPATH = http://localhost/icinga/
+
+# ===== Database =====
+DBHOST = localhost
+DBNAME = reporting
+DBUSER = icinga
+DBPASS = icinga
+
+TABLEPREFIX =
+
+# ===== Parsing Option =====
+# Use HTML for Nagios and JSON for Icinga
+PARSERTYPE = JSON
+
+# Import data to database
+# 0 = No / 1 = Yes
+HOSTUP = 1
+HOSTUNREACHABLE = 1
+HOSTDOWN = 1
+
+SERVICEOK = 1
+SERVICEWARNING = 1
+SERVICEUNKNOWN = 1
+SERVICECRITICAL = 1
+
+UNDETERMINED = 1
+ALL = 1
+LOGENTRIES = 1
+
+# ===== Debugging =====
+# Enable debuggging (0=off / 1=on)
+DEBUG = 0
+
+# Log level for debugging
+# 1 = Normal (default)
+# 2 = More information about methods, variables etc.
+LOGLEVEL = 1
+
+# Path to debug file
+DEBUGFILE = @logdir@/log/default_report_avail.log

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bits.report.sub.avail.service.all.states" language="groovy" pageWidth="450" pageHeight="792" columnWidth="450" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/services/repository"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#707677">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="All">
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_report_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT id FROM reports LIMIT 0,1]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<columnHeader>
+		<band height="20">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="450" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="All">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource(1)]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[State]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Type / Reason]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Time]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[% Total Time]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[% Known Time]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="320" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="450" height="60"/>
+				<subreportParameter name="p_report_id">
+					<subreportParameterExpression><![CDATA[$P{p_report_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_state_id">
+					<subreportParameterExpression><![CDATA[0]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateBreakdown/breakdown"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="60" width="450" height="60"/>
+				<subreportParameter name="p_state_id">
+					<subreportParameterExpression><![CDATA[1]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_report_id">
+					<subreportParameterExpression><![CDATA[$P{p_report_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateBreakdown/breakdown"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="180" width="450" height="60"/>
+				<subreportParameter name="p_state_id">
+					<subreportParameterExpression><![CDATA[2]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_report_id">
+					<subreportParameterExpression><![CDATA[$P{p_report_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateBreakdown/breakdown"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="120" width="450" height="60"/>
+				<subreportParameter name="p_state_id">
+					<subreportParameterExpression><![CDATA[3]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_report_id">
+					<subreportParameterExpression><![CDATA[$P{p_report_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateBreakdown/breakdown"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="240" width="450" height="60"/>
+				<subreportParameter name="p_state_id">
+					<subreportParameterExpression><![CDATA[4]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_report_id">
+					<subreportParameterExpression><![CDATA[$P{p_report_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateBreakdown/breakdown"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="300" width="450" height="20"/>
+				<subreportParameter name="p_report_id">
+					<subreportParameterExpression><![CDATA[$P{p_report_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateBreakdown/summaryBreakdown"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

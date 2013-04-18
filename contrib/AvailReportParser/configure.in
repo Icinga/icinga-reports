@@ -1,0 +1,68 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+PKG_NAME=icinga-reports
+PKG_VERSION="1.8.1"
+PKG_HOME_URL="http://www.icinga.org/"
+PKG_REL_DATE="10-17-2012"
+
+AC_SUBST(PKG_NAME)
+AC_SUBST(PKG_REL_DATE)
+AC_SUBST(PKG_VERSION)
+AC_SUBST(ac_configure_args)
+
+AC_PREREQ([2.67])
+AC_INIT(icinga-reports,1.8.1,icinga-devel@lists.sourceforge.net)
+AM_INIT_AUTOMAKE
+AC_CANONICAL_HOST
+
+AC_PREFIX_DEFAULT(/usr/local/icinga-reports)
+AC_CONFIG_FILES([subst Makefile etc/Makefile modules/Makefile])
+
+# Checks for programs.
+AC_PATH_PROG(PERL,perl)
+
+# Checks for libraries.
+
+# Checks for header files.
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
+
+# Define install options
+
+AC_ARG_WITH(icinga_user,AC_HELP_STRING([--with-icinga-user=<user>],[sets user name to run icinga]),icinga_user=$withval,icinga_user=icinga)
+AC_ARG_WITH(icinga_group,AC_HELP_STRING([--with-icinga-group=<grp>],[sets group name to run icinga]),icinga_grp=$withval,icinga_grp=icinga)
+AC_SUBST(icinga_user)
+AC_SUBST(icinga_grp)
+AC_DEFINE_UNQUOTED(DEFAULT_ICINGA_USER,"$icinga_user",[user name to run nagios])
+AC_DEFINE_UNQUOTED(DEFAULT_NAGIOS_USER,"$icinga_user",[user name to run nagios])
+AC_DEFINE_UNQUOTED(DEFAULT_ICINGA_GROUP,"$icinga_grp",[group name to run nagios])
+AC_DEFINE_UNQUOTED(DEFAULT_NAGIOS_GROUP,"$icinga_grp",[group name to run nagios])
+INSTALL_OPTS="-o $icinga_user -g $icinga_grp"
+AC_SUBST(INSTALL_OPTS)
+
+
+dnl Location of logging path
+LOGDIR=no
+AC_ARG_WITH(log-dir,AC_HELP_STRING([--with-log-dir=<path>],[sets path to logging directory]),LOGDIR=$withval,LOGDIR=no)
+if test x$LOGDIR = xno; then
+        LOGDIR="$localstatedir"
+fi
+AC_SUBST(LOGDIR)
+
+dnl Check for location of jasper report server directory
+JASPER_SERVER=no
+AC_MSG_CHECKING([for jasperserver])
+AC_ARG_WITH(jasper_server,AC_HELP_STRING([--with-jasper-server=<path>],[sets path to jasper server directory]),JASPER_SERVER=$withval,JASPER_SERVER=no)
+if test x$JASPER_SERVER = xno; then
+	AS_IF([ test -d /opt/jasperreports-server-cp-4.5.0 ], [ AC_MSG_RESULT([found version 4.5.0]); JASPER_SERVER="/opt/jasperreports-server-cp-4.0.0"; break; ],
+	      [ test -d /opt/jasperreports-server-cp-4.7.0 ], [ AC_MSG_RESULT([found version 4.7.0]); JASPER_SERVER="/opt/jasperreports-server-cp-4.7.0"; break; ],
+	      [ test -d /opt/jasperreports-server-cp-5.0.0 ], [ AC_MSG_RESULT([found version 5.0.0]); JASPER_SERVER="/opt/jasperreports-server-cp-5.0.0"; break; ],
+              [ AC_MSG_RESULT([not found]) ])
+fi
+AC_SUBST(JASPER_SERVER)
+
+AC_OUTPUT
+
+$PERL subst etc/default.ini-template

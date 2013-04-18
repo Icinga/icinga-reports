@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Summary breakdown" language="groovy" pageWidth="595" pageHeight="100" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Apr 28 15:36:10 CEST 2011"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#C0C0C0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="Time">
+		<parameter name="p_report_id" class="java.lang.Integer" isForPrompting="false"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	state_id,
+	reasontype_id,
+	timetype_id,
+	days,
+	hours,
+	minutes,
+	seconds
+FROM
+	raw_availability_breakdowns_time AS rabt
+WHERE rabt.report_id = $P{p_report_id}
+AND rabt.state_id = 5]]>
+		</queryString>
+		<field name="state_id" class="java.lang.Integer"/>
+		<field name="reasontype_id" class="java.lang.Integer"/>
+		<field name="timetype_id" class="java.lang.Integer"/>
+		<field name="days" class="java.lang.Integer"/>
+		<field name="hours" class="java.lang.Integer"/>
+		<field name="minutes" class="java.lang.Integer"/>
+		<field name="seconds" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="TotalTime">
+		<parameter name="p_state_id" class="java.lang.Integer" isForPrompting="false"/>
+		<parameter name="p_report_id" class="java.lang.Integer" isForPrompting="false"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	state_id,
+	reasontype_id,
+	percent
+FROM
+	raw_availability_breakdowns_percent AS rabp
+WHERE rabp.report_id = $P{p_report_id}
+AND rabp.state_id = 5
+AND rabp.timetype_id = 2]]>
+		</queryString>
+		<field name="percent" class="java.lang.String"/>
+		<field name="reasontype_id" class="java.lang.Integer"/>
+		<field name="state_id" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="KnownTime">
+		<parameter name="p_state_id" class="java.lang.Integer" isForPrompting="false"/>
+		<parameter name="p_report_id" class="java.lang.Integer" isForPrompting="false"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	state_id,
+	reasontype_id,
+	percent
+FROM
+	raw_availability_breakdowns_percent AS rabp
+WHERE rabp.report_id = $P{p_report_id}
+AND rabp.state_id = 5
+AND rabp.timetype_id = 1]]>
+		</queryString>
+		<field name="percent" class="java.lang.String"/>
+		<field name="reasontype_id" class="java.lang.Integer"/>
+		<field name="state_id" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="p_report_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT id FROM reports LIMIT 0,1]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement style="table_TD" x="0" y="0" width="90" height="20" backcolor="#C0C0C0"/>
+				<graphicElement>
+					<pen lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="90" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[All]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="time" style="table" x="90" y="0" width="180" height="20" forecolor="#000000"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Time">
+						<datasetParameter name="p_report_id">
+							<datasetParameterExpression><![CDATA[$P{p_report_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TD" x="0" y="0" width="90" height="20" forecolor="#000000"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="90" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{days}+"d "+$F{hours}+"h "+$F{minutes}+"m "+$F{seconds}+"s"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="totaltime" style="table" x="270" y="0" width="90" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="TotalTime">
+						<datasetParameter name="p_report_id">
+							<datasetParameterExpression><![CDATA[$P{p_report_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="90" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{percent}+"%"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="knowntime" style="table" x="360" y="0" width="90" height="20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="KnownTime">
+						<datasetParameter name="p_report_id">
+							<datasetParameterExpression><![CDATA[$P{p_report_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="90" height="20" forecolor="#000000"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{percent}+"%"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</pageHeader>
+</jasperReport>

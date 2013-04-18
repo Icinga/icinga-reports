@@ -1,0 +1,16 @@
+This perl script parse and import a completly service availability report in a database.
+
+
+1.) Create a database "reporting"
+
+2.) Create tables with the sql script db/mysql/mysql.sql
+
+3.) Make changes in the etc/default.ini for your database connection and icinga/nagios basic authentification
+
+4.) Start import as example with: ./importServiceAvailReport.pl -H localhost -S HTTP
+
+Thats it!!!!
+
+For debugging have a look at <Your Path>/icinga-reports/var/log/
+
+For more documentation use perldoc modulname. As example perldoc ./include/modules/Reporting/Availability.pm

@@ -1,0 +1,156 @@
+####################################################################
+# Makefile for Icinga-Reporting Availability Parser
+####################################################################
+SUBDIRS=modules
+
+###############################
+# Source code directories
+###############################
+SRC_MODULE=@srcdir@/modules
+SRC_CONFIG=@srcdir@/etc
+
+
+###############################
+# Compiler Settings
+###############################
+CC=@CC@
+CFLAGS=@CFLAGS@ @DEFS@
+LDFLAGS=@LDFLAGS@ @LIBS@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@LOGDIR@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+INCDIR=@includedir@
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+JASPER_SERVER=@JASPER_SERVER@
+
+
+###############################
+# Tools
+###############################
+MKDIR=/bin/mkdir
+
+###############################
+# Global
+###############################
+PACKAGE_TARNAME=@PACKAGE_TARNAME@
+PACKAGE_NAME=@PACKAGE_NAME@
+PACKAGE_VERSION=@PACKAGE_VERSION@
+
+
+###############################
+# Installation
+###############################
+none:
+	@echo ""
+	@echo "*** Installation ***"
+	@echo ""
+	@echo "  make install"
+	@echo "     - This installs the main program (Icinga Reports)"
+	@echo ""
+	@echo "  make js-import"
+	@echo "     - This imports the reports into your JasperServer"
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo "*** Support Notes *******************************************"
+	@echo ""
+	@echo "If you have questions about configuring or running Icinga,"
+	@echo "please make sure that you:"
+	@echo ""
+	@echo "     - Look at the sample config files"
+	@echo ""
+	@echo "before you post a question to one of the mailing lists at"
+	@echo "http://www.icinga.org/community/ or at Icinga Portal:"
+	@echo "http://www.icinga-portal.org"
+	@echo ""
+	@echo "Also make sure to include pertinent information that could"
+	@echo "help others help you.  This might include:"
+	@echo ""
+	@echo "     - What version of Icinga you are using"
+	@echo "     - What version of the jasper server you are using"
+	@echo "     - Relevant error messages from the Icinga log file"
+	@echo ""
+	@echo "For more information on obtaining support for Icinga, visit:"
+	@echo ""
+	@echo "       http://www.icinga.org/community/"
+	@echo ""
+	@echo "*************************************************************"
+	@echo ""
+	@echo "Enjoy."
+	@echo ""
+
+clean:
+	cd $(SRC_MODULE) && $(MAKE) $@
+
+	rm -f Makefile
+	rm -f subst
+	rm -f config.log config.status
+
+	cd $(SRC_CONFIG) && $(MAKE) $@
+
+distclean: clean
+	rm -f /tmp/js-icinga-detailed-reports.zip
+	
+install:
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(CFGDIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)/log
+	$(INSTALL) -b -m 774 $(INSTALL_OPTS) bin/importAvailReport.pl $(DESTDIR)$(BINDIR)
+	$(INSTALL) -b -m 774 $(INSTALL_OPTS) bin/deleteAvailReport.pl $(DESTDIR)$(BINDIR)
+	$(INSTALL) -b -m 664 $(INSTALL_OPTS) etc/default.ini-template $(DESTDIR)$(CFGDIR)
+
+	cd $(SRC_MODULE) && $(MAKE) $@
+
+js-import:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./jasperreports/package/js-icinga-avail-reports.zip ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "*** Japser Reports imported ***" ;\
+		echo "" ;\
+	fi
+
+js-export:
+	@if [ x$(JASPER_SERVER) != xno ]; then \
+		echo "" ;\
+		echo "*** Beginning export Reports from JasperServer..... ***" ;\
+		echo "" ;\
+		$(JASPER_SERVER)/buildomatic/js-export.sh --uris \
+			/icinga/reports/service/ServiceDetailedAvailabilityReport, \
+			/icinga/reports/host/HostDetailedAvailabilityReport, \
+			/icinga/templates/sub/other/logentries, \
+			/icinga/templates/sub/service/allStateBreakdowns, \
+			/icinga/templates/sub/service/pieChartStates, \
+			/icinga/templates/sub/service/stateBreakdown, \
+			/icinga/templates/sub/service/summaryState, \
+			/icinga/templates/sub/host/allStateBreakdowns, \
+			/icinga/templates/sub/host/pieChartStates, \
+			/icinga/templates/sub/host/stateBreakdown, \
+			/icinga/templates/sub/host/summaryState \
+			--output-zip /tmp/js-icinga-avail-reports.zip ;\
+	fi
+
+	@if [ x$(JASPER_SERVER) = xno ]; then \
+		echo "" ;\
+		echo "Sorry, but no supported JasperServer installation found!" ;\
+		echo "" ;\
+	else \
+		echo "" ;\
+		echo "New report package exported to /tmp/js-icinga-avail-reports.zip" ;\
+		echo "*** Japser Reports exported ***" ;\
+		echo "" ;\
+	fi
+
+create-tarball:
+	./make-tarball --prefix ${PACKAGE_TARNAME}-${PACKAGE_VERSION}/

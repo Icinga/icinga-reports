@@ -1,0 +1,60 @@
+####################################################################
+# Makefile for Icinga-Reporting Availability Parser
+####################################################################
+
+
+###############################
+# Source code directories
+###############################
+SRC_MODULE=@srcdir@/modules
+
+
+###############################
+# Compiler Settings
+###############################
+CC=@CC@
+CFLAGS=@CFLAGS@ @DEFS@
+LDFLAGS=@LDFLAGS@ @LIBS@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@LOGDIR@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+INCDIR=@includedir@
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+
+
+###############################
+# Tools
+###############################
+MKDIR=/bin/mkdir
+
+###############################
+# Global
+###############################
+ICINGA_REPORTING_VERSION=1.5.0-dev
+
+
+###############################
+# Compile
+###############################
+none:
+	@echo "Please supply a command line argument (i.e. 'make install')."
+
+clean:
+	rm -f Makefile
+	rm -f config.log config.status
+
+install:
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(INCDIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(INCDIR)/modules
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(INCDIR)/modules/Config
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(INCDIR)/modules/Database
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(INCDIR)/modules/Debug
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(INCDIR)/modules/Parser
+	$(INSTALL) -b -m 664 $(INSTALL_OPTS) Config/Configuration.pm $(DESTDIR)$(INCDIR)/modules/Config/Configuration.pm
+	$(INSTALL) -b -m 664 $(INSTALL_OPTS) Database/DBHandler.pm $(DESTDIR)$(INCDIR)/modules/Database/DBHandler.pm
+	$(INSTALL) -b -m 664 $(INSTALL_OPTS) Debug/Debugger.pm $(DESTDIR)$(INCDIR)/modules/Debug/Debugger.pm
+	$(INSTALL) -b -m 664 $(INSTALL_OPTS) Parser/Availability.pm $(DESTDIR)$(INCDIR)/modules/Parser/Availability.pm

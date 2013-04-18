@@ -1,0 +1,52 @@
+####################################################################
+# Makefile for Icinga-Reporting Availability Parser
+####################################################################
+SUBDIRS=modules
+
+###############################
+# Source code directories
+###############################
+SRC_MODULE=@srcdir@/modules
+
+
+###############################
+# Compiler Settings
+###############################
+CC=@CC@
+CFLAGS=@CFLAGS@ @DEFS@
+LDFLAGS=@LDFLAGS@ @LIBS@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@LOGDIR@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+INCDIR=@includedir@
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+JASPER_SERVER=@JASPER_SERVER@
+
+
+###############################
+# Tools
+###############################
+MKDIR=/bin/mkdir
+
+###############################
+# Global
+###############################
+PACKAGE_TARNAME=@PACKAGE_TARNAME@
+PACKAGE_NAME=@PACKAGE_NAME@
+PACKAGE_VERSION=@PACKAGE_VERSION@
+
+
+###############################
+# Installation
+###############################
+
+clean:
+	rm -f Makefile
+	rm -f default.ini-template
+
+install:
+	$(INSTALL) -b -m 664 $(INSTALL_OPTS) default.ini-template $(DESTDIR)$(CFGDIR)

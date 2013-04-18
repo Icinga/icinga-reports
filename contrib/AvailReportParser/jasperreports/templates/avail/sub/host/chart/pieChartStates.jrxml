@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Pie chart states" language="groovy" pageWidth="400" pageHeight="842" columnWidth="400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="KnownTimesPercent">
+		<parameter name="p_report_id" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT percent, state_id
+FROM raw_availability_breakdowns_percent
+WHERE reasontype_id = 2
+AND timetype_id = 1
+AND state_id > 5
+AND report_id = $P{p_report_id}]]>
+		</queryString>
+		<field name="percent" class="java.lang.String"/>
+		<field name="state_id" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="p_report_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT id FROM reports LIMIT 0,1]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<detail>
+		<band height="220" splitType="Stretch">
+			<pie3DChart>
+				<chart isShowLegend="true">
+					<reportElement x="0" y="0" width="400" height="220"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="KnownTimesPercent">
+							<datasetParameter name="p_report_id">
+								<datasetParameterExpression><![CDATA[$P{p_report_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{state_id}.toString().replaceFirst("7", "Up").replaceFirst("8", "Down").replaceFirst("9", "Unreachable")]]></keyExpression>
+					<valueExpression><![CDATA[new Double(String.valueOf(new Double($F{percent})))]]></valueExpression>
+					<labelExpression><![CDATA[new Double(String.valueOf(new Double($F{percent})))+"%"]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot backgroundAlpha="1.0" foregroundAlpha="0.5">
+						<seriesColor seriesOrder="0" color="#66FF66"/>
+						<seriesColor seriesOrder="1" color="#BF44B2"/>
+						<seriesColor seriesOrder="2" color="#FF3333"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</detail>
+</jasperReport>

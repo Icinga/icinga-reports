@@ -5,6 +5,8 @@ Icinga Reporting Change Log
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
 1.9.0
+- add AvailReportParser into contrib/ (standalone) #3978
+- reorganize directory structure #3742
 - fixed image expression in pnp4nagios template #3693
 - fixed input control for service_object_id #3746
 - fixed order for service_object_id control #3747

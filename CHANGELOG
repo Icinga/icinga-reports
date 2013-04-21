@@ -5,6 +5,13 @@ Icinga Reporting Change Log
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
 1.9.0
+
+Note: The directory structure of the source tarball has been changed in #3742
+* reporting templates are stored in 'reports/icinga'
+* jar files are located in 'jsp-server/classes/{icinga,connector}'
+* icinga_availability.sql was moved to 'db/icinga/mysql/availability.sql'
+The default make install routines are not affected by those changes.
+
 - add AvailReportParser into contrib/ (standalone) #3978
 - reorganize directory structure #3742
 - fixed image expression in pnp4nagios template #3693

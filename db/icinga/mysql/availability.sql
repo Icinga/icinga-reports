@@ -32,6 +32,8 @@ BEGIN
              @id := id, @start := start, @end := end FROM DUAL
   ) dummy;
 
+  SELECT (@last_state := @last_ts := @cnt_dt := @add_duration := NULL) + 1 FROM DUAL INTO dummy;
+
   SELECT
     -- Let's pick up the first valid value...
     COALESCE(

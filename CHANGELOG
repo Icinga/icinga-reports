@@ -7,6 +7,9 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 1.10
 - fixed some templates for PostgreSQL. Thanks to Michael Banck #1880
 - added quarterly function to DateHelper Class. Thanks to Dirk #3718
+- fix MySQL Connector installation fails on non-bundled JasperServer installations #4153
+- fix empty variable for mysql sla procedure #4152
+
 
 1.9.0
 

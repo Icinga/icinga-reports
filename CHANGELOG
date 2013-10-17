@@ -4,6 +4,10 @@ Icinga Reporting Change Log
 
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
+1.10
+- fixed some templates for PostgreSQL. Thanks to Michael Banck #1880
+- added quarterly function to DateHelper Class. Thanks to Dirk #3718
+
 1.9.0
 
 Note: The directory structure of the source tarball has been changed in #3742

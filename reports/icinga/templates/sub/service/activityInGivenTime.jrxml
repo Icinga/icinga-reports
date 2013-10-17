@@ -7,10 +7,10 @@
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -23,7 +23,7 @@ where icinga_statehistory.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.is_active = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by extract(month from state_time), state
+group by extract(month from state_time), state, icinga_statehistory.state_time
 union all
 select start_time as date,
   state,
@@ -34,7 +34,7 @@ where icinga_notifications.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.is_active = 1
 and start_time between $P{p_date_start} and $P{p_date_end}
-group by extract(month from start_time), state
+group by extract(month from start_time), state, icinga_notifications.start_time
 union all
 select entry_time as date,
   state,
@@ -45,7 +45,7 @@ where icinga_acknowledgements.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.is_active = 1
 and entry_time between $P{p_date_start} and $P{p_date_end}
-group by extract(month from entry_time), state
+group by extract(month from entry_time), state, icinga_acknowledgements.entry_time
 order by date]]>
 		</queryString>
 		<field name="date" class="java.sql.Timestamp"/>
@@ -57,10 +57,10 @@ order by date]]>
 		<parameter name="p_object_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[$P{p_object_id}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -73,7 +73,7 @@ where icinga_statehistory.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_statehistory.object_id
 and icinga_objects.is_active = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by extract(day from state_time), state
+group by extract(day from state_time), state, icinga_statehistory.state_time
 union all
 select start_time as date,
   state,
@@ -84,7 +84,7 @@ where icinga_notifications.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_notifications.object_id
 and icinga_objects.is_active = 1
 and start_time between $P{p_date_start} and $P{p_date_end}
-group by extract(day from start_time), state
+group by extract(day from start_time), state, icinga_notifications.start_time
 union all
 select entry_time as date,
   state,
@@ -95,7 +95,7 @@ where icinga_acknowledgements.object_id = $P{p_object_id}
 and icinga_objects.object_id = icinga_acknowledgements.object_id
 and icinga_objects.is_active = 1
 and entry_time between $P{p_date_start} and $P{p_date_end}
-group by extract(day from entry_time), state
+group by extract(day from entry_time), state, icinga_acknowledgements.entry_time
 order by date]]>
 		</queryString>
 		<field name="date" class="java.sql.Timestamp"/>

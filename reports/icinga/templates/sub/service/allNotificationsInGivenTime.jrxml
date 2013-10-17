@@ -52,7 +52,7 @@ INNER JOIN icinga_contactnotificationmethods AS icnm
 ON icn.contactnotification_id = icnm.contactnotification_id
 INNER JOIN icinga_objects AS iobj2
 ON icnm.command_object_id = iobj2.object_id
-WHERE inot.notification_type = "1"
+WHERE inot.notification_type = '1'
 AND inot.start_time BETWEEN $P{p_date_start} AND $P{p_date_end}]]>
 		</queryString>
 		<field name="hostname" class="java.lang.String"/>

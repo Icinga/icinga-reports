@@ -4,10 +4,10 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="graph_warnings">
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -22,7 +22,7 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
 and state                        = 1
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by name2
+group by name2, icinga_objects.object_id, icinga_statehistory.state
 order by events desc limit 10]]>
 		</queryString>
 		<field name="object_id" class="java.lang.Integer">
@@ -42,10 +42,10 @@ order by events desc limit 10]]>
 		</field>
 	</subDataset>
 	<subDataset name="graph_critical">
-		<parameter name="p_date_start" class="java.lang.String">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_start}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="p_date_end" class="java.lang.String">
+		<parameter name="p_date_end" class="java.sql.Timestamp">
 			<defaultValueExpression><![CDATA[$P{p_date_end}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
@@ -60,7 +60,7 @@ where icinga_objects.object_id   = icinga_statehistory.object_id
 and icinga_objects.objecttype_id = 2
 and state                        = 2
 and state_time between $P{p_date_start} and $P{p_date_end}
-group by name2
+group by name2, icinga_objects.object_id, icinga_statehistory.state
 order by events desc limit 10]]>
 		</queryString>
 		<field name="object_id" class="java.lang.Integer">

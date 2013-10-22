@@ -9,6 +9,7 @@ Thanks to all contributers, testers and developers. Please read AUTHORS and THAN
 - added quarterly function to DateHelper Class. Thanks to Dirk #3718
 - fix MySQL Connector installation fails on non-bundled JasperServer installations #4153
 - fix empty variable for mysql sla procedure #4152
+- detect JasperServer up to 5.2.0 in configure
 
 
 1.9.0

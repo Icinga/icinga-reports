@@ -2397,6 +2397,12 @@ $as_echo "found version 4.7.0" >&6; }; JASPER_SERVER="/opt/jasperreports-server-
 elif  test -d /opt/jasperreports-server-cp-5.0.0 ; then :
    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found version 5.0.0" >&5
 $as_echo "found version 5.0.0" >&6; }; JASPER_SERVER="/opt/jasperreports-server-cp-5.0.0"; break;
+elif  test -d /opt/jasperreports-server-cp-5.1.0 ; then :
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: found version 5.1.0" >&5
+$as_echo "found version 5.1.0" >&6; }; JASPER_SERVER="/opt/jasperreports-server-cp-5.1.0"; break;
+elif  test -d /opt/jasperreports-server-cp-5.2.0 ; then :
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: found version 5.2.0" >&5
+$as_echo "found version 5.2.0" >&6; }; JASPER_SERVER="/opt/jasperreports-server-cp-5.2.0"; break;
 else
    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
 $as_echo "not found" >&6; }

@@ -125,7 +125,7 @@ Perl 5, strict
 
 =head1 AUTHOR
 
-Michael Luebben <michael_luebben@web.de>
+Michael Luebben <info@icinga.org>
 
 =head1 LICENSE
 

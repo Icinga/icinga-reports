@@ -66,7 +66,7 @@ B<List of defined timeperiods:>
 
 =head1 AUTHOR
 
-Michael Luebben <michael_luebben@web.de>
+Michael Luebben <info@icinga.org>
 
 =head1 KNOWN ISSUES
 

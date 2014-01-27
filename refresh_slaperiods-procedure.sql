@@ -26,8 +26,8 @@ BEGIN
 
   START TRANSACTION;
 
-  TRUNCATE TABLE icinga_sla_periods;
-   TRUNCATE TABLE icinga_outofsla_periods;
+  -- TRUNCATE TABLE icinga_sla_periods;
+  TRUNCATE TABLE icinga_outofsla_periods;
 
   SELECT
       CAST(DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 5 YEAR), '%Y-01-01 00:00:00') AS DATETIME),

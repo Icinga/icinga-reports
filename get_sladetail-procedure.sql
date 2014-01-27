@@ -17,6 +17,7 @@ BEGIN
     @last_ts      := NULL,
     @cnt_dt       := NULL,
     @cnt_tp       := NULL,
+    @duration     := NULL,
     @add_duration := NULL,
     @former_id    := @id,
     @former_start := @start,
@@ -40,7 +41,7 @@ SELECT
 
 FROM ( SELECT
 
-  CASE WHEN @last_ts IS NULL THEN
+  @duration := CASE WHEN @last_ts IS NULL THEN
     -- ...remember the duration and return 0...
     (@add_duration := COALESCE(@add_duration, 0)
       + UNIX_TIMESTAMP(state_time)
@@ -55,7 +56,9 @@ FROM ( SELECT
   END AS duration,
 
   -- current_state is the state from the last state change until now, this one is the one the timeperiod is for:
-  CASE WHEN COALESCE(@cnt_dt, 0) + COALESCE(@cnt_tp, 0) >= 1 THEN 0 ELSE COALESCE(@last_state, last_state) END AS current_state,
+  CASE WHEN @duration = 0 THEN 0
+       WHEN COALESCE(@cnt_dt, 0) + COALESCE(@cnt_tp, 0) >= 1 THEN 0
+       ELSE COALESCE(@last_state, last_state) END AS current_state,
 
      -- Workaround for a nasty Icinga issue. In case a hard state is reached
      -- before max_check_attempts, the last_hard_state value is wrong. As of
@@ -97,13 +100,13 @@ FROM ( SELECT
   -- TODO: Distinct counters for sla and dt, they are not related to each other
   CASE type
     WHEN 'dt_start' THEN @cnt_dt := COALESCE(@cnt_dt, 0) + 1
-    WHEN 'dt_end' THEN @cnt_dt := GREATEST(@cnt_dt - 1, 0)
+    WHEN 'dt_end' THEN (@cnt_dt := GREATEST(@cnt_dt - 1, 0)) + 1
     ELSE COALESCE(@cnt_dt, 0)
   END AS dt_depth,
 
   CASE type
     WHEN 'sla_end' THEN @cnt_tp := COALESCE(@cnt_tp, 0) + 1
-    WHEN 'sla_start' THEN @cnt_tp := GREATEST(@cnt_tp - 1, 0)
+    WHEN 'sla_start' THEN (@cnt_tp := GREATEST(@cnt_tp - 1, 0)) + 1
     ELSE COALESCE(@cnt_tp, 0)
   END AS tp_depth,
 
@@ -184,6 +187,7 @@ FROM (
   -- END fetching first state AFTER the given interval as an event
 
   -- START ADDING a fake end
+  -- TODO: why should we do that?
   UNION ALL SELECT
     @end AS state_time,
     'dt_start' AS type,
@@ -203,7 +207,7 @@ FROM (
   FROM icinga_downtimehistory
   WHERE object_id = @id
     AND actual_start_time < @end
-    AND actual_end_time > @start
+    AND actual_start_time > @start
   -- STOP adding add all related downtime start times
 
   -- START adding add all related downtime end times
@@ -214,7 +218,7 @@ FROM (
     NULL AS last_state
   FROM icinga_downtimehistory
   WHERE object_id = @id
-    AND actual_start_time < @end
+    AND actual_end_time < @end
     AND actual_end_time > @start
   -- STOP adding add all related downtime end times
 
@@ -224,12 +228,12 @@ FROM (
   UNION ALL
     SELECT
       start_time AS state_time,
-      'sla_start' AS type,
+      'sla_end' AS type,
       NULL AS state,
       NULL AS last_state
     FROM icinga_outofsla_periods
     WHERE timeperiod_object_id = @tp_object_id
-      AND start_time >= @start AND start_time <= @end
+      AND start_time >= @start AND start_time < @end
 
   -- STOP fetching SLA time period start times ---
 
@@ -241,7 +245,7 @@ FROM (
       NULL AS last_state
     FROM icinga_outofsla_periods
     WHERE timeperiod_object_id = @tp_object_id
-      AND end_time >= @start AND end_time <= @end
+      AND end_time > @start AND end_time <= @end
   -- STOP fetching SLA time period end times ---
 
 ) events
@@ -252,8 +256,8 @@ FROM (
       WHEN 'hard_state' THEN 2
       WHEN 'current_state' THEN 3
       WHEN 'future_state' THEN 4
-      WHEN 'sla_end' THEN 5
-      WHEN 'sla_start' THEN 6
+      WHEN 'sla_start' THEN 5
+      WHEN 'sla_end' THEN 6
       WHEN 'dt_start' THEN 7
       WHEN 'dt_end' THEN 8
       ELSE 9
@@ -265,6 +269,7 @@ FROM (
     @last_ts      := NULL,
     @cnt_dt       := NULL,
     @cnt_tp       := NULL,
+    @duration     := NULL,
     @add_duration := NULL,
     @id           := @former_id,
     @start        := @former_start,

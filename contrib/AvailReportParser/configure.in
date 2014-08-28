@@ -11,7 +11,7 @@ AC_SUBST(PKG_VERSION)
 AC_SUBST(ac_configure_args)
 
 AC_PREREQ([2.67])
-AC_INIT(icinga-reports,1.8.1,icinga-devel@lists.sourceforge.net)
+AC_INIT(icinga-reports,1.8.1,icinga-devel@lists.icinga.org)
 AM_INIT_AUTOMAKE
 AC_CANONICAL_HOST
 

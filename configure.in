@@ -6,7 +6,7 @@ PKG_HOME_URL="http://www.icinga.org/"
 PKG_REL_DATE="10-24-2013"
 
 AC_PREREQ([2.67])
-AC_INIT(icinga-reports,1.10.0,icinga-devel@lists.sourceforge.net)
+AC_INIT(icinga-reports,1.10.0,icinga-devel@lists.icinga.org)
 AM_INIT_AUTOMAKE
 AC_CANONICAL_HOST
 

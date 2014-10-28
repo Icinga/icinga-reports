@@ -57,6 +57,7 @@ if test x$JASPER_SERVER = xno; then
 	      [ test -d /opt/jasperreports-server-cp-5.2.0 ], [ AC_MSG_RESULT([found version 5.2.0]); JASPER_SERVER="/opt/jasperreports-server-cp-5.2.0"; break; ],
 	      [ test -d /opt/jasperreports-server-cp-5.5.0 ], [ AC_MSG_RESULT([found version 5.5.0]); JASPER_SERVER="/opt/jasperreports-server-cp-5.5.0"; break; ],
 	      [ test -d /opt/jasperreports-server-cp-5.6.0 ], [ AC_MSG_RESULT([found version 5.6.0]); JASPER_SERVER="/opt/jasperreports-server-cp-5.6.0"; break; ],
+	      [ test -d /opt/jasperreports-server-cp-5.6.1 ], [ AC_MSG_RESULT([found version 5.6.1]); JASPER_SERVER="/opt/jasperreports-server-cp-5.6.1"; break; ],
               [ AC_MSG_RESULT([not found]) ])
 fi
 AC_SUBST(JASPER_SERVER)

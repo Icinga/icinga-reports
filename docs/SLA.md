@@ -1,54 +1,166 @@
-Files
-=====
-* slaperiod-schema.sql: creates time period tables
-* refresh_slaperiods-procedure.sql: procedure prefilling those tables
-* get_sladetail-procedure.sql: procedure able to retrieve SLA details for a single object
+SLA Availability Reporting
+==========================
 
-Created tables
---------------
-* icinga_sla_periods: daily start/end events for each time period
-* icinga_outofsla_periods: inverted sla_periods (events differ!)
+Icinga's SLA reporting consists of the following components:
 
-Refreshing tables
------------------
-The procedure is called this way:
+ * SQL schema extension
+  - cache tables
+  - procedures to update caches
+  - function to query SLA values
+ * Jasper example reports
 
-  CALL icinga_refresh_slaperiods();
+Requirements
+------------
 
-It should be called after each change to timeperiod objects, ideally by IDO2DB once all config objects have been dumped.
+What is required to run the SLA reporting?
 
+ * Icinga 1 or 2
+ * with enabled IDO export
+ * and especially "state history" enabled (which is default)
+ * laying in a MySQL database
 
-Fetching SLA details
+While Icinga supports other databases, the SLA analysis has only been written
+for MySQL.
+
+Installation
+------------
+
+### Extend the IDO
+
+The schema extension will add some tables, procedures and functions.
+See [details](#SQL schema components) below for more information.
+
+```
+cat sql/mysql/*.sql | mysql icinga
+```
+
+This also works for updating and will replace the existing elements.
+
+### Cleanup old SLA stuff
+
+If you tried one of the older versions of this SLA reporting the schema names
+were different.
+
+To clean this up you can use a SQL script to remove those tables and functions.
+
+Normally these tables only provide cache, so there is no sensible data.
+
+```
+mysql icinga < sql/mysql/tools/remove_old_sla_schema.sql
+```
+
+### Jasper Server
+
+An example report with SLA data is included in the JasperReports examples set.
+
+SQL schema components
+---------------------
+
+The following schema components belong to this SQL reporting:
+
+| name                          | type      | purpose                                                         |
+| ----------------------------- | --------- | --------------------------------------------------------------- |
+| icinga_sla_eventcache         | table     | Cache table for calculated events                               |
+| icinga_sla_periods_outofsla   | table     | Cache of periods that count as out-of-SLA                       |
+| icinga_sla_cache_events       | procedure | Calculate (SLA relevant) events in the requested period         |
+| icinga_sla_refresh_periods    | procedure | Fill the periods cache with data based on Icinga's time periods |
+| icinga_sla_set_holiday        | procedure | Set a single day to be a holiday - as out-of-SLA                |
+| icinga_sla_state_availability | function  | Get the SLA values while using a cache                          |
+
+The directly used component is usually *icinga_sla_state_availability*.
+
+How to query
+------------
+
+You can query the SLA values in a SQL join context, meaning you can query the
+values within any SELECT.
+
+Here is an example:
+
+``` sql
+SELECT
+  name1,
+  icinga_sla_state_availability(
+    object_id,
+    0,
+    '2014-10-01',
+    '2014-11-01',
+    NULL
+  ) * 100 AS state_ok
+FROM icinga_objects
+WHERE
+  is_active = 1
+  AND objecttype_id = 1;
+```
+
+The function itself has the following arguments:
+
+| # | parameter   | type            | description                                                  |
+| - | ----------- | --------------- | -------------------------------------------------------------|
+| 1 | object_id   | BIGINT UNSIGNED | object id of the host or service                             |
+| 2 | state       | SMALLINT        | state id which you want to retrieve percentage for           |
+| 3 | start_time  | DATETIME        | start of time frame                                          |
+| 4 | end_time    | DATETIME        | end of time frame                                            |
+| 5 | timeperiod  | BIGINT UNSIGNED | time period object id to limit on a SLA period (can be NULL) |
+
+The returned value is a float between 0 and 1, 0.85 meaning 85% of that state
+in the time period.
+
+State IDs are as follows:
+
+| # | service  | host        |
+| - | -------- | ----------- |
+| 0 | OK       | UP          |
+| 1 | WARNING  | DOWN        |
+| 2 | CRITICAL | UNREACHABLE |
+| 3 | UNKNOWN  | --          |
+
+Whats neat about our cached implementation here is that you can use the query
+function multiple times, while it is generated cached event once per object_id.
+
+Maintain SLA periods
 --------------------
-This new procedure cannot be part of a SELECT query, there has to be a dedicated CALL for each desired object. For a reporting suite as Jasper this implies running subreports for each single object.
 
-The procedure asks for four parameters:
+The so called out-of-SLA periods can be calculated based on the time periods
+Icinga knows.
 
-* object_id BIGINT UNSIGNED: the monitored object you are interested in
-* t_start DATETIME: interval start
-* t_end DATETIME: interval end
-* timeperiod_object_id BIGINT UNSIGNED: the SLA timeperiod object id
+There is a procedure refreshing that data for the current year until 4 years
+into the future.
 
-A successful CALL may look as follows:
+``` sql
+CALL icinga_sla_refresh_periods();
+```
 
-  mysql> CALL icinga_get_sladetail(
-    15373,
-    '2013-08-01 00:00:00',
-    '2013-08-31 23:59:59',
-    67192)\G
-  *************************** 1. row ***************************
-  sla_state0: 0.5875898251156755
-  sla_state1: 0
-  sla_state2: 0.3911780881041249
-  sla_state3: 0.021232086780199663
-      state0: 0.4925580542704802
-      state1: 0
-      state2: 0.4829974921585619
-      state3: 0.024444453570957876
-  1 row in set (0.16 sec)
+Check the table *icinga_sla_periods_outofsla* for generated data.
 
-  Query OK, 0 rows affected (0.16 sec)
+The utility function *icinga_sla_set_holiday* can be used to declare a certain
+day as an holiday, setting it out-of-SLA.
 
-You see a service with 58.75% availability if you consider the given SLA time period, but just 49.25% of "real" 24x7 availability.
+``` sql
+CALL icinga_sla_set_holiday(1234, '2014-12-25');
+```
 
+You can lookup time periods in the object table:
 
+``` sql
+SELECT object_id, name1 FROM icinga_objects WHERE objecttype_id = 9;
+```
+
+**Note:** You always need to re-apply your manual holidays or any other
+modifications after running *icinga_sla_refresh_periods*!
+
+## Limitations
+
+TODO
+
+How it works
+------------
+
+This chapter tries to describe how the SLA calculation works.
+
+TODO
+
+Manually use the cached data
+----------------------------
+
+TODO

@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS icinga_sla_set_holiday;
 
 DELIMITER $$
 
-CREATE PROCEDURE icinga_sla_set_holiday((
+CREATE PROCEDURE icinga_sla_set_holiday(
     IN tp_object_id BIGINT UNSIGNED,
     IN t_date DATE
 )

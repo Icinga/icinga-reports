@@ -20,4 +20,4 @@ CREATE TABLE icinga_sla_eventcache (
   PRIMARY KEY (seqno),
   INDEX (timestamp),
   INDEX (object_id, tp_object_id, start, end)
-);
+) ENGINE MEMORY;

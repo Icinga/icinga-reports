@@ -21,7 +21,7 @@ BEGIN
   SELECT sla INTO result FROM (
   SELECT
     SUM(CASE WHEN current_state = state THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(t_end) - UNIX_TIMESTAMP(t_start)) AS sla
-  FROM icinga_sla_cache_events
+  FROM icinga_sla_eventcache
   WHERE object_id = obj_id
     AND start = t_start
     AND end = t_end

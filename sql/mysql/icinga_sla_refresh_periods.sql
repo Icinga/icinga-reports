@@ -1,9 +1,8 @@
-
-DROP PROCEDURE IF EXISTS icinga_refresh_slaperiods;
+DROP PROCEDURE IF EXISTS icinga_sla_refresh_periods;
 
 DELIMITER $$
 
-CREATE PROCEDURE icinga_refresh_slaperiods()
+CREATE PROCEDURE icinga_sla_refresh_periods()
 BEGIN
   DECLARE t_start DATETIME;
   DECLARE t_end DATETIME;
@@ -26,8 +25,7 @@ BEGIN
 
   START TRANSACTION;
 
-  -- TRUNCATE TABLE icinga_sla_periods;
-  TRUNCATE TABLE icinga_outofsla_periods;
+  TRUNCATE TABLE icinga_sla_periods_outofsla;
 
   SELECT
       CAST(DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 5 YEAR), '%Y-01-01 00:00:00') AS DATETIME),
@@ -47,7 +45,7 @@ BEGIN
         @day_offset := NULL;
 
     INSERT
-      INTO icinga_outofsla_periods SELECT
+      INTO icinga_sla_periods_outofsla SELECT
         tpo_id,
         DATE_ADD(CAST(monthly.date AS DATETIME), INTERVAL finaltps.start_sec SECOND) AS start_time,
         DATE_ADD(CAST(monthly.date AS DATETIME), INTERVAL finaltps.end_sec SECOND) AS end_time

@@ -1,14 +1,14 @@
-DROP PROCEDURE IF EXISTS icinga_cache_sladata;
+DROP PROCEDURE IF EXISTS icinga_sla_cache_events;
 
 DELIMITER $$
-CREATE PROCEDURE icinga_cache_sladata(
+CREATE PROCEDURE icinga_sla_cache_events(
   IN obj_id BIGINT UNSIGNED,
   IN t_start DATETIME,
   IN t_end DATETIME,
   IN tp_object_id BIGINT UNSIGNED
 )
 
-icinga_cache_sladata:BEGIN
+icinga_sla_cache_events:BEGIN
   DECLARE cache_count BIGINT;
 
   SET
@@ -30,21 +30,21 @@ icinga_cache_sladata:BEGIN
     ;
 
 -- clean up old cached data
-DELETE FROM icinga_sladata_cache WHERE timestamp < DATE_SUB(@timestamp, INTERVAL 15 SECOND);
+DELETE FROM icinga_sla_eventcache WHERE timestamp < DATE_SUB(@timestamp, INTERVAL 15 SECOND);
 
 -- check if we already have cached data
-SELECT count(*) INTO cache_count FROM icinga_sladata_cache
+SELECT count(*) INTO cache_count FROM icinga_sla_eventcache
   WHERE object_id = obj_id
   AND start = t_start
   AND end = t_end
   AND (tp_object_id = @tp_object_id OR (@tp_object_id IS NULL AND tp_object_id IS NULL));
 
 -- exit here if we have cache
-IF cache_count > 0 THEN LEAVE icinga_cache_sladata;
+IF cache_count > 0 THEN LEAVE icinga_sla_cache_events;
 END IF;
 
 -- cache the data into a temp table
-INSERT INTO icinga_sladata_cache
+INSERT INTO icinga_sla_eventcache
 -- generate the sla data - directly into INSERT
 SELECT
   @timestamp,
@@ -247,7 +247,7 @@ FROM (
       'sla_end' AS type,
       NULL AS state,
       NULL AS last_state
-    FROM icinga_outofsla_periods
+    FROM icinga_sla_periods_outofsla
     WHERE timeperiod_object_id = @tp_object_id
       AND start_time >= @start AND start_time < @end
 
@@ -259,7 +259,7 @@ FROM (
       'sla_start' AS type,
       NULL AS state,
       NULL AS last_state
-    FROM icinga_outofsla_periods
+    FROM icinga_sla_periods_outofsla
     WHERE timeperiod_object_id = @tp_object_id
       AND end_time > @start AND end_time <= @end
   -- STOP fetching SLA time period end times ---

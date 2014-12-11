@@ -1,9 +1,9 @@
 
-DROP PROCEDURE IF EXISTS icinga_update_holiday;
+DROP PROCEDURE IF EXISTS icinga_sla_set_holiday;
 
 DELIMITER $$
 
-CREATE PROCEDURE icinga_update_holiday(
+CREATE PROCEDURE icinga_sla_set_holiday((
     IN tp_object_id BIGINT UNSIGNED,
     IN t_date DATE
 )
@@ -16,13 +16,13 @@ BEGIN
   SELECT TIMESTAMP(DATE_ADD(t_date, INTERVAL 1 DAY)) INTO t_end;
 
   -- clean existing definitions for that day
-  DELETE FROM icinga_outofsla_periods
+  DELETE FROM icinga_sla_periods_outofsla
   WHERE timeperiod_object_id = tp_object_id
     AND start_time >= t_start
     AND end_time <= t_end;
 
   -- insert out of sla data for that holiday
-  INSERT INTO icinga_outofsla_periods
+  INSERT INTO icinga_sla_periods_outofsla
     (timeperiod_object_id, start_time, end_time)
   VALUES
     (tp_object_id, t_start, t_end);

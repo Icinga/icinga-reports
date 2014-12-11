@@ -1,8 +1,8 @@
 DELIMITER //
 
-DROP FUNCTION IF EXISTS icinga_state_availability//
+DROP FUNCTION IF EXISTS icinga_sla_state_availability//
 
-CREATE FUNCTION icinga_state_availability(
+CREATE FUNCTION icinga_sla_state_availability(
   obj_id       BIGINT UNSIGNED,
   state        SMALLINT,
   t_start      DATETIME,
@@ -16,12 +16,12 @@ BEGIN
   SET @tp_object_id := tp_object_id;
 
   -- make sure we have cache
-  CALL icinga_cache_sladata(obj_id, t_start, t_end, tp_object_id);
+  CALL icinga_sla_cache_events(obj_id, t_start, t_end, tp_object_id);
 
   SELECT sla INTO result FROM (
   SELECT
     SUM(CASE WHEN current_state = state THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(t_end) - UNIX_TIMESTAMP(t_start)) AS sla
-  FROM icinga_sladata_cache
+  FROM icinga_sla_cache_events
   WHERE object_id = obj_id
     AND start = t_start
     AND end = t_end

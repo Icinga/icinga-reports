@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS icinga_sladata_cache;
+DROP TABLE IF EXISTS icinga_sla_eventcache;
 
-CREATE TABLE icinga_sladata_cache (
+CREATE TABLE icinga_sla_eventcache (
   timestamp    DATETIME,
   object_id    BIGINT UNSIGNED NOT NULL,
   tp_object_id BIGINT UNSIGNED,

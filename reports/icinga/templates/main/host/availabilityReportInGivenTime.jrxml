@@ -1,202 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Availability report about a selected host in given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true">
-	<property name="ireport.zoom" value="1.5"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SLA Availability report about a selected host in given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="5bfd5658-7b04-49f6-9902-1381c92c854f">
+	<property name="ireport.zoom" value="0.8467108950806659"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="204"/>
 	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_host_object_id" class="java.lang.Integer"/>
+	<parameter name="p_host_object_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="p_date_start" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_date_end" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_timeperiod" class="java.lang.String">
+		<defaultValueExpression><![CDATA["last_month"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
 		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
 		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
 	</parameter>
+	<parameter name="p_timeperiod_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[363]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_display_host_avail" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select name1,
-  address
-from icinga_objects,
-  icinga_hosts
-where icinga_objects.object_id = icinga_hosts.host_object_id
-and icinga_hosts.config_type = 1
-and object_id                  = $P{p_host_object_id}]]>
+		<![CDATA[select ho.name1 AS name1,
+  h.address AS address,
+  tpo.name1 AS timeperiod_name
+from icinga_objects ho, icinga_hosts h
+left join icinga_objects tpo ON tpo.objecttype_id = 9 AND tpo.object_id = $P{p_timeperiod_id}
+where ho.object_id = h.host_object_id
+and h.config_type = 1
+and ho.object_id = $P{p_host_object_id}]]>
 	</queryString>
 	<field name="name1" class="java.lang.String"/>
 	<field name="address" class="java.lang.String"/>
+	<field name="timeperiod_name" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="800">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="800"/>
+				<reportElement x="0" y="0" width="555" height="800" uuid="4313839c-0990-49b8-a1f6-6638e15b7ddd"/>
 				<graphicElement>
 					<pen lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<image scaleImage="FillFrame">
-				<reportElement x="33" y="200" width="521" height="599"/>
+				<reportElement x="33" y="200" width="521" height="599" uuid="6ee1f824-8f40-44a1-ad73-e3a861caf6db"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#999999"/>
 				</graphicElement>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.jpg"]]></imageExpression>
 			</image>
 			<rectangle radius="0">
-				<reportElement x="33" y="175" width="490" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<reportElement x="33" y="175" width="490" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="265c4658-2243-48a3-8828-f90ef1c26939"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="70" y="400" width="400" height="60" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<reportElement x="70" y="400" width="400" height="80" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="604ce29f-51a8-4d46-aeff-4ca034e219aa"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="70" y="300" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<reportElement x="70" y="300" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="38b45323-3895-42d9-8eb8-2e248890921f"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<image>
-				<reportElement x="2" y="1" width="555" height="64"/>
+				<reportElement x="2" y="1" width="555" height="64" uuid="0ceccf4b-3d6b-41ff-8395-cf1898140cb8"/>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_banner.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="1" y="175" width="554" height="25" forecolor="#000000" backcolor="#DCDCDC"/>
+				<reportElement x="1" y="175" width="554" height="25" forecolor="#000000" backcolor="#DCDCDC" uuid="3fcbecea-ae09-4307-a806-65074debb7a3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Host Availability Report]]></text>
+				<text><![CDATA[SLA Host Availability Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="e6bedf63-d3bb-4a6d-a961-47cfa42f1434"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Description:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="160" y="300" width="310" height="20"/>
+				<reportElement x="160" y="300" width="310" height="20" uuid="07daaf4e-42f4-4ef1-b01c-3f8d8a623df8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[Availability Report for host in given time]]></text>
+				<text><![CDATA[SLA Availability Report for host in given time]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000"/>
+				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000" uuid="47d5f1a9-bd4d-49c7-b89e-94296a8248c6"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Hostname:]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Cover" x="160" y="400" width="310" height="20"/>
+				<reportElement style="Cover" x="160" y="400" width="310" height="20" uuid="f4432f38-27e0-4adf-aa0e-64f821bde410"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000"/>
+				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000" uuid="d568ad93-2a96-401c-89f3-ca4098057d49"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Creation:]]></text>
 			</staticText>
 			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
-				<reportElement style="Cover" x="160" y="320" width="310" height="20"/>
+				<reportElement style="Cover" x="160" y="320" width="310" height="20" uuid="9721650b-c62e-40d3-8037-88b9d99b81bd"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<rectangle radius="0">
-				<reportElement x="33" y="175" width="5" height="25" backcolor="#81AAB8"/>
+				<reportElement x="33" y="175" width="5" height="25" backcolor="#81AAB8" uuid="bcf0febd-2a5a-4565-95de-36be1ac079a4"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="518" y="175" width="5" height="25" backcolor="#81AAB8"/>
+				<reportElement x="518" y="175" width="5" height="25" backcolor="#81AAB8" uuid="c32bfe7b-089d-41a7-ada7-de0f8a278838"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="70" y="300" width="5" height="40" backcolor="#81AAB8"/>
+				<reportElement x="70" y="300" width="5" height="40" backcolor="#81AAB8" uuid="88e8bb32-a614-455b-8f7a-13e5f22a1c4c"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="70" y="400" width="5" height="60" backcolor="#81AAB8"/>
+				<reportElement x="70" y="400" width="5" height="80" backcolor="#81AAB8" uuid="b361823f-1d1e-4bf7-a7ea-a55dd9769bcb"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="0" y="64" width="555" height="15" forecolor="#2C2B2C" backcolor="#2C2B2C"/>
+				<reportElement x="0" y="64" width="555" height="15" forecolor="#2C2B2C" backcolor="#2C2B2C" uuid="b718469b-c4db-4979-8613-a0f02b10c460"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<image>
-				<reportElement x="497" y="177" width="21" height="21"/>
+				<reportElement x="497" y="177" width="21" height="21" uuid="cea074b4-b23a-4dae-8bf2-d5df8ba641a2"/>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="80" y="420" width="80" height="20" forecolor="#000000"/>
+				<reportElement x="80" y="420" width="80" height="20" forecolor="#000000" uuid="1d69b447-aac0-41c1-a6d9-2b5d51ca0db6"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Hostaddress:]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Cover" x="160" y="420" width="310" height="20"/>
+				<reportElement style="Cover" x="160" y="420" width="310" height="20" uuid="cb6f12fd-f2bf-46c9-ad73-3cd26bf4a644"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Cover" x="160" y="440" width="310" height="20"/>
+				<reportElement style="Cover" x="160" y="440" width="310" height="20" uuid="061e4124-60e4-4685-84b6-4e4a11fa7539"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="80" y="440" width="80" height="20" forecolor="#000000"/>
+				<reportElement x="80" y="440" width="80" height="20" forecolor="#000000" uuid="4ed4134d-1477-4e2c-aa0d-557cc8a03715"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Timerange:]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="0" y="790" width="555" height="10" backcolor="#81AAB8"/>
+				<reportElement x="0" y="790" width="555" height="10" backcolor="#81AAB8" uuid="19507779-1cc8-4a84-9a01-41de6784151f"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
 			</rectangle>
+			<textField>
+				<reportElement style="Cover" x="160" y="460" width="310" height="20" uuid="8337b112-2935-4de4-b153-6f28cc84c9b6"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{timeperiod_name} ? $F{timeperiod_name} : "ohne SLA Zeiten"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="460" width="80" height="20" forecolor="#000000" uuid="78da0cd6-5ed6-49bc-8d32-b2421d445e7d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SLA Daten:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="25" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="4dc87e37-f7bb-49b7-98b1-04af38b79b6a"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000"/>
+				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000" uuid="d9997ffb-e9ad-4116-9cbf-5d459bc24971"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
@@ -204,11 +228,11 @@ and object_id                  = $P{p_host_object_id}]]>
 "Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="530" y="2" width="21" height="21"/>
+				<reportElement x="530" y="2" width="21" height="21" uuid="c3deee2b-176a-43ac-85b9-2203008d61e7"/>
 				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
 			</image>
 			<rectangle radius="0">
-				<reportElement x="0" y="0" width="5" height="25" backcolor="#81AAB8"/>
+				<reportElement x="0" y="0" width="5" height="25" backcolor="#81AAB8" uuid="ae87d2a9-137d-4178-9c15-5b8443038ae5"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
@@ -221,12 +245,15 @@ and object_id                  = $P{p_host_object_id}]]>
 	<detail>
 		<band height="50" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="50"/>
+				<reportElement x="0" y="0" width="555" height="50" uuid="75ec4dae-8917-4486-bcb3-5914074e8726"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_host_object_id">
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_timeperiod_id">
+					<subreportParameterExpression><![CDATA[$P{p_timeperiod_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="p_date_end">
 					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
@@ -234,8 +261,11 @@ and object_id                  = $P{p_host_object_id}]]>
 				<subreportParameter name="p_date_start">
 					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="p_display_host_avail">
+					<subreportParameterExpression><![CDATA[$P{p_display_host_avail}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/availabilityInGivenTime"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/slaavailabilityInGivenTime"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -245,27 +275,27 @@ and object_id                  = $P{p_host_object_id}]]>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5"/>
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="a8e63a32-f8f5-41e3-8515-5375209eacec"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999"/>
+				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999" uuid="f107a032-3f17-4865-94d6-9a79c891cfe1"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999"/>
+				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999" uuid="4d46b1c4-ee3a-470f-878c-6e881b959e92"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="0" width="400" height="25"/>
+				<reportElement x="0" y="0" width="400" height="25" uuid="4407cee2-e092-4133-b674-ba272a5cd6f3"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -273,7 +303,7 @@ and object_id                  = $P{p_host_object_id}]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
 			</subreport>
 			<rectangle radius="0">
-				<reportElement x="550" y="0" width="5" height="25" backcolor="#81AAB8"/>
+				<reportElement x="550" y="0" width="5" height="25" backcolor="#81AAB8" uuid="304903f8-bd61-4ac5-97ed-6437426261fd"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>

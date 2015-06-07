@@ -1,15 +1,16 @@
-DROP PROCEDURE IF EXISTS icinga_sla_cache_events;
+
+DROP PROCEDURE IF EXISTS icinga_debug_sladetail;
 
 DELIMITER $$
-CREATE PROCEDURE icinga_sla_cache_events(
+
+CREATE PROCEDURE icinga_debug_sladetail(
   IN obj_id BIGINT UNSIGNED,
   IN t_start DATETIME,
   IN t_end DATETIME,
   IN tp_object_id BIGINT UNSIGNED
 )
 
-icinga_sla_cache_events:BEGIN
-  DECLARE cache_count BIGINT;
+BEGIN
 
   SET
     @last_state   := NULL,
@@ -25,35 +26,19 @@ icinga_sla_cache_events:BEGIN
     @id           := obj_id,
     @start        := t_start,
     @end          := t_end,
-    @tp_object_id := tp_object_id,
-    @timestamp    := NOW()
+    @tp_object_id := tp_object_id
     ;
 
--- clean up old cached data
-DELETE FROM icinga_sla_eventcache WHERE timestamp < DATE_SUB(@timestamp, INTERVAL 15 SECOND);
-
--- check if we already have cached data
-SELECT count(*) INTO cache_count FROM icinga_sla_eventcache
-  WHERE object_id = obj_id
-  AND start = t_start
-  AND end = t_end
-  AND (tp_object_id = @tp_object_id OR (@tp_object_id IS NULL AND tp_object_id IS NULL));
-
--- exit here if we have cache
-IF cache_count > 0 THEN LEAVE icinga_sla_cache_events;
-END IF;
-
--- cache the data into a temp table
-INSERT INTO icinga_sla_eventcache
--- generate the sla data - directly into INSERT
 SELECT
-  @timestamp,
-  obj_id,
-  tp_object_id,
-  t_start,
-  t_end,
-  NULL,
-  slaevents.*
+    *
+--   SUM(CASE WHEN current_state = 0 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS sla_state0,
+--   SUM(CASE WHEN current_state = 1 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS sla_state1,
+--   SUM(CASE WHEN current_state = 2 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS sla_state2,
+--   SUM(CASE WHEN current_state = 3 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS sla_state3,
+--   SUM(CASE WHEN real_state = 0 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS state0,
+--   SUM(CASE WHEN real_state = 1 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS state1,
+--   SUM(CASE WHEN real_state = 2 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS state2,
+--   SUM(CASE WHEN real_state = 3 THEN duration ELSE 0 END) / (UNIX_TIMESTAMP(@end) - UNIX_TIMESTAMP(@start)) AS state3
 
 FROM ( SELECT
 
@@ -247,7 +232,7 @@ FROM (
       'sla_end' AS type,
       NULL AS state,
       NULL AS last_state
-    FROM icinga_sla_periods_outofsla
+    FROM icinga_outofsla_periods
     WHERE timeperiod_object_id = @tp_object_id
       AND start_time >= @start AND start_time < @end
 
@@ -259,7 +244,7 @@ FROM (
       'sla_start' AS type,
       NULL AS state,
       NULL AS last_state
-    FROM icinga_sla_periods_outofsla
+    FROM icinga_outofsla_periods
     WHERE timeperiod_object_id = @tp_object_id
       AND end_time > @start AND end_time <= @end
   -- STOP fetching SLA time period end times ---
@@ -278,7 +263,7 @@ FROM (
       WHEN 'dt_end' THEN 8
       ELSE 9
     END ASC
-) slaevents;
+) events_with_bla;
 
   SET
     @last_state   := NULL,

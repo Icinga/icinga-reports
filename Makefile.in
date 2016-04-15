@@ -135,8 +135,9 @@ install-jar-files:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
                 echo "" ;\
                 echo "*** Installing icinga-reporting.jar to your jasper server into '$(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib/' ***" ;\
+		if [ ! -f java/icinga-reporting.jar ]; then make -C java/ ; fi;\
 		$(INSTALL) -d $(INSTALL_OPTS) $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
-		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jsp-server/classes/icinga/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
+		$(INSTALL) -b -m 755 $(INSTALL_OPTS) java/icinga-reporting.jar $(JASPER_SERVER)/apache-tomcat/webapps/jasperserver/WEB-INF/lib ;\
 	fi      
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -145,24 +146,6 @@ install-jar-files:
 		echo "" ;\
 	else \
 		echo "*** JAR-Files successfully installed ***" ;\
-		echo "" ;\
-	fi
-
-
-install-mysql-connector:
-	@if [ x$(JASPER_SERVER) != xno ]; then \
-                echo "" ;\
-                echo "*** Installing JDBC driver for MySQL $(MYSQL_CONNECTOR_VERSION) to your jasper server into '$(JASPER_SERVER)/apache-tomcat/lib/' ***" ;\
-		$(INSTALL) -d $(INSTALL_OPTS) $(JASPER_SERVER)/apache-tomcat/lib ;\
-		$(INSTALL) -b -m 755 $(INSTALL_OPTS) jsp-server/classes/connector/mysql-connector-java-$(MYSQL_CONNECTOR_VERSION)/mysql-connector-java-$(MYSQL_CONNECTOR_VERSION)-bin.jar $(JASPER_SERVER)/apache-tomcat/lib ;\
-	fi
-
-	@if [ x$(JASPER_SERVER) = xno ]; then \
-		echo "" ;\
-		echo "Sorry, but no supported JasperServer installation found!" ;\
-		echo "" ;\
-	else \
-		echo "*** JDBC driver for MySQL successfully installed ***" ;\
 		echo "" ;\
 	fi
 

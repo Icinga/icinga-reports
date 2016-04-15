@@ -62,9 +62,6 @@ none:
 	@echo " make install-jar-files"
 	@echo "     - Install JAR-Files to your JasperServer"
 	@echo ""
-	@echo " make install-mysql-connector"
-	@echo "     - Install the official JDBC driver for MySQL ("$(MYSQL_CONNECTOR_VERSION)") to your JasperServer"
-	@echo ""
 	@echo ""
 	@echo "*** Support Notes *******************************************"
 	@echo ""
@@ -96,7 +93,7 @@ none:
 
 install:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
-		$(MAKE) js-import-icinga install-jar-files install-mysql-connector;\
+		$(MAKE) js-import-icinga install-jar-files;\
         fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

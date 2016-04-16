@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="hostServiceTop10InGivenTime.data">
+    <folder>/icinga/templates/sub/other</folder>
+    <name>hostServiceTop10InGivenTime</name>
+    <version>0</version>
+    <label>Host-Service top 10 in given time</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:23.264+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:11.342+01:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

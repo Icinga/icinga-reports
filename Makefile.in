@@ -154,7 +154,7 @@ js-import-icinga:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
                 echo "" ;\
                 echo "*** Beginning import icinga reports into JasperServer..... ***" ;\
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./reports/icinga/package/js-icinga-reports.zip ;\
+		$(JASPER_SERVER)/buildomatic/js-import.sh --input-dir ./reports ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

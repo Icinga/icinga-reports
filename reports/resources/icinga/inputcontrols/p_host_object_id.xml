@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_host_object_id</name>
+    <version>0</version>
+    <label>Hostname</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:18.187+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:06.018+01:00</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="query">
+            <folder>/icinga/inputcontrols/p_host_object_id_files</folder>
+            <name>query_host_object_id</name>
+            <version>0</version>
+            <label>query_host_object_id</label>
+            <description></description>
+            <creationDate>2016-04-16T16:52:18.187+02:00</creationDate>
+            <updateDate>2012-12-18T10:09:06.018+01:00</updateDate>
+            <language>sql</language>
+            <queryString>select host_object_id, display_name from icinga_hosts</queryString>
+            <dataSource>
+                <uri>/icinga/datasources/IDO</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>display_name</queryVisibleColumn>
+    <queryValueColumn>host_object_id</queryValueColumn>
+</inputControl>

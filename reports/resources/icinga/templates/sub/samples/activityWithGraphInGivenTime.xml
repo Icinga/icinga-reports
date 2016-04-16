@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="activityWithGraphInGivenTime.data">
+    <folder>/icinga/templates/sub/samples</folder>
+    <name>activityWithGraphInGivenTime</name>
+    <version>0</version>
+    <label>activityWithGraphInGivenTime.jrxml</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:23.426+02:00</creationDate>
+    <updateDate>2013-10-17T11:56:06.005+02:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

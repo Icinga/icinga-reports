@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/</parent>
+    <name>icinga</name>
+    <label>Icinga</label>
+    <creationDate>2016-04-16T16:52:15.845+02:00</creationDate>
+    <updateDate>2011-11-08T11:52:41.054+01:00</updateDate>
+    <folder>datasources</folder>
+    <folder>datatypes</folder>
+    <folder>images</folder>
+    <folder>inputcontrols</folder>
+    <folder>listofvalues</folder>
+    <folder>reports</folder>
+    <folder>styles</folder>
+    <folder>templates</folder>
+</folder>

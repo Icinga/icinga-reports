@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/templates/sub</parent>
+    <name>samples</name>
+    <label>Samples</label>
+    <creationDate>2016-04-16T16:52:17.375+02:00</creationDate>
+    <updateDate>2012-10-12T10:14:38.105+02:00</updateDate>
+    <resource>activityWithGraphInGivenTime</resource>
+</folder>

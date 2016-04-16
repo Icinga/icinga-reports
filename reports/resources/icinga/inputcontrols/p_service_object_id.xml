@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_service_object_id</name>
+    <version>0</version>
+    <label>Service</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:18.409+02:00</creationDate>
+    <updateDate>2013-04-10T14:27:48.442+02:00</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="query">
+            <folder>/icinga/inputcontrols/p_service_object_id_files</folder>
+            <name>query_service_object_id</name>
+            <version>0</version>
+            <label>query_service_object_id</label>
+            <description></description>
+            <creationDate>2016-04-16T16:52:18.409+02:00</creationDate>
+            <updateDate>2012-12-18T10:09:06.215+01:00</updateDate>
+            <language>sql</language>
+            <queryString>select service_object_id, concat(icinga_hosts.display_name, ' - ', icinga_services.display_name) as name from icinga_services, icinga_hosts where icinga_services.host_object_id = icinga_hosts.host_object_id order by name</queryString>
+            <dataSource>
+                <uri>/icinga/datasources/IDO</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>name</queryVisibleColumn>
+    <queryValueColumn>service_object_id</queryValueColumn>
+</inputControl>

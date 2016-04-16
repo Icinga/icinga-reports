@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit exportedWithPermissions="false">
+    <folder>/icinga/reports/servicegroup</folder>
+    <name>ServicegroupAvailabilityReportInGivenTime</name>
+    <version>0</version>
+    <label>Availability report about a selected Service in a given time</label>
+    <creationDate>2016-04-16T16:52:22.187+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:10.330+01:00</updateDate>
+    <mainReport>
+        <uri>/icinga/templates/main/servicegroup/availabilityReportInGivenTime</uri>
+    </mainReport>
+    <dataSource>
+        <uri>/icinga/datasources/IDO</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_servicegroup_object_id</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_timeperiod</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_start</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_end</uri>
+    </inputControl>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>

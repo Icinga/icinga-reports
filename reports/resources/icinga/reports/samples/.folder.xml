@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/reports</parent>
+    <name>samples</name>
+    <label>Samples</label>
+    <creationDate>2016-04-16T16:52:16.717+02:00</creationDate>
+    <updateDate>2012-10-12T10:17:49.045+02:00</updateDate>
+    <resource>ServiceActivityReportWithGraphInGivenTime</resource>
+</folder>

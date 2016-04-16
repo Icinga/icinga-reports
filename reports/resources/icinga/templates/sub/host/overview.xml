@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="overview.data">
+    <folder>/icinga/templates/sub/host</folder>
+    <name>overview</name>
+    <version>0</version>
+    <label>Overview</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:22.633+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:10.755+01:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

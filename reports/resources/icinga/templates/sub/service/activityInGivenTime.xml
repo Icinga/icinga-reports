@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="activityInGivenTime.data">
+    <folder>/icinga/templates/sub/service</folder>
+    <name>activityInGivenTime</name>
+    <version>0</version>
+    <label>activityInGivenTime.jrxml</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:23.482+02:00</creationDate>
+    <updateDate>2013-10-17T11:56:39.458+02:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

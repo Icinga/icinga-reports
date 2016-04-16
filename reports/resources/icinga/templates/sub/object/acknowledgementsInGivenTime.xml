@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="acknowledgementsInGivenTime.data">
+    <folder>/icinga/templates/sub/object</folder>
+    <name>acknowledgementsInGivenTime</name>
+    <version>0</version>
+    <label>Acknowledgements in given time</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:22.943+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:10.994+01:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

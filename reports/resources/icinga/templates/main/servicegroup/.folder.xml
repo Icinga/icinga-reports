@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/templates/main</parent>
+    <name>servicegroup</name>
+    <label>Servicegroup</label>
+    <creationDate>2016-04-16T16:52:17.154+02:00</creationDate>
+    <updateDate>2012-08-24T11:55:54.245+02:00</updateDate>
+    <resource>availabilityReportInGivenTime</resource>
+</folder>

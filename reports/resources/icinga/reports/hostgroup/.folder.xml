@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/reports</parent>
+    <name>hostgroup</name>
+    <label>Hostgroup</label>
+    <creationDate>2016-04-16T16:52:16.612+02:00</creationDate>
+    <updateDate>2011-11-08T11:53:02.541+01:00</updateDate>
+    <resource>HostgroupAvailabilityReportInGivenTime</resource>
+    <resource>HostgroupOverviewReport</resource>
+</folder>

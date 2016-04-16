@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="contacts.data">
+    <folder>/icinga/templates/sub/host</folder>
+    <name>contacts</name>
+    <version>0</version>
+    <label>Contacts</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:22.521+02:00</creationDate>
+    <updateDate>2013-03-03T19:41:25.991+01:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

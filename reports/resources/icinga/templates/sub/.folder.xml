@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/templates</parent>
+    <name>sub</name>
+    <label>Sub</label>
+    <creationDate>2016-04-16T16:52:16.922+02:00</creationDate>
+    <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
+    <folder>host</folder>
+    <folder>object</folder>
+    <folder>other</folder>
+    <folder>page</folder>
+    <folder>samples</folder>
+    <folder>service</folder>
+</folder>

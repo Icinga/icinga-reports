@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_hostgroup_object_id</name>
+    <version>0</version>
+    <label>Hostgroup</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:18.315+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:06.116+01:00</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="query">
+            <folder>/icinga/inputcontrols/p_hostgroup_object_id_files</folder>
+            <name>query_hostgroup_object_id</name>
+            <version>0</version>
+            <label>query_hostgroup_object_id</label>
+            <description></description>
+            <creationDate>2016-04-16T16:52:18.315+02:00</creationDate>
+            <updateDate>2012-12-18T10:09:06.116+01:00</updateDate>
+            <language>sql</language>
+            <queryString>SELECT object_id, name1 FROM icinga_objects WHERE objecttype_id = '3' AND is_active = '1';</queryString>
+            <dataSource>
+                <uri>/icinga/datasources/IDO</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>name1</queryVisibleColumn>
+    <queryValueColumn>object_id</queryValueColumn>
+</inputControl>

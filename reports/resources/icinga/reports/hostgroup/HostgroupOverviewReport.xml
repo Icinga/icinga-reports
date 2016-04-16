@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit exportedWithPermissions="false">
+    <folder>/icinga/reports/hostgroup</folder>
+    <name>HostgroupOverviewReport</name>
+    <version>0</version>
+    <label>Overview report about a selected Hostgroup</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:20.476+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:08.313+01:00</updateDate>
+    <mainReport>
+        <uri>/icinga/templates/main/hostgroup/overviewReport</uri>
+    </mainReport>
+    <dataSource>
+        <uri>/icinga/datasources/IDO</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_hostgroup_object_id</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>

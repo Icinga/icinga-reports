@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/templates/main</parent>
+    <name>host</name>
+    <label>Host</label>
+    <creationDate>2016-04-16T16:52:16.965+02:00</creationDate>
+    <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
+    <resource>activityReportInGivenTime</resource>
+    <resource>allNotificationReportInGivenTime</resource>
+    <resource>availabilityReportInGivenTime</resource>
+    <resource>downtimeReportOverAllDowntimes</resource>
+    <resource>overviewReport</resource>
+    <resource>top10ReportInGivenTime</resource>
+</folder>

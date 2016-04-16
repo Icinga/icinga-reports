@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga</parent>
+    <name>images</name>
+    <label>Images</label>
+    <creationDate>2016-04-16T16:52:16.173+02:00</creationDate>
+    <updateDate>2011-11-08T11:53:00.302+01:00</updateDate>
+    <resource>icinga_background.jpg</resource>
+    <resource>icinga_banner.jpg</resource>
+    <resource>icinga_logo_header.png</resource>
+</folder>

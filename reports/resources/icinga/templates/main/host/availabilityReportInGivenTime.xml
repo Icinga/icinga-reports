@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="availabilityReportInGivenTime.data">
+    <folder>/icinga/templates/main/host</folder>
+    <name>availabilityReportInGivenTime</name>
+    <version>0</version>
+    <label>Availability report in given time</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:19.413+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:07.188+01:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

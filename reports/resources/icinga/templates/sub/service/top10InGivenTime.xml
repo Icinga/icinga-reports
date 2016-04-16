@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="top10InGivenTime.data">
+    <folder>/icinga/templates/sub/service</folder>
+    <name>top10InGivenTime</name>
+    <version>0</version>
+    <label>top10InGivenTime.jrxml</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:23.641+02:00</creationDate>
+    <updateDate>2013-10-17T11:57:04.065+02:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

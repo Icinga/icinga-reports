@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit exportedWithPermissions="false">
+    <folder>/icinga/reports/other</folder>
+    <name>HostServiceTop10ReportInGivenTime</name>
+    <version>0</version>
+    <label>Top 10 report about Host-Services in a state other than ok in given time</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:20.781+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:08.719+01:00</updateDate>
+    <mainReport>
+        <uri>/icinga/templates/main/other/hostServiceTop10ReportInGivenTime</uri>
+    </mainReport>
+    <dataSource>
+        <uri>/icinga/datasources/IDO</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_timeperiod</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_start</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_end</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>

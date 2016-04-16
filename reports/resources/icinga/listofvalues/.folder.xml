@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga</parent>
+    <name>listofvalues</name>
+    <label>List of Values</label>
+    <creationDate>2016-04-16T16:52:16.335+02:00</creationDate>
+    <updateDate>2011-11-08T11:53:01.899+01:00</updateDate>
+    <resource>timeperiods</resource>
+    <resource>weekdays</resource>
+</folder>

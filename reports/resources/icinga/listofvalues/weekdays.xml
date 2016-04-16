@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listOfValues exportedWithPermissions="false">
+    <folder>/icinga/listofvalues</folder>
+    <name>weekdays</name>
+    <version>0</version>
+    <label>Weekdays</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:18.935+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:06.740+01:00</updateDate>
+    <item>
+        <itemLabel>Sunday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Sunday</itemValue>
+    </item>
+    <item>
+        <itemLabel>Monday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Monday</itemValue>
+    </item>
+    <item>
+        <itemLabel>Tuesday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Tuesday</itemValue>
+    </item>
+    <item>
+        <itemLabel>Wednesday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Wednesday</itemValue>
+    </item>
+    <item>
+        <itemLabel>Thursday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Thursday</itemValue>
+    </item>
+    <item>
+        <itemLabel>Friday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Friday</itemValue>
+    </item>
+    <item>
+        <itemLabel>Saturday</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Saturday</itemValue>
+    </item>
+</listOfValues>

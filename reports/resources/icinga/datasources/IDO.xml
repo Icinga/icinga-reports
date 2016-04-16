@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdbcDataSource exportedWithPermissions="false">
+    <folder>/icinga/datasources</folder>
+    <name>IDO</name>
+    <version>0</version>
+    <label>IDO</label>
+    <description></description>
+    <creationDate>2016-04-16T16:52:17.466+02:00</creationDate>
+    <updateDate>2012-12-18T10:09:05.029+01:00</updateDate>
+    <driver>org.mariadb.jdbc.Driver</driver>
+    <connectionUrl>jdbc:mariadb://localhost:3306/icinga</connectionUrl>
+    <connectionUser>icinga</connectionUser>
+    <connectionPassword>ENC&lt;C65422ADC19B404293032E1C8BC35686&gt;</connectionPassword>
+    <timezone></timezone>
+</jdbcDataSource>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/templates/main</parent>
+    <name>service</name>
+    <label>Service</label>
+    <creationDate>2016-04-16T16:52:17.113+02:00</creationDate>
+    <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
+    <resource>activityReportInGivenTime</resource>
+    <resource>allNotificationReportInGivenTime</resource>
+    <resource>availabilityReportInGivenTime</resource>
+    <resource>downtimeReport</resource>
+    <resource>top10ReportInGivenTime</resource>
+</folder>

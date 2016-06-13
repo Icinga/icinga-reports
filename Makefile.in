@@ -23,6 +23,7 @@ INCDIR=@includedir@
 INSTALL=@INSTALL@
 INSTALL_OPTS=@INSTALL_OPTS@
 JASPER_SERVER=@JASPER_SERVER@
+THIS_DIR=`pwd`
 
 
 ###############################
@@ -153,7 +154,9 @@ js-import-icinga:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
                 echo "" ;\
                 echo "*** Beginning import icinga reports into JasperServer..... ***" ;\
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-dir ./reports ;\
+		cd $(JASPER_SERVER)/buildomatic/ ;\
+		./js-import.sh --input-dir $(THIS_DIR)/reports ;\
+		cd $(THIS_DIR);\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -191,7 +194,9 @@ js-update-icinga:
 	@if [ x$(JASPER_SERVER) != xno ]; then \
                 echo "" ;\
                 echo "*** Beginning update icinga reports on JasperServer..... ***" ;\
-		$(JASPER_SERVER)/buildomatic/js-import.sh --input-zip ./reports/icinga/package/js-icinga-reports.zip --update ;\
+		cd $(JASPER_SERVER)/buildomatic/ ;\
+		./js-import.sh --input-dir $(THIS_DIR)/reports --update ;\
+		cd $(THIS_DIR);\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

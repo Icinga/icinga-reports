@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Availability report about a selected Servicegroup in a given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="b6df08cb-0d2c-4e0e-bde5-1b54ba183349">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="841"/>
+	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/servicegroup/Availability_SG_pnp4nagios"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.122.153:8080/jasperserver/services/repository"/>
+	<import value="org.icinga.reporting.DateHelper"/>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_servicegroup_object_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.service_object_id,
+  c.name1,
+  c.name2,
+  b.alias
+from icinga_servicegroup_members a,
+  icinga_servicegroups b,
+  icinga_objects c
+where a.servicegroup_id   = b.servicegroup_id
+and c.object_id           = a.service_object_id
+and b.servicegroup_object_id = $P{p_servicegroup_object_id}]]>
+	</queryString>
+	<field name="service_object_id" class="java.lang.Integer"/>
+	<field name="name2" class="java.lang.String"/>
+	<field name="alias" class="java.lang.String"/>
+	<field name="name1" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="800">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="800" uuid="fdd8b7e0-ea6b-4aae-8562-52ff2e3cf67a"/>
+				<graphicElement>
+					<pen lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame">
+				<reportElement x="33" y="200" width="521" height="599" uuid="4a08b545-6264-4157-b80b-722bfe4f9dc6"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#999999"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.jpg"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="490" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="fe29bf94-d121-4783-a689-fd8c5a1948d5"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="400" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="67f779f6-a083-4303-a6f8-1e0fb2263f2e"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="97dada97-c45f-49fa-a32f-1247f1476536"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="2" y="1" width="555" height="64" uuid="ef52fdcd-695d-489f-9330-29264cd5e995"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_banner.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="175" width="554" height="25" forecolor="#000000" backcolor="#DCDCDC" uuid="10c02597-3db4-475a-8bec-5168969d0591"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Servicegroup Performance Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="3f9507b4-c431-480a-9f3e-bc10c8ae6d24"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="300" width="310" height="20" uuid="3b1cd23c-1d1c-40e8-b02d-39bfa5fb74f8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Performance Report for servicegroup and dependant services]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000" uuid="4431e00f-68ea-4747-8fcb-6bd69c718988"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostgroup:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="160" y="400" width="310" height="20" uuid="033c9c0b-2fb4-49d5-994f-1142d009c086"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{alias}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000" uuid="ef39c843-b2b6-49d4-86cb-6b75fce1c867"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creation:]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement style="Cover" x="160" y="320" width="310" height="20" uuid="5293a216-b3ce-4402-9eb2-206e3a960778"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="5" height="25" backcolor="#81AAB8" uuid="4dee6bbb-42dc-4b4a-9f39-e6e40699a8aa"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="518" y="175" width="5" height="25" backcolor="#81AAB8" uuid="adbf02af-99ad-4fb6-bb0b-a2061dd60891"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="5" height="40" backcolor="#81AAB8" uuid="18ffa864-34f4-4c84-94c5-a3577ee62f51"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="400" width="5" height="40" backcolor="#81AAB8" uuid="41326274-4881-4701-81f3-e75d915024d0"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="64" width="555" height="15" forecolor="#2C2B2C" backcolor="#2C2B2C" uuid="f5a8babc-ddcc-4857-bded-ab0c1696e3e7"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="497" y="177" width="21" height="21" uuid="57d56774-ed85-4610-9123-b9449baadda9"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="790" width="555" height="10" backcolor="#81AAB8" uuid="41809441-2a5e-40c8-b810-2abd363b83c5"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="80" y="420" width="80" height="20" forecolor="#000000" uuid="5a0a7ade-6979-4b6f-b1d2-36a8b2d0f021"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Timerange:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="160" y="420" width="310" height="20" uuid="45fe7016-41f1-453d-88e0-c74690d8da71"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="85392df2-da89-4306-b47e-171ae982a0de"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000" uuid="98a77d3a-56cd-47f8-84d8-bb8d5a3ce185"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Servicegroup Performance Report for " + $F{alias} + "\n" +
+"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="530" y="2" width="21" height="21" uuid="986b6ea6-4782-46d3-af1a-fc6958ac6942"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="5" height="25" backcolor="#81AAB8" uuid="3704f1ef-c8f2-402c-adae-6b371be86e4e"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" uuid="54222457-d600-4057-9412-dc1e6c63428d"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_service_object_id">
+					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/availability_pnp4nagios"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="8fcbd364-f4b3-4d0e-9d3a-de136c8991f7"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999" uuid="c7a682a5-d27e-4261-ac56-5dcdec2968a4"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999" uuid="10986e4c-3c89-4fb5-88b1-2e163ea5d141"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="400" height="25" uuid="1b4e0a79-341f-4d3b-9a06-3033dbf5483c"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+			</subreport>
+			<rectangle radius="0">
+				<reportElement x="550" y="0" width="5" height="25" backcolor="#81AAB8" uuid="502986ae-dd56-4e5a-880e-9eaf533fcd77"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

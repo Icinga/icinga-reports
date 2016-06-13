@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability sub report in given time" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="33cac294-e038-49a3-82ea-514eb21556ce">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="graph_availability" uuid="e4874aa1-84c8-48ad-87ec-db5a52a20f3a">
+		<parameter name="p_service_object_id" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[$P{p_service_object_id}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_period" class="java.math.BigDecimal">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+  object_id,
+  name1,
+  name2,
+  '0' AS state,
+  ifnull(icinga_availability(
+    objects.object_id,
+    $P{p_date_start},
+    $P{p_date_end}
+  ), 0) / 100 as sla
+FROM icinga_objects objects
+WHERE objects.object_id = $P{p_service_object_id}
+union all
+SELECT
+  object_id,
+  name1,
+  name2,
+  '1' as state,
+  (100 - ifnull(icinga_availability(
+    objects.object_id,
+    $P{p_date_start},
+    $P{p_date_end}
+  ), 0)) / 100 as sla
+FROM icinga_objects objects
+WHERE objects.object_id = $P{p_service_object_id}]]>
+		</queryString>
+		<field name="object_id" class="java.math.BigInteger"/>
+		<field name="name1" class="java.lang.String"/>
+		<field name="name2" class="java.lang.String"/>
+		<field name="state" class="java.lang.String"/>
+		<field name="sla" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="p_service_object_id" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_host_name" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT name2, timestampdiff(second, $P{p_date_start}, $P{p_date_end}) AS period
+FROM icinga_objects, icinga_services, icinga_hosts
+WHERE icinga_objects.object_id  = icinga_services.service_object_id
+AND icinga_hosts.host_object_id = icinga_services.host_object_id
+AND icinga_services.config_type = 1
+AND icinga_hosts.config_type = 1
+AND icinga_objects.object_id    = $P{p_service_object_id}]]>
+	</queryString>
+	<field name="name2" class="java.lang.String"/>
+	<field name="period" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="350" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="9" y="8" width="537" height="335" backcolor="#F5F5F5" uuid="24b72854-ad56-4c63-bcb8-d9e8b699c782"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="29" width="65" height="20" uuid="e005ae2b-45e8-42ac-9876-27597427497c"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Service:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="75" y="29" width="230" height="20" uuid="d274b7fb-a3b7-440c-833a-b1bbb2ef65a7"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
+			</textField>
+			<pie3DChart>
+				<chart theme="default">
+					<reportElement x="331" y="17" width="167" height="98" uuid="5774186a-c60b-47ca-8fc2-e3e0bdd0ace7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="graph_availability" uuid="c20a72d3-a216-4ec2-aea0-6d278fb5fab6">
+							<datasetParameter name="p_service_object_id">
+								<datasetParameterExpression><![CDATA[$P{p_service_object_id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_start">
+								<datasetParameterExpression><![CDATA[$P{p_date_start}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_date_end">
+								<datasetParameterExpression><![CDATA[$P{p_date_end}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_period">
+								<datasetParameterExpression><![CDATA[$F{period}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{state}.toString().replaceFirst("0", "OK").replaceFirst("1", "NOK")]]></keyExpression>
+					<valueExpression><![CDATA[$F{sla}.setScale(5,BigDecimal.ROUND_HALF_UP).multiply(100)]]></valueExpression>
+					<labelExpression><![CDATA[$F{sla}.setScale(5,BigDecimal.ROUND_HALF_UP).multiply(100).toString() + "%"]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot depthFactor="0.2" isCircular="false" labelFormat="" legendLabelFormat="{0} ({1} %)">
+					<plot backgroundAlpha="0.0" foregroundAlpha="0.5">
+						<seriesColor seriesOrder="0" color="#00CC00"/>
+						<seriesColor seriesOrder="1" color="#CC0000"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF">
+						<font size="8"/>
+					</itemLabel>
+				</pie3DPlot>
+			</pie3DChart>
+			<textField>
+				<reportElement x="40" y="60" width="120" height="20" uuid="bfe9a865-6d96-4438-9499-f08fabe4fa63"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="60" width="30" height="20" uuid="2b87a1d8-ddf1-43dc-aad6-b617b09a71d8"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Start:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="80" width="30" height="20" uuid="78fd52bf-d78e-4c72-9e9c-04f8fc7a353a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[End:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="80" width="120" height="20" uuid="61aee093-eeb8-4263-8327-937fa453dbe1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="9" width="65" height="20" uuid="91ca2abd-e1e7-4e93-941f-09c50b528347"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Hostname:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="75" y="9" width="230" height="20" uuid="5e4080a4-bc8d-455f-b2ec-15a2af388d73"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p_host_name}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Icon" evaluationTime="Auto">
+				<reportElement x="10" y="140" width="534" height="204" uuid="68177f0d-3354-4bc5-9578-1fa0ab8ae55e"/>
+				<imageExpression><![CDATA["http://127.0.0.1/pnp4nagios/image?host=" + $P{p_host_name} + "&srv=" + $F{name2} + "&start=" + $P{p_date_start}.getTime()/1000 + "&end=" + $P{p_date_end}.getTime()/1000]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

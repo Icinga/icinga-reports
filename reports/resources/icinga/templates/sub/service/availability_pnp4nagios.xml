@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="availability_pnp4nagios.data">
+    <folder>/icinga/templates/sub/service</folder>
+    <name>availability_pnp4nagios</name>
+    <version>22</version>
+    <label>availability and perf with pnp4nagios</label>
+    <description>availability and perf with pnp4nagios</description>
+    <creationDate>2016-06-13T20:22:59.336+02:00</creationDate>
+    <updateDate>2016-06-13T22:39:01.930+02:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

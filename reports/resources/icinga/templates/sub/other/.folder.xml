@@ -3,9 +3,12 @@
     <parent>/icinga/templates/sub</parent>
     <name>other</name>
     <label>Other</label>
-    <creationDate>2016-04-16T16:52:17.307+02:00</creationDate>
-    <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
+    <creationDate>2016-05-31T14:54:28.967+08:00</creationDate>
+    <updateDate>2011-11-08T18:53:04.845+08:00</updateDate>
     <resource>hostServiceAvailabilityInGivenTime</resource>
     <resource>hostServiceTop10InGivenTime</resource>
     <resource>morningReport</resource>
+    <resource>numberofalertsbydate</resource>
+    <resource>numberofalertsbyhost</resource>
+    <resource>numberofalertsbyservice</resource>
 </folder>

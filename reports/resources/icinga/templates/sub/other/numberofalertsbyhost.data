@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="alertsbyhost" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="0" uuid="6b612346-5f16-4f2c-9eca-341083c4ce45">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:28080/jasperserver/services/repository"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#81AAB8">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFE0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F7F8"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="p_date_start" class="java.sql.Timestamp"/>
+	<parameter name="p_date_end" class="java.sql.Timestamp"/>
+	<queryString>
+		<![CDATA[select icinga_objects.name1, sum(alerts) as alertsum from (select object_id, count(state_time) as alerts from icinga_statehistory where ((last_hard_state = 1 and state = 1) or (last_hard_state = 2 and state = 2))  and state_type = 1 and state_time BETWEEN $P{p_date_start} AND $P{p_date_end} group by object_id) as states join icinga_objects on states.object_id = icinga_objects.object_id where icinga_objects.is_active=1 and icinga_objects.objecttype_id<=2 group by icinga_objects.name1  order by alertsum desc limit 10;]]>
+	</queryString>
+	<field name="name1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="alertsum" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="40">
+			<rectangle radius="0">
+				<reportElement x="0" y="5" width="300" height="20" backcolor="#F5F5F5" uuid="a42f9aa0-9df8-4803-bf3c-5818827e6917"/>
+				<graphicElement>
+					<pen lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="5" width="155" height="20" forecolor="#000000" uuid="9fd22e60-eb4c-47ce-abb7-eb66ad42da9a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Alerts by Host:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="190">
+			<barChart>
+				<chart>
+					<reportElement x="36" y="0" width="483" height="190" uuid="bbe5255a-7051-479d-b2a3-ecfebf9ce28b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Alerts by host"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{name1}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{alertsum}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot labelRotation="-45.0"/>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="-45.0">
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

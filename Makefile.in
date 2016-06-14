@@ -23,8 +23,7 @@ INCDIR=@includedir@
 INSTALL=@INSTALL@
 INSTALL_OPTS=@INSTALL_OPTS@
 JASPER_SERVER=@JASPER_SERVER@
-THIS_DIR=`pwd`
-
+MYPWD := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 ###############################
 # Tools
@@ -155,8 +154,8 @@ js-import-icinga:
                 echo "" ;\
                 echo "*** Beginning import icinga reports into JasperServer..... ***" ;\
 		cd $(JASPER_SERVER)/buildomatic/ ;\
-		./js-import.sh --input-dir $(THIS_DIR)/reports ;\
-		cd $(THIS_DIR);\
+		./js-import.sh --input-dir $(MYPWD)/reports ;\
+		cd $(MYPWD) ;\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \
@@ -195,8 +194,8 @@ js-update-icinga:
                 echo "" ;\
                 echo "*** Beginning update icinga reports on JasperServer..... ***" ;\
 		cd $(JASPER_SERVER)/buildomatic/ ;\
-		./js-import.sh --input-dir $(THIS_DIR)/reports --update ;\
-		cd $(THIS_DIR);\
+		./js-import.sh --input-dir $(MYPWD)/reports --update ;\
+		cd $(MYPWD);\
 	fi
 
 	@if [ x$(JASPER_SERVER) = xno ]; then \

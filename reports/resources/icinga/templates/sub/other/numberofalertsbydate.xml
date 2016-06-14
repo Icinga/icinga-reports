@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="numberofalertsbydate.data">
+    <folder>/icinga/templates/sub/other</folder>
+    <name>numberofalertsbydate</name>
+    <version>4</version>
+    <label>number of alerts by date</label>
+    <creationDate>2016-06-01T13:59:36.833+08:00</creationDate>
+    <updateDate>2016-06-01T14:23:58.381+08:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

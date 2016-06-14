@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.notifications" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="6b6c7fa3-6afc-402a-939c-abb4ef68aefb">
+	<property name="ireport.zoom" value="1.650000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="2045"/>
+	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/other/alertintime"/>
+	<import value="org.icinga.reporting.DateHelper"/>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<subDataset name="alertbydate" whenResourceMissingType="Error" uuid="34cdd5df-1c51-4773-8aea-7a1757843abe">
+		<parameter name="p_date_start" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_date_end" class="java.sql.Timestamp">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_timeperiod" class="java.lang.String"/>
+		<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT CONVERT(state_time,DATE) as date, sum(state_type) as alerts from icinga_statehistory where ((last_hard_state = 1 and state = 1) or (last_hard_state = 2 and state = 2))  and state_type = 1 and state_time BETWEEN $P{p_final_date_start} AND $P{p_final_date_end} group by date;]]>
+		</queryString>
+		<field name="date" class="java.sql.Date"/>
+		<field name="alerts" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT conninfo_id FROM icinga_conninfo LIMIT 1]]>
+	</queryString>
+	<field name="conninfo_id" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="800">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="800" uuid="7da319e3-daef-4766-a08f-964ae3f3dcdb"/>
+				<graphicElement>
+					<pen lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame">
+				<reportElement x="33" y="200" width="521" height="599" uuid="7611fe02-1efa-40ba-b95c-131c43901ac7"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#999999"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.jpg"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="490" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="f142d4de-ec4b-4e6b-9bf0-e57914c206c9"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="400" width="400" height="20" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="13fb0297-8648-4209-ad66-67f5f42e0d14"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="96f1fed4-7de0-46cb-8ecd-df41315d8ba0"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="2" y="1" width="555" height="64" uuid="f16fddee-a367-449e-adaa-90fca85e4da5"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_banner.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="175" width="554" height="25" forecolor="#000000" backcolor="#DCDCDC" uuid="8acd6c32-de49-48ed-9b34-019b8978d1ad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Alert Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="300" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="19581394-12d1-4fe2-8f30-827e620e96ad"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="300" width="310" height="20" uuid="b2019629-2988-4338-ab9b-912f90f2a53a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[The report shows all alerts for all hosts in given time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000" uuid="bf6c800a-ef0d-45a7-9e3d-2f189450d7ab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Timerange:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="160" y="400" width="310" height="20" uuid="a96678a8-fb36-49c1-bedd-380fcc0be634"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="320" width="80" height="20" forecolor="#000000" uuid="77bc1df2-9d8b-47ef-a977-431a546138db"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creation:]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement style="Cover" x="160" y="320" width="310" height="20" uuid="1bbce22a-77be-4fa0-951b-0a61f113e776"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="5" height="25" backcolor="#81AAB8" uuid="feb20bb0-9ca4-47df-8c48-d099c356f55b"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="518" y="175" width="5" height="25" backcolor="#81AAB8" uuid="14249186-aff8-4f4a-a008-06c216b30317"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="5" height="40" backcolor="#81AAB8" uuid="2efee468-b647-4531-bdaa-3584667e901f"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="400" width="5" height="20" backcolor="#81AAB8" uuid="5a265bb1-3256-460a-b20f-cf1e4244dd59"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="64" width="555" height="15" forecolor="#2C2B2C" backcolor="#2C2B2C" uuid="8635c469-c612-4d77-8c83-bd0d7533081c"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="497" y="177" width="21" height="21" uuid="07963c15-a246-4968-9a00-15ae65f175e3"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="790" width="555" height="10" backcolor="#81AAB8" uuid="9118ad80-ded4-4d90-95d8-c33efeada1b0"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="612dacde-2089-477c-9ced-846746d54e0a"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000" uuid="89fb1dc7-b78a-47ea-afc0-30977095e00d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Alert Report" + "\n" +
+"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="530" y="2" width="21" height="21" uuid="055404c9-075a-40ac-b575-bf8466ecd8b5"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="5" height="25" backcolor="#81AAB8" uuid="835d2baa-a472-4d4c-b34a-2ac62d060b67"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="540" splitType="Stretch">
+			<subreport runToBottom="false">
+				<reportElement x="1" y="0" width="555" height="50" uuid="df3d5bca-4a1b-4ac3-98b6-6b34ab1cd169"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "other/numberofalertsbydate"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="1" y="244" width="555" height="50" uuid="79de68d7-2ebf-4059-9bc8-70125ebef238"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "other/numberofalertsbyhost"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="490" width="555" height="50" uuid="51dc937e-17d3-4281-ae99-16720846deed"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "other/numberofalertsbyservice"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999" uuid="d0681a65-369f-4741-b0bf-9d79de9d2fa7"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999" uuid="14a048df-7cae-49c4-a0b5-3baaa41f0479"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="400" height="25" uuid="8c0179d6-dbe9-4d6f-8059-b9b7c13a5eb6"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+			</subreport>
+			<rectangle radius="0">
+				<reportElement x="550" y="0" width="5" height="25" backcolor="#81AAB8" uuid="7eb134c7-7a2d-4281-9d57-f4dd284460b8"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageFooter>
+</jasperReport>

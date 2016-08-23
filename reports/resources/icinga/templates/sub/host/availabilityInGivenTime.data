@@ -62,15 +62,15 @@ WHERE objects.object_id = $P{p_host_object_id}]]>
 	</parameter>
 	<queryString>
 		<![CDATA[select name1,
-  address,
+       name2,
+	address,
   service_object_id,
   timestampdiff(second, $P{p_date_start}, $P{p_date_end}) as period
-from icinga_objects,
-  icinga_hosts,
-  icinga_services
-where icinga_objects.object_id  = icinga_hosts.host_object_id
-and icinga_hosts.host_object_id = icinga_services.host_object_id
-and object_id                      = $P{p_host_object_id}]]>
+from icinga_services
+	join icinga_objects on  icinga_services.service_object_id = icinga_objects.object_id
+	join icinga_hosts on icinga_services.host_object_id = icinga_hosts.host_object_id
+where icinga_services.host_object_id = $P{p_host_object_id}
+and is_active = 1]]>
 	</queryString>
 	<field name="name1" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>

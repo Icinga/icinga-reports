@@ -3,11 +3,12 @@
     <parent>/icinga/templates/sub</parent>
     <name>service</name>
     <label>Service</label>
-    <creationDate>2016-06-13T15:07:05.341+02:00</creationDate>
+    <creationDate>2016-09-27T22:50:06.400+02:00</creationDate>
     <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
     <resource>activityInGivenTime</resource>
     <resource>allNotificationsInGivenTime</resource>
     <resource>availability_pnp4nagios</resource>
     <resource>availabilityInGivenTime</resource>
+    <resource>stateHistoryAndDowntimes</resource>
     <resource>top10InGivenTime</resource>
 </folder>

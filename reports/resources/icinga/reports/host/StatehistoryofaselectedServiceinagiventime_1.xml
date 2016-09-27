@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit exportedWithPermissions="false">
+    <folder>/icinga/reports/host</folder>
+    <name>StatehistoryofaselectedServiceinagiventime_1</name>
+    <version>1</version>
+    <label>StatesAndDowntimes</label>
+    <creationDate>2016-09-28T00:45:32.620+02:00</creationDate>
+    <updateDate>2016-09-28T00:54:38.508+02:00</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false"
+            dataFile="StatehistoryofaselectedServiceinagiventime_jrxml.data" xsi:type="fileResource">
+            <folder>/icinga/reports/host/StatehistoryofaselectedServiceinagiventime_1_files</folder>
+            <name>StatehistoryofaselectedServiceinagiventime_jrxml</name>
+            <version>1</version>
+            <label>Main jrxml</label>
+            <description>Main jrxml</description>
+            <creationDate>2016-09-28T00:45:32.620+02:00</creationDate>
+            <updateDate>2016-09-27T22:53:13.383+02:00</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/icinga/datasources/IDO</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_host_object_id</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_timeperiod</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_start</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_end</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/servicesTrue</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_overview</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/addRESTLink</uri>
+    </inputControl>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>

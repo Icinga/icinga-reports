@@ -3,12 +3,14 @@
     <parent>/icinga</parent>
     <name>inputcontrols</name>
     <label>Input Controls</label>
-    <creationDate>2016-04-16T16:52:16.280+02:00</creationDate>
+    <creationDate>2016-09-27T22:50:04.122+02:00</creationDate>
     <updateDate>2011-11-08T11:53:00.749+01:00</updateDate>
+    <resource>addRESTLink</resource>
     <resource>p_date_end</resource>
     <resource>p_date_start</resource>
     <resource>p_host_object_id</resource>
     <resource>p_hostgroup_object_id</resource>
+    <resource>p_overview</resource>
     <resource>p_service_object_id</resource>
     <resource>p_servicegroup_object_id</resource>
     <resource>p_time_end</resource>
@@ -16,4 +18,5 @@
     <resource>p_timeperiod</resource>
     <resource>p_weekday_end</resource>
     <resource>p_weekday_start</resource>
+    <resource>servicesTrue</resource>
 </folder>

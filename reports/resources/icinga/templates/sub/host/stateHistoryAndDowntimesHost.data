@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity report in given time" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
+	<property name="ireport.zoom" value="1.0245201830476058"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.122.153:8080/jasperserver/services/repository"/>
+	<import value="org.icinga.reporting.DateHelper"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga2/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_host_object_id" class="java.lang.Integer"/>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="servicesTrue" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_overview" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_debug" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select name1,
+  name2,
+  service_object_id
+from icinga_objects,
+  icinga_services
+where icinga_objects.object_id = icinga_services.service_object_id
+and host_object_id                  = $P{p_host_object_id}]]>
+	</queryString>
+	<field name="name1" class="java.lang.String"/>
+	<field name="name2" class="java.lang.String"/>
+	<field name="service_object_id" class="java.lang.Integer"/>
+	<title>
+		<band height="61">
+			<subreport>
+				<reportElement x="2" y="0" width="552" height="50" uuid="91d2315f-cbb1-44f5-b470-b79e76a86c8f"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_debug">
+					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_overview">
+					<subreportParameterExpression><![CDATA[$P{p_overview}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_service_name">
+					<subreportParameterExpression><![CDATA["Host Alive"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_service_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateHistoryAndDowntimes"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{servicesTrue}]]></printWhenExpression>
+			<subreport>
+				<reportElement x="2" y="3" width="552" height="18" uuid="ed3fd812-ea70-4864-add9-9d5c17edb159">
+					<printWhenExpression><![CDATA[$P{servicesTrue}==true]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_debug">
+					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_overview">
+					<subreportParameterExpression><![CDATA[$P{p_overview}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_service_name">
+					<subreportParameterExpression><![CDATA[$F{name2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_name">
+					<subreportParameterExpression><![CDATA[$F{name1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_service_object_id">
+					<subreportParameterExpression><![CDATA[$F{service_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateHistoryAndDowntimes"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

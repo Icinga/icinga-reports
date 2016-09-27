@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource exportedWithPermissions="false" dataFile="stateHistoryAndDowntimes.data">
+    <folder>/icinga/templates/sub/service</folder>
+    <name>stateHistoryAndDowntimes</name>
+    <version>0</version>
+    <label>stateHistoryAndDowntimes</label>
+    <creationDate>2016-09-27T22:51:13.769+02:00</creationDate>
+    <updateDate>2016-09-27T20:16:36.405+02:00</updateDate>
+    <fileType>jrxml</fileType>
+</fileResource>

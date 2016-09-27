@@ -3,7 +3,7 @@
     <parent>/icinga/templates/sub</parent>
     <name>host</name>
     <label>Host</label>
-    <creationDate>2016-04-16T16:52:17.231+02:00</creationDate>
+    <creationDate>2016-09-27T22:50:06.051+02:00</creationDate>
     <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
     <resource>activityInGivenTime</resource>
     <resource>allNotificationsInGivenTime</resource>
@@ -14,5 +14,6 @@
     <resource>overview</resource>
     <resource>servicegroups</resource>
     <resource>services</resource>
+    <resource>stateHistoryAndDowntimesHost</resource>
     <resource>top10InGivenTime</resource>
 </folder>

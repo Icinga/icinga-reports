@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service availability state history Report" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="33cac294-e038-49a3-82ea-514eb21556ce">
+	<property name="ireport.zoom" value="1.7715610000000022"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.122.153:8080/jasperserver/services/repository"/>
+	<parameter name="p_host_object_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_service_object_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_service_name" class="java.lang.String"/>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_host_name" class="java.lang.String"/>
+	<parameter name="p_overview" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_debug" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+  statehistory_id AS ID,
+  last_hard_state,
+  '0000-00-00 00:00:00' AS START,
+  state_time AS END,
+  state_time AS SORT,
+  state,
+  output,
+  1 AS type
+FROM icinga_statehistory
+WHERE object_id = '102' and state_time BETWEEN $P{p_date_start} AND $P{p_date_end} AND state_type = 1
+UNION SELECT
+  downtimehistory_id AS ID,
+  0 AS last_hard_state,
+  IF(is_fixed=1,scheduled_start_time,IF(actual_start_time='0000-00-00 00:00:00',scheduled_start_time,actual_start_time)) AS START,
+  IF(is_fixed=1,scheduled_end_time,IF(actual_end_time='0000-00-00 00:00:00',scheduled_end_time,actual_end_time)) AS END,
+  IF(is_fixed=1,scheduled_start_time,IF(actual_start_time='0000-00-00 00:00:00',scheduled_start_time,actual_start_time)) AS SORT,
+  0 AS state,
+  comment_data AS output,
+  2 AS type
+FROM icinga_downtimehistory
+WHERE object_id in ($P{p_host_object_id},$P{p_service_object_id}) and (scheduled_end_time BETWEEN $P{p_date_start} AND $P{p_date_end} or scheduled_start_time BETWEEN $P{p_date_start} AND $P{p_date_end})
+order by SORT;]]>
+	</queryString>
+	<field name="ID" class="java.math.BigInteger"/>
+	<field name="last_hard_state" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="START" class="java.lang.String"/>
+	<field name="END" class="java.sql.Timestamp"/>
+	<field name="SORT" class="java.sql.Timestamp"/>
+	<field name="state" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="output" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="type" class="java.lang.Long"/>
+	<variable name="sw" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}== 0 ? 1 : 0):$V{sw}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="tmpTime0" class="java.sql.Timestamp">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==0?$F{END}:$V{tmpTime0}):$V{tmpTime0}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{p_date_start}]]></initialValueExpression>
+	</variable>
+	<variable name="tmpTime1" class="java.sql.Timestamp">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==1?$F{END}:$V{tmpTime1}):$V{tmpTime1}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{p_date_start}]]></initialValueExpression>
+	</variable>
+	<variable name="lastTime" class="java.sql.Timestamp">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==0?$V{tmpTime1}:$V{tmpTime0}):$F{END}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{p_date_start}]]></initialValueExpression>
+	</variable>
+	<variable name="tmpState0" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==0?$F{state}:$V{tmpState0}):$V{tmpState0}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{last_hard_state}]]></initialValueExpression>
+	</variable>
+	<variable name="tmpState1" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==1?$F{state}:$V{tmpState1}):$V{tmpState1}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{last_hard_state}]]></initialValueExpression>
+	</variable>
+	<variable name="lastState" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1?$V{sw}==1?$V{tmpState0}:$V{tmpState1}:$V{sw}==0?$V{tmpState0}:$V{tmpState1}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="tmpOutput0" class="java.lang.String">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==0?$F{output}:$V{tmpOutput0}):$V{tmpOutput0}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{lastState}==0?"OK":
+$V{lastState}==1?"WARN":
+$V{lastState}==2?"CRIT":"UNKNOWN"]]></initialValueExpression>
+	</variable>
+	<variable name="tmpOutput1" class="java.lang.String">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==1?$F{output}:$V{tmpOutput1}):$V{tmpOutput1}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{lastState}==0?"OK":
+$V{lastState}==1?"WARN":
+$V{lastState}==2?"CRIT":"UNKNOWN"]]></initialValueExpression>
+	</variable>
+	<variable name="lastOutput" class="java.lang.String">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==1?$V{tmpOutput0}:$V{tmpOutput1}):$F{output}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{lastState}==0?"OK":
+$V{lastState}==1?"WARN":
+$V{lastState}==2?"CRIT":"UNKNOWN"]]></initialValueExpression>
+	</variable>
+	<variable name="duration" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1?($F{END}.getTime()-$V{lastTime}.getTime())/1000:$V{duration}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="dt_active" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$F{type}==2?true:
+$V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
+		<initialValueExpression><![CDATA[false]]></initialValueExpression>
+	</variable>
+	<variable name="dt_active_start" class="java.sql.Timestamp">
+		<variableExpression><![CDATA[$F{type}==2?$V{lastTime}:$V{dt_active_start}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{p_date_start}]]></initialValueExpression>
+	</variable>
+	<variable name="dt_active_duration" class="java.lang.Double">
+		<variableExpression><![CDATA[($F{END}.getTime()-$V{lastTime}.getTime())/1000]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="DurationOK" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1
+  ?$V{dt_active}
+    ?$V{DurationOK}
+    :$V{lastState}==0
+      ?($V{DurationOK}+$V{duration})
+      :$V{DurationOK}
+  :$V{DurationOK}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="DurationWARN" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1
+?$V{dt_active}
+  ?$V{DurationWARN}
+  :$V{lastState}==1
+    ?($V{DurationWARN}+$V{duration})
+    :$V{DurationWARN}
+:$V{lastStateTime}>$V{lastTime}
+  ?$V{DurationWARN}-(($V{lastStateTime}.getTime()-$V{lastTime}.getTime())/1000)
+  :$V{DurationWARN}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="DurationCRIT" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{type}==1
+?$V{dt_active}
+  ?$V{DurationCRIT}
+  :$V{lastState}==2
+    ?($V{DurationCRIT}+$V{duration})
+    :$V{DurationCRIT}
+:$V{lastStateTime}>$V{lastTime}
+  ?$V{DurationCRIT}-(($V{lastStateTime}.getTime()-$V{lastTime}.getTime())/1000)
+  :$V{DurationCRIT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="lastReportTime" class="java.sql.Timestamp" calculation="Highest">
+		<variableExpression><![CDATA[$F{END}]]></variableExpression>
+	</variable>
+	<variable name="lastReportState" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{lastState}]]></variableExpression>
+		<initialValueExpression><![CDATA[99]]></initialValueExpression>
+	</variable>
+	<variable name="firstReportTime" class="java.sql.Timestamp" calculation="First">
+		<variableExpression><![CDATA[$F{END}]]></variableExpression>
+	</variable>
+	<variable name="firstReportState" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$V{lastState}]]></variableExpression>
+		<initialValueExpression><![CDATA[99]]></initialValueExpression>
+	</variable>
+	<variable name="lastStateTime" class="java.sql.Timestamp">
+		<variableExpression><![CDATA[$F{type}==1?($V{sw}==0?$V{tmpTime1}:$V{tmpTime0}):$V{lastStateTime}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{p_date_start}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="514" height="48" backcolor="#E3E3E3" uuid="7190afb9-e4bd-47d3-b92e-d409228a16b8"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="514" height="48" backcolor="#A6F2EC" uuid="0bb80509-ff8d-4339-8207-5a28a3cae9bd">
+					<printWhenExpression><![CDATA[$P{p_overview}]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="259" y="24" width="100" height="20" uuid="df9e2d5e-c716-4fa0-8ff6-9b04b617a386"/>
+				<textFieldExpression><![CDATA[$P{p_date_end}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="24" width="100" height="20" uuid="43affba7-dcc0-4a04-be8d-4b03ca98731e"/>
+				<textFieldExpression><![CDATA[$P{p_service_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="4" width="100" height="20" uuid="04e129e9-f438-47d2-9648-c1f923b7b4f6"/>
+				<textFieldExpression><![CDATA[$P{p_host_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="4" width="100" height="20" uuid="71184958-6a5e-4f6a-9872-c88b5cc32007"/>
+				<text><![CDATA[Hostname]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="24" width="100" height="20" uuid="1cda025a-385f-4db7-8bff-6c14235d023c"/>
+				<text><![CDATA[Servicename]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="4" width="41" height="20" uuid="e7262b6e-26c5-4a57-8670-e32e669c5c9b"/>
+				<text><![CDATA[Total h]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="410" y="4" width="94" height="20" uuid="616b6b7d-0003-44e8-916b-57e3aa08b8c3"/>
+				<textFieldExpression><![CDATA[($P{p_date_end}.getTime()-$P{p_date_start}.getTime())/(60*60*1000)]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="214" y="4" width="43" height="20" uuid="4ee1ea64-16f7-4eaf-948d-2342f71e07a0"/>
+				<text><![CDATA[START]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="214" y="24" width="43" height="20" uuid="7a51f7d7-84f5-4c4f-ae93-93344c012c71"/>
+				<text><![CDATA[END]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="259" y="4" width="100" height="20" uuid="94d59b47-0512-4152-b564-f8a8213ccbec"/>
+				<textFieldExpression><![CDATA[$P{p_date_start}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26">
+			<printWhenExpression><![CDATA[$P{p_overview}==false]]></printWhenExpression>
+			<staticText>
+				<reportElement x="38" y="0" width="100" height="20" uuid="e5b5c481-c6e8-4987-9c05-dfa6095ad2d3"/>
+				<text><![CDATA[START]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="48" height="20" uuid="55127727-4f5c-42bb-8010-17eeeb5a5a87"/>
+				<text><![CDATA[state]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="100" height="20" uuid="b0071d4e-228c-4d98-9f88-19f9fe5e0d71"/>
+				<text><![CDATA[END]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="481" y="0" width="74" height="20" uuid="c89567a9-df40-4993-869c-cac363bea0b1"/>
+				<text><![CDATA[duration in h]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="0" width="183" height="20" uuid="1f27d90f-1802-4faa-89e7-5a7a080ae86c"/>
+				<textElement markup="none"/>
+				<text><![CDATA[Message]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{p_overview}==false]]></printWhenExpression>
+			<rectangle>
+				<reportElement x="5" y="2" width="27" height="29" forecolor="#FEFEFE" backcolor="#FF8D00" uuid="635e9d29-066b-4574-bc35-d80d09a7f467">
+					<printWhenExpression><![CDATA[$F{type}==1&&$V{lastState}==1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="5" y="1" width="27" height="29" forecolor="#FEFEFE" backcolor="#00FF00" uuid="b8eb6061-3544-42e3-a065-7d092b00976e">
+					<printWhenExpression><![CDATA[$F{type}==1&&$V{lastState}==0]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="5" y="1" width="27" height="29" forecolor="#FEFEFE" backcolor="#FF0000" uuid="3f6b85c5-21a9-422b-96f5-9ad322c198a5">
+					<printWhenExpression><![CDATA[$F{type}==1&&$V{lastState}==2]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="5" y="1" width="27" height="29" forecolor="#FEFEFE" backcolor="#AA44FE" uuid="f51162ed-a099-4548-9aaf-0f70a08d8742">
+					<printWhenExpression><![CDATA[$F{type}==2]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="250" y="6" width="48" height="20" uuid="a7517581-e6a9-4152-90bd-ffe0f34a04c2"/>
+				<textFieldExpression><![CDATA[$V{lastState}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="6" width="100" height="20" uuid="c4b60c4d-6557-4d88-9f12-76b08de7fa3f"/>
+				<textFieldExpression><![CDATA[$V{lastTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="6" width="183" height="20" uuid="99ef03a4-9302-4af5-a37e-a431f5b64a88"/>
+				<textFieldExpression><![CDATA[$V{lastOutput}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="6" width="100" height="20" uuid="fff33e67-39dc-4407-b18e-5be4517277c9"/>
+				<textFieldExpression><![CDATA[$F{END}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="481" y="6" width="74" height="20" uuid="754504ea-f45d-4bfb-90a0-acba0ae0697f"/>
+				<textFieldExpression><![CDATA[$V{duration}/3600]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="17" y="15" width="15" height="15" forecolor="#FEFEFE" backcolor="#AA44FE" uuid="8cc722ae-fb65-42bf-9abb-c2c9d55c8eba">
+					<printWhenExpression><![CDATA[$V{dt_active}&&$F{type}==1&&$V{COLUMN_COUNT}>1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="17" y="15" width="15" height="15" forecolor="#FEFEFE" backcolor="#FF0000" uuid="bf49aac9-ab8d-48c3-8c13-b4397d2674f5">
+					<printWhenExpression><![CDATA[$F{type}==2&&$V{lastState}==2&&$V{lastStateTime}>$V{lastTime}]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="17" y="15" width="15" height="15" forecolor="#FEFEFE" backcolor="#FF8D00" uuid="278f0415-bf2c-4609-bac0-952a59125052">
+					<printWhenExpression><![CDATA[$F{type}==2&&$V{lastState}==1&&$V{lastStateTime}>$V{lastTime}]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="38" y="7" width="100" height="20" forecolor="#FF0000" uuid="d51c8309-d09e-46a1-9541-c7bb66648bfe">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{DurationOK}/3600]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="7" width="100" height="20" forecolor="#FF0000" uuid="f856034c-edd4-4ce8-a172-f7c2c49d72d8">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{DurationWARN}/3600]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="257" y="7" width="100" height="20" forecolor="#FF0000" uuid="a6115b3c-73a3-4c73-b4f8-41ae8567d874">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{DurationCRIT}/3600]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="363" y="7" width="100" height="20" forecolor="#FF0000" uuid="049b4b6e-eb5c-4284-afa5-7d90b719b0e0">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{dt_active}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="7" width="77" height="20" forecolor="#FF0000" uuid="1f1a4eea-cfa2-4246-8adc-0fd4fee2f5e6">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="40">
+			<textField pattern="###0.00;-###0.00">
+				<reportElement mode="Opaque" x="313" y="10" width="140" height="20" backcolor="#FF0000" uuid="31b9e3ee-b9ec-4201-8f78-e49ec7d878be"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{lastReportState}==2
+  ? $V{DurationCRIT}+(($P{p_date_end}.getTime()-$V{lastReportTime}.getTime())/1000)
+  : $V{DurationCRIT}
+)/3600]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement mode="Opaque" x="161" y="10" width="140" height="20" backcolor="#FF8D00" uuid="560f93a7-85fc-48ec-be95-e3754dac82e7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{lastReportState}==1
+  ? $V{DurationWARN}+(($P{p_date_end}.getTime()-$V{lastReportTime}.getTime())/1000)
+  : $V{DurationWARN}
+)/3600]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement mode="Opaque" x="10" y="10" width="140" height="20" backcolor="#08FF00" uuid="68396595-cd03-499d-9023-3cde0357cd1e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{lastReportState}==0
+  ? $V{DurationOK}+(($P{p_date_end}.getTime()-$V{lastReportTime}.getTime())/1000)
+  : $V{DurationOK}
+)/3600]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

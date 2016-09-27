@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>addRESTLink</name>
+    <version>0</version>
+    <label>add REST API Link</label>
+    <creationDate>2016-09-27T22:52:30.315+02:00</creationDate>
+    <updateDate>2016-09-27T21:30:50.266+02:00</updateDate>
+    <type>1</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+</inputControl>

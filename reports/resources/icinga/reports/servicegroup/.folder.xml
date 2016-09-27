@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<folder exportedWithPermissions="true">
+<folder exportedWithPermissions="false">
     <parent>/icinga/reports</parent>
     <name>servicegroup</name>
     <label>Servicegroup</label>
-    <creationDate>2016-06-13T23:20:07.548+02:00</creationDate>
+    <creationDate>2016-09-27T22:50:05.269+02:00</creationDate>
     <updateDate>2011-11-08T11:53:02.541+01:00</updateDate>
     <resource>Availability_SG_pnp4nagios</resource>
     <resource>ServicegroupAvailabilityReportInGivenTime</resource>
+    <resource>StatehistoryofaselectedServiceinagiventime_1</resource>
 </folder>

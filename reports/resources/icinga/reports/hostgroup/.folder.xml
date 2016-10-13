@@ -3,7 +3,7 @@
     <parent>/icinga/reports</parent>
     <name>hostgroup</name>
     <label>Hostgroup</label>
-    <creationDate>2016-09-27T22:50:04.765+02:00</creationDate>
+    <creationDate>2016-09-28T00:45:27.230+02:00</creationDate>
     <updateDate>2011-11-08T11:53:02.541+01:00</updateDate>
     <resource>HostgroupAvailabilityReportInGivenTime</resource>
     <resource>HostgroupOverviewReport</resource>

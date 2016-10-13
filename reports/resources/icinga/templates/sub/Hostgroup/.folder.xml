@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder exportedWithPermissions="false">
+    <parent>/icinga/templates/sub</parent>
+    <name>Hostgroup</name>
+    <label>Hostgroup</label>
+    <creationDate>2016-10-12T23:42:24.793+02:00</creationDate>
+    <updateDate>2016-10-12T23:42:24.793+02:00</updateDate>
+    <resource>StatesAndDowntimesDetails</resource>
+    <resource>StatesAndDowntimesOverview</resource>
+</folder>

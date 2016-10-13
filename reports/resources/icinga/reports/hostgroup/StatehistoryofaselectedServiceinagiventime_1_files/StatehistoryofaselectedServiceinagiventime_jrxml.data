@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity report in given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
 	<property name="ireport.zoom" value="1.1269722013523666"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="375"/>
+	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/hostgroup/StatehistoryofaselectedServiceinagiventime_1"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.122.153:8080/jasperserver/services/repository"/>
 	<import value="org.icinga.reporting.DateHelper"/>
@@ -216,7 +216,9 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="175" y="492" width="310" height="181" uuid="06e77416-8179-4ec4-85ad-0c010f318ea6"/>
+				<reportElement x="175" y="492" width="310" height="181" uuid="06e77416-8179-4ec4-85ad-0c010f318ea6">
+					<printWhenExpression><![CDATA[$P{addRESTLink}]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA["http://" + $P{servername} 
 + ":8080/jasperserver/rest_v2/reports/icinga/reports/hostgroup/StatehistoryofaselectedServiceinagiventime_1.html?"
 + "p_date_start=" + $P{p_final_date_start}
@@ -257,83 +259,6 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 			</textField>
 		</band>
 	</pageHeader>
-	<detail>
-		<band height="14" splitType="Stretch">
-			<printWhenExpression><![CDATA[$P{p_overview}]]></printWhenExpression>
-			<subreport>
-				<reportElement x="2" y="0" width="552" height="14" uuid="ffeb284f-97dc-49d1-9d8c-2bdf75d0f62f"/>
-				<subreportParameter name="p_final_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_host_object_id">
-					<subreportParameterExpression><![CDATA[$F{host_object_id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_final_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_debug">
-					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_overview">
-					<subreportParameterExpression><![CDATA[$P{p_overview}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_timeperiod">
-					<subreportParameterExpression><![CDATA[$P{p_timeperiod}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="servicesTrue">
-					<subreportParameterExpression><![CDATA[$P{servicesTrue}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/stateHistoryAndDowntimesHost"]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="15" splitType="Stretch">
-			<subreport>
-				<reportElement x="0" y="0" width="552" height="14" uuid="ed3fd812-ea70-4864-add9-9d5c17edb159"/>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_final_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_host_object_id">
-					<subreportParameterExpression><![CDATA[$F{host_object_id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_final_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_debug">
-					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_overview">
-					<subreportParameterExpression><![CDATA[false]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_end">
-					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_timeperiod">
-					<subreportParameterExpression><![CDATA[$P{p_timeperiod}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="p_date_start">
-					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="servicesTrue">
-					<subreportParameterExpression><![CDATA[$P{servicesTrue}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/stateHistoryAndDowntimesHost"]]></subreportExpression>
-			</subreport>
-		</band>
-	</detail>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<rectangle radius="0">
@@ -372,4 +297,90 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 			</rectangle>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="36">
+			<subreport>
+				<reportElement x="0" y="1" width="554" height="15" uuid="23e9480f-67ff-48f6-aec2-21295c352fba"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_hostgroup_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_hostgroup_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_timeperiod">
+					<subreportParameterExpression><![CDATA[$P{p_timeperiod}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_final_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_final_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="servicesTrue">
+					<subreportParameterExpression><![CDATA[$P{servicesTrue}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_overview">
+					<subreportParameterExpression><![CDATA[$P{p_overview}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_debug">
+					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="servername">
+					<subreportParameterExpression><![CDATA[$P{servername}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="addRESTLink">
+					<subreportParameterExpression><![CDATA[$P{addRESTLink}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Hostgroup/StatesAndDowntimesOverview"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="19" width="555" height="15" uuid="4e9bf2ad-72d8-4ad0-a589-f4ff7ab10162"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_hostgroup_object_id">
+					<subreportParameterExpression><![CDATA[$P{p_hostgroup_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_timeperiod">
+					<subreportParameterExpression><![CDATA[$P{p_timeperiod}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_final_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_final_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="servicesTrue">
+					<subreportParameterExpression><![CDATA[$P{servicesTrue}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_overview">
+					<subreportParameterExpression><![CDATA[$P{p_overview}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_debug">
+					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="servername">
+					<subreportParameterExpression><![CDATA[$P{servername}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="addRESTLink">
+					<subreportParameterExpression><![CDATA[$P{addRESTLink}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Hostgroup/StatesAndDowntimesDetails"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
 </jasperReport>

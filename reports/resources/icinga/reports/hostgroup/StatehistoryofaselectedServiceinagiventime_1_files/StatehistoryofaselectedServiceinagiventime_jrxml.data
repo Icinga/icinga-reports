@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity report in given time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
 	<property name="ireport.zoom" value="1.1269722013523666"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="383"/>
 	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/hostgroup/StatehistoryofaselectedServiceinagiventime_1"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.122.153:8080/jasperserver/services/repository"/>
 	<import value="org.icinga.reporting.DateHelper"/>
@@ -38,7 +38,8 @@
 	<queryString>
 		<![CDATA[select a.host_object_id,
   c.name1,
-  b.alias
+  b.alias,
+  count(b.alias) as hostcount
 from icinga_hostgroup_members a,
   icinga_hostgroups b,
   icinga_objects c
@@ -50,6 +51,17 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 	<field name="name2" class="java.lang.String"/>
 	<field name="host_object_id" class="java.lang.Integer"/>
 	<field name="alias" class="java.lang.String"/>
+	<field name="hostcount" class="java.lang.Integer"/>
+	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$V{returnOK}]]></variableExpression>
+	</variable>
+	<variable name="duration" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[($P{p_final_date_end}.getTime()-$P{p_final_date_start}.getTime())/(60*60*1000)]]></variableExpression>
+	</variable>
+	<variable name="hostcount" class="java.lang.Integer" resetType="None" calculation="Count">
+		<variableExpression><![CDATA[$F{host_object_id}]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -75,7 +87,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="80" y="410" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="d183670c-8278-4f89-a6d9-e82daf75c8db"/>
+				<reportElement x="80" y="410" width="400" height="64" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="d183670c-8278-4f89-a6d9-e82daf75c8db"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
@@ -178,7 +190,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="80" y="410" width="5" height="40" backcolor="#81AAB8" uuid="96dcc8fc-8a57-4da4-aae0-d498bb81dfc9"/>
+				<reportElement x="80" y="410" width="5" height="64" backcolor="#81AAB8" uuid="96dcc8fc-8a57-4da4-aae0-d498bb81dfc9"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
@@ -191,7 +203,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				<text><![CDATA[Timerange:]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="85" y="488" width="400" height="185" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="aef2a572-7bed-4829-b7c3-7fc79c1abb36">
+				<reportElement x="85" y="546" width="400" height="185" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="aef2a572-7bed-4829-b7c3-7fc79c1abb36">
 					<printWhenExpression><![CDATA[$P{addRESTLink}]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
@@ -199,7 +211,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="90" y="492" width="80" height="20" forecolor="#000000" uuid="d27ea9e0-bbe2-44e8-8067-2c5416926131">
+				<reportElement x="90" y="550" width="80" height="20" forecolor="#000000" uuid="d27ea9e0-bbe2-44e8-8067-2c5416926131">
 					<printWhenExpression><![CDATA[$P{addRESTLink}]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Top">
@@ -208,7 +220,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				<text><![CDATA[API Link:]]></text>
 			</staticText>
 			<rectangle radius="0">
-				<reportElement x="80" y="488" width="5" height="185" backcolor="#81AAB8" uuid="0df9526d-5775-4428-a1c4-134b633b5971">
+				<reportElement x="80" y="546" width="5" height="185" backcolor="#81AAB8" uuid="0df9526d-5775-4428-a1c4-134b633b5971">
 					<printWhenExpression><![CDATA[$P{addRESTLink}]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
@@ -216,18 +228,30 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="175" y="492" width="310" height="181" uuid="06e77416-8179-4ec4-85ad-0c010f318ea6">
+				<reportElement x="175" y="550" width="310" height="181" uuid="06e77416-8179-4ec4-85ad-0c010f318ea6">
 					<printWhenExpression><![CDATA[$P{addRESTLink}]]></printWhenExpression>
 				</reportElement>
-				<textFieldExpression><![CDATA["http://" + $P{servername} 
+				<textFieldExpression><![CDATA["http://" + $P{servername}
 + ":8080/jasperserver/rest_v2/reports/icinga/reports/hostgroup/StatehistoryofaselectedServiceinagiventime_1.html?"
 + "p_date_start=" + $P{p_final_date_start}
-+ "&p_date_end=" + $P{p_final_date_end} 
-+ "&p_hostgroup_object_id=" + $P{p_hostgroup_object_id} 
++ "&p_date_end=" + $P{p_final_date_end}
++ "&p_hostgroup_object_id=" + $P{p_hostgroup_object_id}
 + "&p_overview=" + $P{p_overview}
 + "&servicesTrue=" + $P{servicesTrue}
 + "&p_debug=" + $P{p_debug}
 + "&addRESTLink=" + $P{addRESTLink}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="450" width="80" height="20" forecolor="#000000" uuid="f7a30de5-eb6a-466e-b41f-4aa29cd0f699"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Availability:]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="#,##0.00 %">
+				<reportElement style="Cover" x="170" y="450" width="310" height="20" uuid="0dda6abb-609c-4d53-b03e-a846de18956f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{returnOK}/($V{duration}*$F{hostcount})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -338,6 +362,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{addRESTLink}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="returnOK" toVariable="returnOK"/>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Hostgroup/StatesAndDowntimesOverview"]]></subreportExpression>
 			</subreport>
 			<subreport>

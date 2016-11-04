@@ -3,7 +3,6 @@
 	<property name="ireport.zoom" value="1.1269722013523666"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/hostgroup/StatehistoryofaselectedServiceinagiventime_1"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.122.153:8080/jasperserver/services/repository"/>
 	<import value="org.icinga.reporting.DateHelper"/>
 	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
@@ -50,6 +49,10 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 	<field name="name2" class="java.lang.String"/>
 	<field name="host_object_id" class="java.lang.Integer"/>
 	<field name="alias" class="java.lang.String"/>
+	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$V{returnOK}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
 	<detail>
 		<band height="14" splitType="Stretch">
 			<printWhenExpression><![CDATA[$P{p_overview}]]></printWhenExpression>
@@ -86,6 +89,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{servicesTrue}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="returnOK" toVariable="returnOK" calculation="Sum"/>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/stateHistoryAndDowntimesHost"]]></subreportExpression>
 			</subreport>
 		</band>

@@ -3,7 +3,7 @@
     <parent>/icinga/templates/sub</parent>
     <name>host</name>
     <label>Host</label>
-    <creationDate>2016-09-27T22:50:06.051+02:00</creationDate>
+    <creationDate>2016-09-28T00:45:28.281+02:00</creationDate>
     <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
     <resource>activityInGivenTime</resource>
     <resource>allNotificationsInGivenTime</resource>

@@ -43,6 +43,9 @@ and host_object_id                  = $P{p_host_object_id}]]>
 	<field name="name1" class="java.lang.String"/>
 	<field name="name2" class="java.lang.String"/>
 	<field name="service_object_id" class="java.lang.Integer"/>
+	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$V{returnOK}]]></variableExpression>
+	</variable>
 	<title>
 		<band height="61">
 			<subreport>
@@ -75,6 +78,7 @@ and host_object_id                  = $P{p_host_object_id}]]>
 					<subreportParameterExpression><![CDATA[$P{p_host_object_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="returnOK" toVariable="returnOK"/>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "service/stateHistoryAndDowntimes"]]></subreportExpression>
 			</subreport>
 		</band>

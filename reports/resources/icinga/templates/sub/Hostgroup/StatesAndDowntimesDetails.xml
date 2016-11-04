@@ -2,9 +2,9 @@
 <fileResource exportedWithPermissions="false" dataFile="StatesAndDowntimesDetails.data">
     <folder>/icinga/templates/sub/Hostgroup</folder>
     <name>StatesAndDowntimesDetails</name>
-    <version>3</version>
+    <version>30</version>
     <label>StatesAndDowntimesDetails</label>
     <creationDate>2016-10-12T23:43:25.741+02:00</creationDate>
-    <updateDate>2016-10-13T00:19:24.185+02:00</updateDate>
+    <updateDate>2016-11-04T03:22:19.877+01:00</updateDate>
     <fileType>jrxml</fileType>
 </fileResource>

@@ -48,8 +48,7 @@ UNION SELECT
   output,
   1 AS type
 FROM icinga_statehistory
-WHERE object_id = $P{p_service_object_id} and state_time BETWEEN $P{p_date_start} AND $P{p_date_end} AND state_type = 1
-
+WHERE object_id = '102' and state_time BETWEEN $P{p_date_start} AND $P{p_date_end} AND state_type = 1
 UNION SELECT
   downtimehistory_id AS ID,
   0 AS last_hard_state,
@@ -191,6 +190,18 @@ $V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
 	<variable name="lastStateTime" class="java.sql.Timestamp">
 		<variableExpression><![CDATA[$F{type}==1?($V{sw}==0?$V{tmpTime1}:$V{tmpTime0}):$V{lastStateTime}]]></variableExpression>
 		<initialValueExpression><![CDATA[$P{p_date_start}]]></initialValueExpression>
+	</variable>
+	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[($V{lastReportState}==0
+  ? ($V{DurationOK}<=0
+    ? (($P{p_date_end}.getTime()- $P{p_date_start}.getTime())/1000)
+    : $V{DurationOK}+(($P{p_date_end}.getTime()-$V{lastReportTime}.getTime())/1000)
+  )
+  : ($V{DurationOK}<=0
+    ? (($P{p_date_end}.getTime()- $P{p_date_start}.getTime())/1000)
+    : $V{DurationOK}
+  )
+)/3600]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -369,7 +380,7 @@ $V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
 		</band>
 	</detail>
 	<summary>
-		<band height="40">
+		<band height="38">
 			<textField pattern="###0.00;-###0.00">
 				<reportElement mode="Opaque" x="313" y="10" width="140" height="20" backcolor="#FF0000" uuid="31b9e3ee-b9ec-4201-8f78-e49ec7d878be"/>
 				<textElement>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service activity report in given time" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stateHistoryAndDowntimesHost" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
 	<property name="ireport.zoom" value="1.0245201830476058"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -32,17 +32,12 @@
 		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select name1,
-  name2,
-  service_object_id
-from icinga_objects,
-  icinga_services
-where icinga_objects.object_id = icinga_services.service_object_id
-and host_object_id                  = $P{p_host_object_id}]]>
+		<![CDATA[select count(name1) as count, name1, name2, service_object_id from icinga_objects join icinga_services on icinga_objects.object_id = icinga_services.service_object_id where icinga_objects.object_id = $P{p_host_object_id}]]>
 	</queryString>
 	<field name="name1" class="java.lang.String"/>
 	<field name="name2" class="java.lang.String"/>
 	<field name="service_object_id" class="java.lang.Integer"/>
+	<field name="count" class="java.lang.Integer"/>
 	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
 		<variableExpression><![CDATA[$V{returnOK}]]></variableExpression>
 	</variable>

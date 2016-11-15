@@ -3,7 +3,7 @@
     <parent>/icinga/templates/sub</parent>
     <name>object</name>
     <label>Object</label>
-    <creationDate>2016-09-28T00:45:28.347+02:00</creationDate>
+    <creationDate>2016-11-13T19:31:47.355+01:00</creationDate>
     <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
     <resource>acknowledgementsInGivenTime</resource>
     <resource>downtimes</resource>

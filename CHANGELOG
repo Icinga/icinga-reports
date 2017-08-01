@@ -4,7 +4,16 @@ Icinga Reporting Change Log
 
 Thanks to all contributers, testers and developers. Please read AUTHORS and THANKS for a detailed list :-)
 
+1.14.0
+
+- reorganised documentation
+- deleted reports which work only for icinga1
+- created new reports for icinga2
+- changed report sources from zip to directory
+
+
 1.10
+
 - fixed some templates for PostgreSQL. Thanks to Michael Banck #1880
 - added quarterly function to DateHelper Class. Thanks to Dirk #3718
 - fix MySQL Connector installation fails on non-bundled JasperServer installations #4153

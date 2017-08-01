@@ -1,10 +1,11 @@
-Jaspersoft Studio
-=================
+## Jaspersoft Studio
 
-Originally the reports were produced whith iReport, but it's recommended not to use this tool anymore.
+Originally the reports were produced with iReport, but it's recommended not to use this tool anymore.
 
-Requirements
-------------
+Jasper Studio is based on Eclipse. Download a bundled installer or use eclipse Market for installation.
+
+
+### Install icinga libraries
 
 When you try to edit the existing Reports with jasper Studio make sure you've added the DateHelper.
 

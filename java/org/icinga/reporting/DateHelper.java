@@ -8,6 +8,7 @@ import java.util.Date;
  * Class helping jasper to generate reports for the following periods 
  * - last week 
  * - last month 
+ * - current month 
  * - last quarter 
  * - last year
  * 
@@ -28,7 +29,29 @@ public class DateHelper {
 		System.out.println("Last-Quarter End: " + getLastQuarterEnd());
 		System.out.println("Last-Year Start: " + getLastYearStart());
 		System.out.println("Last-Year End: " + getLastYearEnd());
+		System.out.println("Current-Month Start: " + getCurrentMonthStart());
+		System.out.println("Now: " + getNow());
 	}
+
+	static public Timestamp getCurrentMonthStart() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Timestamp ts = new Timestamp(cal.getTime().getTime());
+		return ts;
+	}
+
+	static public Timestamp getNow() {
+	  Calendar cal = Calendar.getInstance();
+	  cal.setTime(new Date());
+	  Timestamp ts = new Timestamp(cal.getTime().getTime());
+	  return ts;
+	}
+
 
 	static public Timestamp getLastWeekStart() {
 		Calendar cal = Calendar.getInstance();

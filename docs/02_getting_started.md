@@ -1,6 +1,7 @@
 ## Requirements
 ### Icinga IDOUtils
 Installed via source or packages, the database backend will be used. 
+
 For additional Documentation refer to: https://www.icinga.com/docs/icinga2/latest/doc/02-getting-started/#installing-the-ido-modules-for-mysql
 
 Validate IDOUtils
@@ -29,6 +30,7 @@ $ mysql -u root -p
 ! Minimum supported JasperServer Version 6.1.0 !
  
 Depending on your architecture (uname -a), fetch the appropriate installer - below is x64
+
 Refer to http://community.jaspersoft.com/project/jasperreports-server/releases for latest Release and additional documentation.
 
 ```sh

@@ -5,24 +5,25 @@ icinga-reports provide additional Reports based on icinga IDO.
 
 ## Toc
 
-01_Introduction.md:## Introduction
-01_Introduction.md:## Toc
-02_getting_started.md:## Requirements
-02_getting_started.md:### Icinga IDOUtils
-02_getting_started.md:#### MySQL/MariaDB
-02_getting_started.md:### JasperServer
-02_getting_started.md:#### Start
-02_getting_started.md:### Java
-02_getting_started.md:#### CentOS/RHEL
-02_getting_started.md:#### Debian/Ubuntu
-02_getting_started.md:#### Test:
-02_getting_started.md:## Icinga Reporting
-02_getting_started.md:### Download sources
-02_getting_started.md:### Configure
-02_getting_started.md:### Setup
-02_getting_started.md:#### Install
-02_getting_started.md:#### install-jar-files
-03_usage.md:## Usage:
-03_usage.md:### IDO
-10_jaspersoftStudio.md:## Jaspersoft Studio
-10_jaspersoftStudio.md:### Install libraries
+** [docs/01_Introduction.md] [Introduction]
+** [docs/01_Introduction.md] [Toc]
+** [docs/02_getting_started.md] [Requirements]
+*** [docs/02_getting_started.md] [Icinga IDOUtils]
+**** [docs/02_getting_started.md] [MySQL/MariaDB]
+*** [docs/02_getting_started.md] [JasperServer]
+**** [docs/02_getting_started.md] [Start]
+*** [docs/02_getting_started.md] [Java]
+**** [docs/02_getting_started.md] [CentOS/RHEL]
+**** [docs/02_getting_started.md] [Debian/Ubuntu]
+**** [docs/02_getting_started.md] [Test:]
+** [docs/02_getting_started.md] [Icinga Reporting]
+*** [docs/02_getting_started.md] [Download sources]
+*** [docs/02_getting_started.md] [Configure]
+*** [docs/02_getting_started.md] [Setup]
+**** [docs/02_getting_started.md] [Install]
+**** [docs/02_getting_started.md] [install-jar-files]
+** [docs/03_usage.md] [Usage:]
+*** [docs/03_usage.md] [IDO]
+** [docs/10_jaspersoftStudio.md] [Jaspersoft Studio]
+*** [docs/10_jaspersoftStudio.md] [Install icinga libraries]
+** [docs/20_doc_hinsts.md] [doc hints]

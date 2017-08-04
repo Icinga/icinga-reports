@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="icinga.report.main.host.notifications" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isSummaryNewPage="true" whenResourceMissingType="Error" uuid="ae310538-2cff-42ff-9256-2a017aef4d05">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.5:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="IDO"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/other/userNotificationReport"/>
+	<import value="org.icinga.reporting.DateHelper"/>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_contact_object_id" class="java.lang.Integer"/>
+	<parameter name="p_with_stats_host" class="java.lang.Boolean"/>
+	<parameter name="p_with_stats_service" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[SELECT a.alias as contact_alias,
+   c.start_time as notification_time,
+   c.output as notification_output,
+   c.output as notification_longoutput,
+   c.state as notification_state,
+   d.name1 as hostname,
+   IF(d.name2 IS NULL, 'Host Alive', d.name2) as servicename,
+   c.notification_reason
+FROM icinga_contacts a
+JOIN icinga_contactnotifications b ON b.contact_object_id=a.contact_object_id
+JOIN icinga_notifications c ON c.notification_id=b.notification_id
+JOIN icinga_objects d ON c.object_id = d.object_id
+ WHERE a.contact_object_id = $P{p_contact_object_id} 
+ORDER BY notification_time DESC]]>
+	</queryString>
+	<field name="contact_alias" class="java.lang.String"/>
+	<field name="notification_time" class="java.sql.Timestamp"/>
+	<field name="notification_output" class="java.lang.String"/>
+	<field name="notification_longoutput" class="java.lang.String"/>
+	<field name="notification_state" class="java.lang.Integer"/>
+	<field name="hostname" class="java.lang.String"/>
+	<field name="servicename" class="java.lang.String"/>
+	<field name="notification_reason" class="java.lang.Integer"/>
+	<variable name="notification_reason" class="java.lang.String" resetType="Column">
+		<variableExpression><![CDATA[$F{notification_reason}==0 ? "Normal notification" :
+$F{notification_reason}==1 ? "Problem acknowledgement" :
+$F{notification_reason}==2 ? "Flapping started" :
+$F{notification_reason}==3 ? "Flapping stopped" :
+$F{notification_reason}==4 ? "Flapping was disabled" :
+$F{notification_reason}==5 ? "Downtime started" :
+$F{notification_reason}==6 ? "Downtime ended" :
+$F{notification_reason}==7 ? "Downtime was cancelled" :
+$F{notification_reason}==99 ? "Custom notification      " :
+"UNKNOWN REASON"]]></variableExpression>
+	</variable>
+	<variable name="notification_state" class="java.lang.String" resetType="Column">
+		<variableExpression><![CDATA[$F{servicename}=="Host Alive" ? (
+$F{notification_state}==0?'UP':
+$F{notification_state}==1? 'DOWN':
+$F{notification_state}==2? 'UNREACHABLE': 'UNKNOWNHOST') :
+$F{notification_state}==0?'OK':
+$F{notification_state}==1? 'WARNING':
+$F{notification_state}==2? 'CRITICAL':
+$F{notification_state}==3? 'UNKNOWN':'UNKNOWNSERVICE']]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="800">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="800" uuid="eaa1dc1e-f5ae-40cf-be81-a862ba263ade"/>
+				<graphicElement>
+					<pen lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame">
+				<reportElement x="33" y="200" width="521" height="599" uuid="a32ec94e-56a4-476e-be02-1a0d03f26f6c"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#999999"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_background.jpg"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="490" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="eb9a6225-6fb3-450d-b676-c5ebca380d84"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="400" width="400" height="40" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="a7df515d-dd9d-4c9a-b285-af000efb164d"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="400" height="61" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="a23e662d-d666-45eb-aeed-3951352a73df"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="2" y="1" width="555" height="64" uuid="c40a67f1-8b36-4db7-9020-32ab50abfd73"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_banner.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="175" width="554" height="25" forecolor="#000000" backcolor="#DCDCDC" uuid="d8881b50-9230-40a2-a832-01479861d6a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[User Notification Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="300" width="80" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="300b19fb-f94c-4420-a770-6db20591e279"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingBefore="3"/>
+				</textElement>
+				<text><![CDATA[Description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="300" width="310" height="40" uuid="a8833c72-bd6a-40b5-ac21-2f605a980987"/>
+				<textElement>
+					<font size="10"/>
+					<paragraph lineSpacing="Single" spacingBefore="3"/>
+				</textElement>
+				<text><![CDATA[The report shows all notifications for a given user in a defined time range]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="400" width="80" height="20" forecolor="#000000" uuid="b84c46c1-3650-4790-b003-e82829fa563a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Timerange:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Cover" x="160" y="400" width="310" height="20" uuid="d1f0e594-4db8-427d-a9f0-64bf118771ae"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_final_date_start}.toString() + " - " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="341" width="80" height="20" forecolor="#000000" uuid="ec410057-4e15-4546-94aa-89ed894c449e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creation:]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement style="Cover" x="160" y="341" width="310" height="20" uuid="60bbef1f-ccf2-4f49-8418-3cfc1a4f1b7d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="33" y="175" width="5" height="25" backcolor="#81AAB8" uuid="2c177b66-789b-4d78-8be6-a97973abf00d"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="518" y="175" width="5" height="25" backcolor="#81AAB8" uuid="39ac844a-0654-4f58-86f4-bea1bf00fab3"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="300" width="5" height="61" backcolor="#81AAB8" uuid="d149341c-2f9c-442b-a5dd-4d57e2aa05b3"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="70" y="400" width="5" height="40" backcolor="#81AAB8" uuid="1d7228ee-c40f-430a-bc77-df6cf4bccf06"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="0" y="64" width="555" height="15" forecolor="#2C2B2C" backcolor="#2C2B2C" uuid="355e3083-974b-4dfa-a765-f0f933816086"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="497" y="177" width="21" height="21" uuid="2655c538-a10e-495b-b9b1-99a4e10a1aab"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="790" width="555" height="10" backcolor="#81AAB8" uuid="fabf3eab-ecee-4c3b-a678-e4b88a97036c"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement style="Cover" x="160" y="420" width="310" height="20" uuid="25be9b56-4342-49b9-9f01-6057e38af5d5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{contact_alias}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="420" width="80" height="20" forecolor="#000000" uuid="b3edc156-d4f6-4a16-a552-7c992c8c1766"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contact:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="25" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="a1861dfd-4ee7-43be-81ea-f1e184544d3b"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="10" y="0" width="400" height="25" forecolor="#000000" uuid="47cc1383-21f1-4fb5-8846-c1949530fa56"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Host Notification Report" + "\n" +
+"Timerange: " + $P{p_final_date_start}.toString() + " to " + $P{p_final_date_end}.toString()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="530" y="2" width="21" height="21" uuid="561938e8-1b08-4e9b-a094-f8c9990386ba"/>
+				<imageExpression><![CDATA["repo:/icinga/images/icinga_logo_header.png"]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="5" height="25" backcolor="#81AAB8" uuid="e735ba16-8a32-4a99-bb4c-e57da7d19f65"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="182" y="0" width="78" height="30" uuid="25fe7e8b-96c9-4036-a885-bf881c224323"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[notification_time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="0" width="150" height="30" uuid="bd0bc630-1543-493b-a641-86d5b3706851"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[notification_longoutput]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="0" width="80" height="30" uuid="34b727bf-b2a3-4ce8-a2ec-e98548e3233c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[notification_state]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="0" width="90" height="30" backcolor="#EDEDED" uuid="bb36f930-bb99-4fe3-9a1b-25373fd057cd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[hostname]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="0" width="90" height="30" backcolor="#EDEDED" uuid="ebb3dd3e-dd29-4509-887c-c34462e58f10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[servicename]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="65" height="30" uuid="7859ded7-14a8-4003-8741-67914c263f5c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Reason]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="182" y="4" width="78" height="20" uuid="e8a595bd-c7ec-4085-bbb8-4bb7b7f1de77"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notification_time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="4" width="150" height="20" uuid="1718a939-742a-49c3-a05d-587689fa1cfe"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notification_longoutput}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="4" width="90" height="20" backcolor="#EDEDED" uuid="8a318df7-a256-4554-b9db-929bc87ff37a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hostname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="4" width="90" height="20" backcolor="#EDEDED" uuid="88e92059-cb00-4c20-8fd6-ee3bbe3d3f98">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicename}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="4" width="64" height="20" uuid="4c740172-e581-4d8c-a4e6-fd44f59829ac"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{notification_reason}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="4" width="79" height="20" uuid="a013be3a-1db8-406c-8706-2eadf710d3b7"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{notification_state}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement style="Footer" x="430" y="0" width="80" height="25" forecolor="#999999" uuid="5d91266b-ee4c-41bf-8e54-a7fbcb23cbf9"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="510" y="0" width="40" height="25" forecolor="#999999" uuid="3fd171d3-92d2-4646-8fbb-d13bd94302f6"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="400" height="25" uuid="e1ec537d-81d5-4106-a65e-dab51b46c871"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "page/footer"]]></subreportExpression>
+			</subreport>
+			<rectangle radius="0">
+				<reportElement x="550" y="0" width="5" height="25" backcolor="#81AAB8" uuid="14d239a4-51e2-4a3d-816c-22eac653ed9e"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="554" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<crosstab>
+				<reportElement x="5" y="70" width="500" height="170" uuid="72633963-7744-45fe-a76f-e01e47ceff6e">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{p_with_stats_host}]]></printWhenExpression>
+				</reportElement>
+				<rowGroup name="hostname" width="140" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{hostname}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="140" height="20" uuid="945005c6-5c38-4b10-aa10-a2d9ba459aff"/>
+								<textFieldExpression><![CDATA[$V{hostname}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="20" forecolor="#FFFFFF" uuid="68ec856d-697c-4edf-a2f0-9034b4c4a642"/>
+								<text><![CDATA[Total Notifications]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="notification_reason" height="20" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{notification_reason}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="20" uuid="0a52c204-09fe-4167-af87-7c2d88bf32ab">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textFieldExpression><![CDATA[$V{notification_reason}==0 ? "Normal notification" :
+$V{notification_reason}==1 ? "Problem acknowledgement" :
+$V{notification_reason}==2 ? "Flapping started" :
+$V{notification_reason}==3 ? "Flapping stopped" :
+$V{notification_reason}==4 ? "Flapping was disabled" :
+$V{notification_reason}==5 ? "Downtime started" :
+$V{notification_reason}==6 ? "Downtime ended" :
+$V{notification_reason}==7 ? "Downtime was cancelled" :
+$V{notification_reason}==99 ? "Custom notification" :
+"UNKNOWN REASON"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="30" height="20" forecolor="#FFFFFF" uuid="b4847ae3-8328-4e59-849c-0588eca3a773"/>
+								<text><![CDATA[Total notification_reason]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="notification_time_MEASURE" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{notification_time}]]></measureExpression>
+				</measure>
+				<crosstabCell width="70" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField>
+							<reportElement x="0" y="0" width="70" height="20" uuid="89a97b93-6f37-46e6-87e8-632124f54040"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="30" height="20" columnTotalGroup="notification_reason">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="30" height="20" forecolor="#FFFFFF" uuid="d4452a48-98c1-4424-b364-c1345f4735e8"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="70" height="20" rowTotalGroup="hostname">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="e9875200-e4db-4299-a2c0-8d28509db08c"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="30" height="20" rowTotalGroup="hostname" columnTotalGroup="notification_reason">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="30" height="20" forecolor="#FFFFFF" uuid="0c49e147-55bc-411f-8a33-8f03e777da90"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<rectangle radius="0">
+				<reportElement x="2" y="12" width="553" height="39" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="dba9a50f-5fc5-4dd0-886e-3f13791638b6">
+					<printWhenExpression><![CDATA[$P{p_with_stats_host}]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="12" width="88" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="1691b52d-788e-4cfc-8888-1573f74c2710">
+					<printWhenExpression><![CDATA[$P{p_with_stats_host}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingBefore="3"/>
+				</textElement>
+				<text><![CDATA[Host Stats:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="12" width="292" height="40" uuid="aeed83f4-9bdd-4dfb-b945-c8231eaf9518">
+					<printWhenExpression><![CDATA[$P{p_with_stats_host}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+					<paragraph lineSpacing="Single" spacingBefore="3"/>
+				</textElement>
+				<text><![CDATA[Notifications by hostname and notification type]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="2" y="12" width="5" height="39" backcolor="#81AAB8" uuid="cddf90e5-f135-43d9-b81a-0d2bd218c698">
+					<printWhenExpression><![CDATA[$P{p_with_stats_host}]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="2" y="266" width="553" height="39" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="fa413940-68fb-467b-98f3-3e6994b18899">
+					<printWhenExpression><![CDATA[$P{p_with_stats_service}]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="266" width="88" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="c119fe7d-4c04-4688-aa25-d894b2210dc3">
+					<printWhenExpression><![CDATA[$P{p_with_stats_service}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingBefore="3"/>
+				</textElement>
+				<text><![CDATA[Service Stats:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="266" width="292" height="40" uuid="410e31b1-c526-4a1f-8563-745dc85d3e6c">
+					<printWhenExpression><![CDATA[$P{p_with_stats_service}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+					<paragraph lineSpacing="Single" spacingBefore="3"/>
+				</textElement>
+				<text><![CDATA[Notifications by service name and notification type]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="2" y="266" width="5" height="39" backcolor="#81AAB8" uuid="d732b24e-30e0-41de-a490-318b4afe218f">
+					<printWhenExpression><![CDATA[$P{p_with_stats_service}]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<crosstab>
+				<reportElement x="7" y="330" width="490" height="200" uuid="8b888089-e1ae-419a-98c3-750095c0148a">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab 1_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab 1_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab 1_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab 1_CD"/>
+					<printWhenExpression><![CDATA[$P{p_with_stats_service}]]></printWhenExpression>
+				</reportElement>
+				<rowGroup name="servicename" width="150" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{servicename}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 1_CH">
+							<textField>
+								<reportElement x="0" y="0" width="150" height="20" uuid="72178e10-beac-49e1-b83e-0978328349e5"/>
+								<textFieldExpression><![CDATA[$V{servicename}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 1_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="20" forecolor="#FFFFFF" uuid="f452b130-5586-4e87-b034-b3e45ecbf8ed"/>
+								<text><![CDATA[Total servicename]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="notification_reason" height="20" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{notification_reason}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 1_CH">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="20" uuid="353608ca-933a-449d-b1ea-7b09c9076c21"/>
+								<textFieldExpression><![CDATA[$V{notification_reason}==0 ? "Normal notification" :
+$V{notification_reason}==1 ? "Problem acknowledgement" :
+$V{notification_reason}==2 ? "Flapping started" :
+$V{notification_reason}==3 ? "Flapping stopped" :
+$V{notification_reason}==4 ? "Flapping was disabled" :
+$V{notification_reason}==5 ? "Downtime started" :
+$V{notification_reason}==6 ? "Downtime ended" :
+$V{notification_reason}==7 ? "Downtime was cancelled" :
+$V{notification_reason}==99 ? "Custom notification" :
+"UNKNOWN REASON"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 1_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="30" height="20" forecolor="#FFFFFF" uuid="de540908-a09b-4af1-9a53-3073a260b472"/>
+								<text><![CDATA[Total notification_reason]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="notification_time_MEASURE" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{notification_time}]]></measureExpression>
+				</measure>
+				<crosstabCell width="70" height="20">
+					<cellContents mode="Opaque" style="Crosstab 1_CD">
+						<textField>
+							<reportElement x="0" y="0" width="70" height="20" uuid="c9c9b262-d458-4dfc-90e1-ebc519248803"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="30" height="20" columnTotalGroup="notification_reason">
+					<cellContents mode="Opaque" style="Crosstab 1_CT">
+						<textField>
+							<reportElement x="0" y="0" width="30" height="20" forecolor="#FFFFFF" uuid="82901999-77a7-46b0-a4a3-8b618325bf3e"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="70" height="20" rowTotalGroup="servicename">
+					<cellContents mode="Opaque" style="Crosstab 1_CT">
+						<textField>
+							<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="9af6ce64-a701-45ab-9fd9-14b2c774e472"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="30" height="20" rowTotalGroup="servicename" columnTotalGroup="notification_reason">
+					<cellContents mode="Opaque" style="Crosstab 1_CT">
+						<textField>
+							<reportElement x="0" y="0" width="30" height="20" forecolor="#FFFFFF" uuid="57b1775c-0ea1-4a88-bddf-6edfc9bbd828"/>
+							<textFieldExpression><![CDATA[$V{notification_time_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

@@ -3,9 +3,10 @@
     <parent>/icinga/reports</parent>
     <name>hostgroup</name>
     <label>Hostgroup</label>
-    <creationDate>2016-09-28T00:45:27.230+02:00</creationDate>
-    <updateDate>2011-11-08T11:53:02.541+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:05.600Z</creationDate>
+    <updateDate>2011-11-08T10:53:02.541Z</updateDate>
     <resource>HostgroupAvailabilityReportInGivenTime</resource>
     <resource>HostgroupOverviewReport</resource>
+    <resource>State_History_Report_for_Hostgroups_v2</resource>
     <resource>StatehistoryofaselectedServiceinagiventime_1</resource>
 </folder>

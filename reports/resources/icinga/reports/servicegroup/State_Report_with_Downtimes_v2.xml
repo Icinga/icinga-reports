@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit exportedWithPermissions="false">
+    <folder>/icinga/reports/servicegroup</folder>
+    <name>State_Report_with_Downtimes_v2</name>
+    <version>13</version>
+    <label>State History Report for Servicegroups v2</label>
+    <description>Report about availibility in given time respecting Downtimes.&#xd;
+Report is based on jasper internal calculation and is not using any availibility function or caching tables.</description>
+    <creationDate>2017-08-02T13:28:19.829Z</creationDate>
+    <updateDate>2017-08-02T16:58:32.038Z</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" dataFile="Main_Jrxml.data" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>Main_Jrxml</name>
+            <version>14</version>
+            <label>Main Jrxml</label>
+            <creationDate>2017-08-02T16:33:44.027Z</creationDate>
+            <updateDate>2017-08-02T16:58:31.973Z</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/icinga/datasources/IDO</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_start</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_end</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_timeperiod</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_servicegroup_object_id</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/addRESTLink</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_vars_os</uri>
+    </inputControl>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>icinga_banner.jpg</name>
+            <version>1</version>
+            <label>icinga_banner.jpg</label>
+            <creationDate>2017-08-02T16:39:10.132Z</creationDate>
+            <updateDate>2017-08-02T16:39:10.132Z</updateDate>
+            <referenceUri>/icinga/images/icinga_banner.jpg</referenceUri>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>footer</name>
+            <version>1</version>
+            <label>footer</label>
+            <creationDate>2017-08-02T16:39:10.132Z</creationDate>
+            <updateDate>2017-08-02T16:39:10.132Z</updateDate>
+            <referenceUri>/icinga/templates/sub/page/footer</referenceUri>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>icinga_background.jpg</name>
+            <version>1</version>
+            <label>icinga_background.jpg</label>
+            <creationDate>2017-08-02T16:39:10.132Z</creationDate>
+            <updateDate>2017-08-02T16:39:10.132Z</updateDate>
+            <referenceUri>/icinga/images/icinga_background.jpg</referenceUri>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>stateHistoryAndDowntimes_1</name>
+            <version>1</version>
+            <label>stateHistoryAndDowntimes_1</label>
+            <creationDate>2017-08-02T16:39:10.132Z</creationDate>
+            <updateDate>2017-08-02T16:39:10.132Z</updateDate>
+            <referenceUri>/icinga/templates/sub/service/stateHistoryAndDowntimes_1</referenceUri>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>icinga_logo_header.png</name>
+            <version>1</version>
+            <label>icinga_logo_header.png</label>
+            <creationDate>2017-08-02T16:39:10.132Z</creationDate>
+            <updateDate>2017-08-02T16:39:10.132Z</updateDate>
+            <referenceUri>/icinga/images/icinga_logo_header.png</referenceUri>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>IcingaStyleBase.jrtx</name>
+            <version>1</version>
+            <label>IcingaStyleBase.jrtx</label>
+            <creationDate>2017-08-02T16:39:10.132Z</creationDate>
+            <updateDate>2017-08-02T16:39:10.132Z</updateDate>
+            <referenceUri>/icinga/styles/IcingaStyleBase.jrtx</referenceUri>
+        </localResource>
+    </resource>
+    <inputControlRenderingView></inputControlRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>

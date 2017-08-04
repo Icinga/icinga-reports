@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_vars_os</name>
+    <version>2</version>
+    <label>Operating System</label>
+    <creationDate>2017-08-02T16:44:58.313Z</creationDate>
+    <updateDate>2017-08-04T00:52:27.984Z</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="query">
+            <folder>/icinga/inputcontrols/p_vars_os_files</folder>
+            <name>Query</name>
+            <version>1</version>
+            <label>Query</label>
+            <creationDate>2017-08-04T00:52:27.984Z</creationDate>
+            <updateDate>2017-08-04T00:52:27.984Z</updateDate>
+            <language>sql</language>
+            <queryString>select distinct(varvalue) as p_vars_os from icinga_customvariables where varname = 'os'</queryString>
+        </localResource>
+    </query>
+    <queryVisibleColumn>p_vars_os</queryVisibleColumn>
+    <queryValueColumn>p_vars_os</queryValueColumn>
+</inputControl>

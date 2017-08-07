@@ -3,7 +3,7 @@
     <parent>/icinga</parent>
     <name>datatypes</name>
     <label>Input Data Types</label>
-    <creationDate>2016-04-16T16:52:16.058+02:00</creationDate>
-    <updateDate>2011-11-08T11:52:59.789+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:05.198Z</creationDate>
+    <updateDate>2011-11-08T10:52:59.789Z</updateDate>
     <resource>time</resource>
 </folder>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listOfValues exportedWithPermissions="false">
+    <folder>/icinga/listofvalues</folder>
+    <name>Notification_Reasons</name>
+    <version>0</version>
+    <label>Notification Reasons</label>
+    <creationDate>2017-08-06T01:56:21.185Z</creationDate>
+    <updateDate>2017-08-06T01:56:21.185Z</updateDate>
+    <item>
+        <itemLabel>Normal notification</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">0</itemValue>
+    </item>
+    <item>
+        <itemLabel>Problem acknowledgement</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">1</itemValue>
+    </item>
+    <item>
+        <itemLabel>Flapping started</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">2</itemValue>
+    </item>
+    <item>
+        <itemLabel>Flapping stopped</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">3</itemValue>
+    </item>
+    <item>
+        <itemLabel>Flapping was disabled</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">4</itemValue>
+    </item>
+    <item>
+        <itemLabel>Downtime started</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">5</itemValue>
+    </item>
+    <item>
+        <itemLabel>Downtime ended</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">6</itemValue>
+    </item>
+    <item>
+        <itemLabel>Downtime was cancelled</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">7</itemValue>
+    </item>
+    <item>
+        <itemLabel>Custom notification</itemLabel>
+        <itemValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">99</itemValue>
+    </item>
+</listOfValues>

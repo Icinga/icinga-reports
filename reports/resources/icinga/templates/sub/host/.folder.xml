@@ -6,7 +6,6 @@
     <creationDate>2017-08-01T17:24:06.508Z</creationDate>
     <updateDate>2011-11-08T10:53:04.845Z</updateDate>
     <resource>activityInGivenTime</resource>
-    <resource>allNotificationsInGivenTime</resource>
     <resource>availabilityInGivenTime</resource>
     <resource>contactgroups</resource>
     <resource>contacts</resource>

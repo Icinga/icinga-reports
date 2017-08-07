@@ -3,12 +3,10 @@
     <parent>/icinga/reports</parent>
     <name>host</name>
     <label>Host</label>
-    <creationDate>2016-09-28T00:45:27.152+02:00</creationDate>
-    <updateDate>2011-11-08T11:53:02.541+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:05.561Z</creationDate>
+    <updateDate>2011-11-08T10:53:02.541Z</updateDate>
     <resource>HostActivityReportInGivenTime</resource>
     <resource>HostAvailabilityReportInGivenTime</resource>
-    <resource>HostDowntimeReport</resource>
-    <resource>HostNotificationReportAboutAllHostsInGivenTime</resource>
     <resource>HostOverviewReport</resource>
     <resource>HostTop10ReportInGivenTime</resource>
     <resource>StatehistoryofaselectedServiceinagiventime_1</resource>

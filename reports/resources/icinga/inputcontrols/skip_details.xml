@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>skip_details</name>
+    <version>1</version>
+    <label>Skip Details</label>
+    <creationDate>2017-08-04T12:41:19.947Z</creationDate>
+    <updateDate>2017-08-06T21:35:09.227Z</updateDate>
+    <type>1</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+</inputControl>

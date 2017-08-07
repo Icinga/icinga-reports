@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_notification_reason</name>
+    <version>0</version>
+    <label>Notification Reason</label>
+    <creationDate>2017-08-06T01:57:41.502Z</creationDate>
+    <updateDate>2017-08-06T01:57:41.502Z</updateDate>
+    <type>6</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <listOfValues>
+        <uri>/icinga/listofvalues/Notification_Reasons</uri>
+    </listOfValues>
+</inputControl>

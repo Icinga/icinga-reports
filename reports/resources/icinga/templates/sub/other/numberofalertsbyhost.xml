@@ -2,9 +2,9 @@
 <fileResource exportedWithPermissions="false" dataFile="numberofalertsbyhost.data">
     <folder>/icinga/templates/sub/other</folder>
     <name>numberofalertsbyhost</name>
-    <version>3</version>
+    <version>0</version>
     <label>Number of alerts by host</label>
-    <creationDate>2016-06-01T14:21:14.644+08:00</creationDate>
-    <updateDate>2016-06-01T14:26:24.975+08:00</updateDate>
+    <creationDate>2017-08-01T17:24:12.996Z</creationDate>
+    <updateDate>2016-06-01T06:26:24.975Z</updateDate>
     <fileType>jrxml</fileType>
 </fileResource>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<reportUnit exportedWithPermissions="true">
+<reportUnit exportedWithPermissions="false">
     <folder>/icinga/reports/servicegroup</folder>
     <name>Availability_SG_pnp4nagios</name>
-    <version>1</version>
+    <version>0</version>
     <label>Availability and perf with pnp4nagios</label>
     <description>Availability and perf with pnp4nagios
 based on servicegroups</description>
-    <creationDate>2016-06-13T23:28:44.432+02:00</creationDate>
-    <updateDate>2016-06-14T00:02:41.272+02:00</updateDate>
+    <creationDate>2017-08-01T17:24:11.752Z</creationDate>
+    <updateDate>2016-06-13T22:02:41.272Z</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -15,11 +15,11 @@ based on servicegroups</description>
             dataFile="Availability_SG_pnp4nagios_jrxml.data" xsi:type="fileResource">
             <folder>/icinga/reports/servicegroup/Availability_SG_pnp4nagios_files</folder>
             <name>Availability_SG_pnp4nagios_jrxml</name>
-            <version>1</version>
+            <version>0</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2016-06-13T23:28:44.432+02:00</creationDate>
-            <updateDate>2016-06-13T20:28:00.382+02:00</updateDate>
+            <creationDate>2017-08-01T17:24:11.752Z</creationDate>
+            <updateDate>2016-06-13T18:28:00.382Z</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
     </mainReport>

@@ -2,10 +2,10 @@
 <reportUnit exportedWithPermissions="false">
     <folder>/icinga/reports/service</folder>
     <name>StatehistoryofaselectedServiceinagiventime_1</name>
-    <version>14</version>
+    <version>0</version>
     <label>StatesAndDowntimes</label>
-    <creationDate>2016-09-27T22:53:39.702+02:00</creationDate>
-    <updateDate>2016-09-28T00:36:21.799+02:00</updateDate>
+    <creationDate>2017-08-01T17:24:11.692Z</creationDate>
+    <updateDate>2016-09-27T22:36:21.799Z</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -13,11 +13,11 @@
             dataFile="StatehistoryofaselectedServiceinagiventime_jrxml.data" xsi:type="fileResource">
             <folder>/icinga/reports/service/StatehistoryofaselectedServiceinagiventime_1_files</folder>
             <name>StatehistoryofaselectedServiceinagiventime_jrxml</name>
-            <version>3</version>
+            <version>0</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2016-09-27T22:53:39.702+02:00</creationDate>
-            <updateDate>2016-09-27T22:53:39.702+02:00</updateDate>
+            <creationDate>2017-08-01T17:24:11.692Z</creationDate>
+            <updateDate>2016-09-27T20:53:39.702Z</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
     </mainReport>

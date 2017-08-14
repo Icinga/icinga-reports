@@ -3,8 +3,8 @@
     <parent>/icinga</parent>
     <name>templates</name>
     <label>Templates</label>
-    <creationDate>2016-04-16T16:52:16.513+02:00</creationDate>
-    <updateDate>2011-11-08T11:53:04.845+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:05.512Z</creationDate>
+    <updateDate>2011-11-08T10:53:04.845Z</updateDate>
     <folder>main</folder>
     <folder>sub</folder>
 </folder>

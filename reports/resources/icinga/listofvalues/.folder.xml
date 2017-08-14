@@ -3,8 +3,9 @@
     <parent>/icinga</parent>
     <name>listofvalues</name>
     <label>List of Values</label>
-    <creationDate>2016-04-16T16:52:16.335+02:00</creationDate>
-    <updateDate>2011-11-08T11:53:01.899+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:05.365Z</creationDate>
+    <updateDate>2011-11-08T10:53:01.899Z</updateDate>
+    <resource>Notification_Reasons</resource>
     <resource>timeperiods</resource>
     <resource>weekdays</resource>
 </folder>

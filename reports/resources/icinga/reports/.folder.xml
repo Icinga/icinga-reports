@@ -3,8 +3,8 @@
     <parent>/icinga</parent>
     <name>reports</name>
     <label>Reports</label>
-    <creationDate>2016-04-16T16:52:16.406+02:00</creationDate>
-    <updateDate>2011-11-08T11:53:02.541+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:05.414Z</creationDate>
+    <updateDate>2011-11-08T10:53:02.541Z</updateDate>
     <folder>host</folder>
     <folder>hostgroup</folder>
     <folder>other</folder>

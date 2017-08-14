@@ -3,11 +3,10 @@
     <parent>/icinga/reports</parent>
     <name>other</name>
     <label>Other</label>
-    <creationDate>2016-05-31T14:54:27.566+08:00</creationDate>
-    <updateDate>2011-11-08T18:53:02.541+08:00</updateDate>
-    <resource>alertintime</resource>
+    <creationDate>2017-08-01T17:24:05.643Z</creationDate>
+    <updateDate>2011-11-08T10:53:02.541Z</updateDate>
     <resource>HostServiceAvailabilityReportInGivenTime</resource>
-    <resource>HostServiceTop10ReportInGivenTime</resource>
     <resource>LogentriesReportInGivenTime</resource>
     <resource>morningReport</resource>
+    <resource>notificationByUser</resource>
 </folder>

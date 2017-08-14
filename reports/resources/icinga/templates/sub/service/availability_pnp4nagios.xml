@@ -2,10 +2,10 @@
 <fileResource exportedWithPermissions="false" dataFile="availability_pnp4nagios.data">
     <folder>/icinga/templates/sub/service</folder>
     <name>availability_pnp4nagios</name>
-    <version>22</version>
+    <version>0</version>
     <label>availability and perf with pnp4nagios</label>
     <description>availability and perf with pnp4nagios</description>
-    <creationDate>2016-06-13T20:22:59.336+02:00</creationDate>
-    <updateDate>2016-06-13T22:39:01.930+02:00</updateDate>
+    <creationDate>2017-08-01T17:24:13.205Z</creationDate>
+    <updateDate>2016-06-13T20:39:01.930Z</updateDate>
     <fileType>jrxml</fileType>
 </fileResource>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit exportedWithPermissions="false">
+    <folder>/icinga/reports/hostgroup</folder>
+    <name>State_History_Report_for_Hostgroups_v2</name>
+    <version>18</version>
+    <label>State History Report for Hostgroups v2</label>
+    <description></description>
+    <creationDate>2017-08-02T14:47:26.720Z</creationDate>
+    <updateDate>2017-08-02T22:24:37.771Z</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" dataFile="main_jrxml.data" xsi:type="fileResource">
+            <folder>/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2_files</folder>
+            <name>main_jrxml</name>
+            <version>19</version>
+            <label>Main jrxml</label>
+            <creationDate>2017-08-02T20:21:36.108Z</creationDate>
+            <updateDate>2017-08-02T22:24:37.701Z</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/icinga/datasources/IDO</uri>
+    </dataSource>
+    <inputControl>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="inputControl">
+            <folder>/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2_files</folder>
+            <name>p_debug</name>
+            <version>1</version>
+            <label>p_debug</label>
+            <creationDate>2017-08-02T22:24:37.771Z</creationDate>
+            <updateDate>2017-08-02T22:24:37.771Z</updateDate>
+            <type>1</type>
+            <mandatory>false</mandatory>
+            <readOnly>false</readOnly>
+            <visible>true</visible>
+        </localResource>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_overview</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_overview</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_hostgroup_object_id</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_start</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_date_end</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_timeperiod</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/servicesTrue</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/addRESTLink</uri>
+    </inputControl>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2_files</folder>
+            <name>footer</name>
+            <version>0</version>
+            <label>footer</label>
+            <creationDate>2017-08-02T15:23:21.749Z</creationDate>
+            <updateDate>2017-08-02T15:23:21.749Z</updateDate>
+            <referenceUri>/icinga/templates/sub/page/footer</referenceUri>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="fileResource">
+            <folder>/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2_files</folder>
+            <name>StatesAndDowntimesOverview_v2</name>
+            <version>0</version>
+            <label>StatesAndDowntimesOverview_v2</label>
+            <creationDate>2017-08-02T15:23:21.749Z</creationDate>
+            <updateDate>2017-08-02T15:23:21.749Z</updateDate>
+            <referenceUri>/icinga/templates/sub/Hostgroup/StatesAndDowntimesOverview_v2</referenceUri>
+        </localResource>
+    </resource>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>

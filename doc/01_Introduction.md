@@ -24,6 +24,7 @@ icinga-reports provide additional Reports based on icinga IDO.
     - [install-jar-files](02_getting_started.md)
 - [Usage:](03_usage.md)
   - [IDO](03_usage.md)
+- [Test Environment](05_testing.md)
 - [Jaspersoft Studio](10_jaspersoftStudio.md)
   - [Install icinga libraries](10_jaspersoftStudio.md)
 - [doc hints](20_doc_hinsts.md)

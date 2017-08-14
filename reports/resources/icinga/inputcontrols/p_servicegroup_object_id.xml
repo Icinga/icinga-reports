@@ -5,8 +5,8 @@
     <version>0</version>
     <label>Servicegroup</label>
     <description></description>
-    <creationDate>2016-04-16T16:52:18.489+02:00</creationDate>
-    <updateDate>2012-12-18T10:09:06.307+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:08.410Z</creationDate>
+    <updateDate>2012-12-18T09:09:06.307Z</updateDate>
     <type>4</type>
     <mandatory>false</mandatory>
     <readOnly>false</readOnly>
@@ -20,8 +20,8 @@
             <version>0</version>
             <label>query_servicegroup_object_id</label>
             <description></description>
-            <creationDate>2016-04-16T16:52:18.489+02:00</creationDate>
-            <updateDate>2012-12-18T10:09:06.307+01:00</updateDate>
+            <creationDate>2017-08-01T17:24:08.410Z</creationDate>
+            <updateDate>2012-12-18T09:09:06.307Z</updateDate>
             <language>sql</language>
             <queryString>SELECT object_id, name1 FROM icinga_objects WHERE objecttype_id = '4' AND is_active = '1'</queryString>
             <dataSource>

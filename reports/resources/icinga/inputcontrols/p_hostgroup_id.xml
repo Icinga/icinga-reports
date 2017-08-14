@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_hostgroup_id</name>
+    <version>2</version>
+    <label>p_hostgroup_id</label>
+    <description></description>
+    <creationDate>2017-08-04T23:01:21.435Z</creationDate>
+    <updateDate>2017-08-05T16:45:06.919Z</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="query">
+            <folder>/icinga/inputcontrols/p_hostgroup_id_files</folder>
+            <name>query_servicegroup_object_id</name>
+            <version>1</version>
+            <label>query_servicegroup_object_id</label>
+            <description></description>
+            <creationDate>2017-08-05T16:45:06.919Z</creationDate>
+            <updateDate>2017-08-05T16:45:06.919Z</updateDate>
+            <language>sql</language>
+            <queryString>SELECT a.hostgroup_id as p_hostgroup_id, a.alias 
+from icinga_hostgroups a
+join icinga_objects b on b.object_id=a.hostgroup_object_id 
+where b.is_active=1 
+order by alias</queryString>
+            <dataSource>
+                <uri>/icinga/datasources/IDO</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>alias</queryVisibleColumn>
+    <queryValueColumn>p_hostgroup_id</queryValueColumn>
+</inputControl>

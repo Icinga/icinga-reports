@@ -3,8 +3,9 @@
     <parent>/icinga/templates/sub</parent>
     <name>Hostgroup</name>
     <label>Hostgroup</label>
-    <creationDate>2016-11-13T19:31:47.284+01:00</creationDate>
-    <updateDate>2016-10-12T23:42:24.793+02:00</updateDate>
+    <creationDate>2017-08-01T17:24:06.549Z</creationDate>
+    <updateDate>2016-10-12T21:42:24.793Z</updateDate>
     <resource>StatesAndDowntimesDetails</resource>
     <resource>StatesAndDowntimesOverview</resource>
+    <resource>StatesAndDowntimesOverview_v2</resource>
 </folder>

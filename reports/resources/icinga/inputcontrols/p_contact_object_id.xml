@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_contact_object_id</name>
+    <version>1</version>
+    <label>Contact</label>
+    <creationDate>2017-08-04T00:50:46.193Z</creationDate>
+    <updateDate>2017-08-06T21:47:51.867Z</updateDate>
+    <type>4</type>
+    <mandatory>true</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="query">
+            <folder>/icinga/inputcontrols/p_contact_object_id_files</folder>
+            <name>Query</name>
+            <version>1</version>
+            <label>Query</label>
+            <creationDate>2017-08-06T21:47:51.867Z</creationDate>
+            <updateDate>2017-08-06T21:47:51.867Z</updateDate>
+            <language>sql</language>
+            <queryString>select a.contact_object_id as p_contact_object_id, a.alias 
+from icinga_contacts a 
+join icinga_objects b on b.object_id=a.contact_object_id 
+where b.is_active=1 
+order by alias</queryString>
+            <dataSource>
+                <uri>/icinga/datasources/IDO</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>alias</queryVisibleColumn>
+    <queryValueColumn>p_contact_object_id</queryValueColumn>
+</inputControl>

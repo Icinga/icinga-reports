@@ -3,8 +3,8 @@
     <parent>/</parent>
     <name>icinga</name>
     <label>Icinga</label>
-    <creationDate>2016-04-16T16:52:15.845+02:00</creationDate>
-    <updateDate>2011-11-08T11:52:41.054+01:00</updateDate>
+    <creationDate>2017-08-01T17:24:04.895Z</creationDate>
+    <updateDate>2011-11-08T10:52:41.054Z</updateDate>
     <folder>datasources</folder>
     <folder>datatypes</folder>
     <folder>images</folder>

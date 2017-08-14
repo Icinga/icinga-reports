@@ -3,7 +3,7 @@
     <parent>/icinga/templates/main</parent>
     <name>samples</name>
     <label>Samples</label>
-    <creationDate>2016-04-16T16:52:17.072+02:00</creationDate>
-    <updateDate>2012-10-12T10:14:47.085+02:00</updateDate>
+    <creationDate>2017-08-01T17:24:06.284Z</creationDate>
+    <updateDate>2012-10-12T08:14:47.085Z</updateDate>
     <resource>activityWithGraphInGivenTime</resource>
 </folder>

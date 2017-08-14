@@ -3,7 +3,7 @@
     <parent>/icinga/templates/main</parent>
     <name>servicegroup</name>
     <label>Servicegroup</label>
-    <creationDate>2016-04-16T16:52:17.154+02:00</creationDate>
-    <updateDate>2012-08-24T11:55:54.245+02:00</updateDate>
+    <creationDate>2017-08-01T17:24:06.406Z</creationDate>
+    <updateDate>2012-08-24T09:55:54.245Z</updateDate>
     <resource>availabilityReportInGivenTime</resource>
 </folder>

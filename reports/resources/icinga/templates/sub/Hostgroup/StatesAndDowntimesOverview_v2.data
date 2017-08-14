@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HG_SaD_Overview" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
+	<property name="ireport.zoom" value="1.1269722013523666"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.5:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/icinga/templates/sub/Hostgroup/StatesAndDowntimesOverview_hostgroup_sub_v2"/>
+	<import value="org.icinga.reporting.DateHelper"/>
+	<template><![CDATA["repo:/icinga/styles/IcingaStyleBase.jrtx"]]></template>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["repo:/icinga/templates/sub/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_hostgroup_object_id" class="java.lang.Integer"/>
+	<parameter name="p_date_start" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_timeperiod" class="java.lang.String"/>
+	<parameter name="p_final_date_start" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekStart() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthStart() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearStart() : $P{p_date_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_final_date_end" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{p_timeperiod} == "last_week" ? DateHelper.getLastWeekEnd() : $P{p_timeperiod} == "last_month" ? DateHelper.getLastMonthEnd() : $P{p_timeperiod} == "last_year" ? DateHelper.getLastYearEnd() : $P{p_date_end}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="servicesTrue" class="java.lang.Boolean"/>
+	<parameter name="p_overview" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_debug" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="servername" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<SETSERVERNAMEinREPORT>"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="addRESTLink" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[select a.host_object_id,
+  c.name1,
+  b.alias
+from icinga_hostgroup_members a,
+  icinga_hostgroups b,
+  icinga_objects c
+where a.hostgroup_id      = b.hostgroup_id
+and c.object_id           = a.host_object_id
+and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
+	</queryString>
+	<field name="name1" class="java.lang.String"/>
+	<field name="name2" class="java.lang.String"/>
+	<field name="host_object_id" class="java.lang.Integer"/>
+	<field name="alias" class="java.lang.String"/>
+	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$V{returnOK}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{p_overview}]]></printWhenExpression>
+			<subreport>
+				<reportElement x="2" y="0" width="552" height="14" uuid="ffeb284f-97dc-49d1-9d8c-2bdf75d0f62f"/>
+				<subreportParameter name="p_final_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_host_object_id">
+					<subreportParameterExpression><![CDATA[$F{host_object_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_final_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_final_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_debug">
+					<subreportParameterExpression><![CDATA[$P{p_debug}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_overview">
+					<subreportParameterExpression><![CDATA[$P{p_overview}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_timeperiod">
+					<subreportParameterExpression><![CDATA[$P{p_timeperiod}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_end">
+					<subreportParameterExpression><![CDATA[$P{p_date_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_date_start">
+					<subreportParameterExpression><![CDATA[$P{p_date_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="servicesTrue">
+					<subreportParameterExpression><![CDATA[$P{servicesTrue}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="returnOK" toVariable="returnOK" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "host/stateHistoryAndDowntimesHost_v2"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

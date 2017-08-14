@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl exportedWithPermissions="false">
+    <folder>/icinga/inputcontrols</folder>
+    <name>p_with_stats_hostgroup</name>
+    <version>1</version>
+    <label>Add Hostgroup Stats</label>
+    <description></description>
+    <creationDate>2017-08-06T21:35:45.439Z</creationDate>
+    <updateDate>2017-08-06T21:36:02.319Z</updateDate>
+    <type>1</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+</inputControl>

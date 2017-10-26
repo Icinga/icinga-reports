@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HG_SaD_ServiceCalc" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="33cac294-e038-49a3-82ea-514eb21556ce">
 	<property name="ireport.zoom" value="1.7715610000000022"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.5:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/icinga/templates/sub/service/stateHistoryAndDowntimesBase"/>
+	<property name="ireport.jasperserver.report.resource" value="/icinga/templates/sub/service/stateHistoryAndDowntimes_1"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="IDO"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -190,14 +190,14 @@ $V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
   :$V{DurationUNKN}]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
-	<variable name="lastReportTime" class="java.sql.Timestamp" calculation="Highest">
-		<variableExpression><![CDATA[$F{END}]]></variableExpression>
+	<variable name="lastReportTime" class="java.sql.Timestamp">
+		<variableExpression><![CDATA[$F{type}==1?$F{END}:$V{lastReportTime}]]></variableExpression>
 	</variable>
 	<variable name="lastReportState" class="java.lang.Integer">
-		<variableExpression><![CDATA[$F{state}]]></variableExpression>
+		<variableExpression><![CDATA[$F{type}==1?$F{state}:$V{lastReportState}]]></variableExpression>
 		<initialValueExpression><![CDATA[99]]></initialValueExpression>
 	</variable>
-	<variable name="firstReportTime" class="java.sql.Timestamp" calculation="First">
+	<variable name="firstReportTime" class="java.sql.Timestamp" resetType="None" calculation="First">
 		<variableExpression><![CDATA[$F{END}]]></variableExpression>
 	</variable>
 	<variable name="firstReportState" class="java.lang.Integer" calculation="First">
@@ -602,6 +602,13 @@ $V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
+			<textField>
+				<reportElement x="0" y="5" width="225" height="20" forecolor="#FF0000" uuid="7c09c23c-5601-47de-a315-ef85b92734dd">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["last_report_state:" + $V{lastReportState} + " - " + $V{lastReportTime}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

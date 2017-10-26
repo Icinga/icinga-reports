@@ -42,6 +42,26 @@ Report is based on jasper internal calculation and is not using any availibility
     <inputControl>
         <uri>/icinga/inputcontrols/p_vars_os</uri>
     </inputControl>
+    <inputControl>
+        <uri>/icinga/inputcontrols/p_overview</uri>
+    </inputControl>
+    <inputControl>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            exportedWithPermissions="false" xsi:type="inputControl">
+            <folder>/icinga/reports/servicegroup/State_Report_with_Downtimes_v2_files</folder>
+            <name>p_debug</name>
+            <version>0</version>
+            <label>p_debug</label>
+            <description></description>
+            <creationDate>2017-10-26T11:46:47.558Z</creationDate>
+            <updateDate>2017-10-26T11:46:47.558Z</updateDate>
+            <type>1</type>
+            <mandatory>false</mandatory>
+            <readOnly>false</readOnly>
+            <visible>true</visible>
+        </localResource>
+    </inputControl>
     <resource>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

@@ -2,10 +2,10 @@
 <fileResource exportedWithPermissions="false" dataFile="StatesAndDowntimesOverview_v2.data">
     <folder>/icinga/templates/sub/Hostgroup</folder>
     <name>StatesAndDowntimesOverview_v2</name>
-    <version>6</version>
-    <label>StatesAndDowntimesOverview_v2</label>
+    <version>1</version>
+    <label>StatesAndDowntimesGroupOverview_v2.jrxml</label>
     <description></description>
-    <creationDate>2017-08-02T15:11:10.028Z</creationDate>
-    <updateDate>2017-08-02T22:19:11.031Z</updateDate>
+    <creationDate>2017-10-26T12:10:42.946Z</creationDate>
+    <updateDate>2017-10-30T12:17:48.695Z</updateDate>
     <fileType>jrxml</fileType>
 </fileResource>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="State report for Hostgroups" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="e675bcd9-2100-4a05-892b-4c6dea9a1eb8">
 	<property name="ireport.zoom" value="1.1269722013523666"/>
 	<property name="ireport.x" value="0"/>
@@ -7,7 +7,7 @@
 	<property name="ireport.jasperserver.reportUnit" value="/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.5:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2_files/main_jrxml"/>
+	<property name="ireport.jasperserver.report.resource" value="/icinga/reports/hostgroup/State_History_Report_for_Hostgroups_v2_files/main_state_v2"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="IDO"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<import value="org.icinga.reporting.DateHelper"/>
@@ -50,7 +50,8 @@ from icinga_hostgroup_members a,
   icinga_objects c
 where a.hostgroup_id      = b.hostgroup_id
 and c.object_id           = a.host_object_id
-and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
+and b.hostgroup_object_id = $P{p_hostgroup_object_id}
+and c.is_active = true]]>
 	</queryString>
 	<field name="name1" class="java.lang.String"/>
 	<field name="host_object_id" class="java.lang.Integer"/>
@@ -91,7 +92,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="80" y="410" width="400" height="64" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="d183670c-8278-4f89-a6d9-e82daf75c8db"/>
+				<reportElement x="80" y="410" width="400" height="80" forecolor="#F5F5F5" backcolor="#F5F5F5" uuid="d183670c-8278-4f89-a6d9-e82daf75c8db"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#999999"/>
 				</graphicElement>
@@ -194,7 +195,7 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 				</graphicElement>
 			</rectangle>
 			<rectangle radius="0">
-				<reportElement x="80" y="410" width="5" height="64" backcolor="#81AAB8" uuid="96dcc8fc-8a57-4da4-aae0-d498bb81dfc9"/>
+				<reportElement x="80" y="410" width="5" height="80" backcolor="#81AAB8" uuid="96dcc8fc-8a57-4da4-aae0-d498bb81dfc9"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineColor="#666666"/>
 				</graphicElement>
@@ -246,16 +247,30 @@ and b.hostgroup_object_id = $P{p_hostgroup_object_id}]]>
 + "&addRESTLink=" + $P{addRESTLink}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="90" y="450" width="80" height="20" forecolor="#000000" uuid="f7a30de5-eb6a-466e-b41f-4aa29cd0f699"/>
+				<reportElement x="90" y="450" width="80" height="40" forecolor="#000000" uuid="f7a30de5-eb6a-466e-b41f-4aa29cd0f699"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Availability:]]></text>
+				<text><![CDATA[Host-Availability:]]></text>
 			</staticText>
 			<textField evaluationTime="Report" pattern="#,##0.00 %">
-				<reportElement style="Cover" x="170" y="450" width="310" height="20" uuid="0dda6abb-609c-4d53-b03e-a846de18956f"/>
+				<reportElement style="Cover" x="170" y="450" width="310" height="40" uuid="0dda6abb-609c-4d53-b03e-a846de18956f"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{returnOK}/($V{duration}*$F{hostcount})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Cover" x="170" y="507" width="310" height="20" uuid="3d897b50-8f53-4adf-95d9-36bd7db4e05e">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{returnOK} + "/" + $V{duration} + "*" + $F{hostcount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Cover" x="170" y="410" width="310" height="20" forecolor="#00FF6A" uuid="2452bff9-44ea-4861-a9f1-bf719d776d56">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{p_hostgroup_object_id}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

@@ -3,9 +3,9 @@
     <folder>/icinga/templates/sub/service</folder>
     <name>stateHistoryAndDowntimes_1</name>
     <version>5</version>
-    <label>stateHistoryAndDowntimes_1.jrxml</label>
+    <label>service_stateHistoryAndDowntimes_1.jrxml</label>
     <description></description>
-    <creationDate>2017-10-26T11:30:37.691Z</creationDate>
-    <updateDate>2017-10-26T12:02:08.126Z</updateDate>
+    <creationDate>2017-10-26T12:10:44.101Z</creationDate>
+    <updateDate>2017-10-30T11:37:19.035Z</updateDate>
     <fileType>jrxml</fileType>
 </fileResource>

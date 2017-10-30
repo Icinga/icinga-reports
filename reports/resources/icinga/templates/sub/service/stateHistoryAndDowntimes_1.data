@@ -6,7 +6,7 @@
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.5:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.report.resource" value="/icinga/templates/sub/service/stateHistoryAndDowntimes_1"/>
+	<property name="ireport.jasperserver.report.resource" value="/icinga/templates/sub/service/service_stateHistoryAndDowntimes_1"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="IDO"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -397,7 +397,7 @@ $V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
 		</band>
 	</detail>
 	<summary>
-		<band height="25">
+		<band height="28">
 			<textField>
 				<reportElement x="5" y="3" width="245" height="20" uuid="c4f29c5c-4664-4457-aec7-420d998c1a31">
 					<printWhenExpression><![CDATA[$P{p_service_name} == "Host Alive"]]></printWhenExpression>
@@ -608,6 +608,15 @@ $V{lastTime}<$V{dt_active_start}?true:false]]></variableExpression>
 				</reportElement>
 				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA["last_report_state:" + $V{lastReportState} + " - " + $V{lastReportTime}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000#">
+				<reportElement mode="Transparent" x="110" y="2" width="114" height="20" forecolor="#00F521" backcolor="#FF5566" uuid="c5ac3295-0fd0-4682-8cc0-2a7589511af8">
+					<printWhenExpression><![CDATA[$P{p_debug}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["rOK" + $V{returnOK}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -38,7 +38,7 @@
 		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT a.name1, c.name2, b.service_object_id
+		<![CDATA[SELECT count( b.service_object_id) AS serviceCount,a.name1, c.name2, b.service_object_id
 FROM icinga_objects a
 JOIN icinga_services b on a.object_id = b.host_object_id
 JOIN icinga_objects c on b.service_object_id = c.object_id
@@ -48,6 +48,7 @@ AND a.object_id = $P{p_host_object_id}]]>
 	<field name="name1" class="java.lang.String"/>
 	<field name="name2" class="java.lang.String"/>
 	<field name="service_object_id" class="java.lang.Integer"/>
+	<field name="serviceCount" class="java.lang.Integer"/>
 	<variable name="returnOK" class="java.math.BigDecimal" resetType="None">
 		<variableExpression><![CDATA[$V{returnOK}]]></variableExpression>
 	</variable>
